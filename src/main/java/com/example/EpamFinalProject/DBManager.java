@@ -41,7 +41,7 @@ public class DBManager {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }
+        }dsa
     }
 
     public void rollbackAndClose(Connection con) {
