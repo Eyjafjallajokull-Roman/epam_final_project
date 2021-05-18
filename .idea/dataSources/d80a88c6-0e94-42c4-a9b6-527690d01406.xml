@@ -1025,13 +1025,13 @@ APPLICATION_PASSWORD_ADMIN,AUDIT_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTI
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="320" parent="306" name="name">
+    <column id="320" parent="306" name="description">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="321" parent="306" name="name">
-      <ColNames>name</ColNames>
+    <index id="321" parent="306" name="description">
+      <ColNames>description</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
@@ -1040,9 +1040,9 @@ APPLICATION_PASSWORD_ADMIN,AUDIT_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTI
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="323" parent="306" name="name">
-      <ColNames>name</ColNames>
-      <UnderlyingIndexName>name</UnderlyingIndexName>
+    <key id="323" parent="306" name="description">
+      <ColNames>description</ColNames>
+      <UnderlyingIndexName>description</UnderlyingIndexName>
     </key>
     <column id="324" parent="307" name="id">
       <Position>1</Position>
@@ -1050,13 +1050,13 @@ APPLICATION_PASSWORD_ADMIN,AUDIT_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTI
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="325" parent="307" name="name">
+    <column id="325" parent="307" name="description">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="326" parent="307" name="name">
-      <ColNames>name</ColNames>
+    <index id="326" parent="307" name="description">
+      <ColNames>description</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
@@ -1065,9 +1065,9 @@ APPLICATION_PASSWORD_ADMIN,AUDIT_ADMIN,BACKUP_ADMIN,BINLOG_ADMIN,BINLOG_ENCRYPTI
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="328" parent="307" name="name">
-      <ColNames>name</ColNames>
-      <UnderlyingIndexName>name</UnderlyingIndexName>
+    <key id="328" parent="307" name="description">
+      <ColNames>description</ColNames>
+      <UnderlyingIndexName>description</UnderlyingIndexName>
     </key>
     <column id="329" parent="308" name="id">
       <Position>1</Position>
