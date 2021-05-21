@@ -1,5 +1,6 @@
 package com.epam.project.entity;
 
+import com.epam.project.constants.Status;
 import com.epam.project.constants.TypeOfActivity;
 
 import java.sql.Timestamp;
@@ -14,7 +15,18 @@ public class Activity {
     private Timestamp endTime;
     private String description;
     private TypeOfActivity typeOfActivity;
+    private Status status;
+    private int userID;
     private Set<User> users;
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public Activity setUserID(int userID) {
+        this.userID = userID;
+        return this;
+    }
 
     public TypeOfActivity getTypeOfActivity() {
         return typeOfActivity;
@@ -22,6 +34,15 @@ public class Activity {
 
     public Activity setTypeOfActivity(TypeOfActivity typeOfActivity) {
         this.typeOfActivity = typeOfActivity;
+        return this;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public Activity setStatus(Status status) {
+        this.status = status;
         return this;
     }
 
@@ -79,6 +100,8 @@ public class Activity {
                 ", endTime=" + endTime +
                 ", description='" + description + '\'' +
                 ", typeOfActivity=" + typeOfActivity +
+                ", status=" + status +
+                ", userID=" + userID +
                 ", users=" + users +
                 '}';
     }

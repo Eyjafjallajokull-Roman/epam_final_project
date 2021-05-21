@@ -1,5 +1,6 @@
 package com.epam.project.dao.imp;
 
+import com.epam.project.constants.Status;
 import com.epam.project.constants.TypeOfActivity;
 import com.epam.project.constants.Fields;
 import com.epam.project.dao.ActivityDao;
@@ -13,12 +14,14 @@ import java.sql.*;
 import java.util.List;
 
 public class ActivityDaoImp extends GenericAbstractDao<Activity> implements ActivityDao {
-    private static final String FIND_ALL_ACTIVITIES = "SELECT * from activity;";
+    //updated
+    private static final String FIND_ALL_ACTIVITIES = "SELECT * from activity JOIN activity_status on activity.activity_status_id=activity_status.id";
     private static final String FIND_ALL_ACTIVITIES_BY_TYPE = "SELECT * from activity where type_of_activity =?";
     private static final String FIND_ACTIVITY_BY_ID = "SELECT * from activity where id = ?";
-    private static final String CREATE_ACTIVITY = "Insert into activity(start_time,end_time,name,description,type_of_activity) values (?,?,?,?,?)";
+    //updated
+    private static final String CREATE_ACTIVITY = "Insert into activity(start_time,end_time,name,description,type_of_activity,created_by_id) values (?,?,?,?,?,?,?)";
     private static final String DELETE_ACTIVITY = "DELETE FROM activity where id = ?";
-    private static final String UPDATE_ACTIVITY = "UPDATE activity set start_time = ?, end_time = ?, name = ?, description =?, type_of_activity =? where (id = ?)";
+    private static final String UPDATE_ACTIVITY = "UPDATE activity set start_time = ?, end_time = ?, name = ?, description =?, type_of_activity =?, status =? where (id = ?)";
 
     private final Mapper<Activity, PreparedStatement> mapperToDB = (Activity activity, PreparedStatement preparedStatement) -> {
         preparedStatement.setTimestamp(1, activity.getStartTime());
@@ -26,6 +29,8 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
         preparedStatement.setString(3, activity.getName());
         preparedStatement.setString(4, activity.getDescription());
         preparedStatement.setInt(5, activity.getTypeOfActivity().ordinal());
+        preparedStatement.setInt(6, activity.getUserID());
+        preparedStatement.setInt(7, activity.getStatus().ordinal());
     };
 
     private final Mapper<ResultSet, Activity> mapperFromDB = (ResultSet resultSet, Activity activity) -> {
@@ -36,6 +41,8 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
         activity.setDescription(resultSet.getString(Fields.ACTIVITY_DESCRIPTION));
         //create field
         activity.setTypeOfActivity(TypeOfActivity.valueOf(resultSet.getString(Fields.ACTIVITY_TYPE_OF_ACTIVITY)));
+        activity.setUserID(resultSet.getInt(Fields.ACTIVITY_CREATED_BY_USER));
+        activity.setStatus(Status.valueOf(resultSet.getString(Fields.STATUS_NAME)));
     };
     private final Connection connection;
 
@@ -67,7 +74,7 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
 
     @Override
     public boolean updateActivity(Activity activity) {
-        return updateInDB(connection, activity, UPDATE_ACTIVITY, 6, activity.getId());
+        return updateInDB(connection, activity, UPDATE_ACTIVITY, 7, activity.getId());
     }
 
     @Override

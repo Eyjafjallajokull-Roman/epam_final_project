@@ -5,6 +5,7 @@ import com.epam.project.dao.DAOFactory;
 import com.epam.project.dao.UserDao;
 import com.epam.project.entity.User;
 import com.epam.project.exception.NoUserException;
+import com.epam.project.exception.WrongPasswordExeption;
 import com.epam.project.service.UserService;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.DataNotFoundException;
@@ -49,14 +50,15 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User findUser(String login, String password) throws NoUserException {
+    public User findUser(String login, String password) throws NoUserException, WrongPasswordExeption {
         User user = new User();
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
             user = userDao.findUserByLogin(login);
             daoFactory.close();
-            //toDo validation
+            if (!user.getPassword().equals(password))
+                throw new WrongPasswordExeption();
             return user;
         } catch (DataNotFoundException | DataBaseConnectionException e) {
             log.error(e);
@@ -65,14 +67,21 @@ public class UserServiceImp implements UserService {
         }
     }
 
+    private boolean validateUserData(User user) {
+        return !(user.getName() == null
+                || user.getName().isEmpty()
+                || user.getPassword() == null
+                || user.getPassword().isEmpty()
+                || user.getRole() == null);
+    }
+
     @Override
     public boolean addUser(User user) {
         boolean result;
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            //todo validate user
-            result = userDao.createUser(user);
+            result = validateUserData(user) && userDao.createUser(user);
             daoFactory.close();
         } catch (DataBaseConnectionException e) {
             log.error(e);
@@ -87,8 +96,7 @@ public class UserServiceImp implements UserService {
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            //todo validate user
-            result = userDao.updateUser(user);
+            result = validateUserData(user) && userDao.updateUser(user);
         } catch (DataBaseConnectionException e) {
             log.error(e);
             return false;
@@ -102,8 +110,7 @@ public class UserServiceImp implements UserService {
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            //todo validate user
-            result = userDao.deleteUser(user);
+            result = validateUserData(user) && userDao.deleteUser(user);
             daoFactory.close();
         } catch (DataBaseConnectionException ex) {
             log.error(ex);

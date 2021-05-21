@@ -1,10 +1,12 @@
 package com.epam.project.command;
 
+import com.epam.project.controller.ResultOfExecution;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface Command {
-String execute(HttpServletRequest request, HttpServletResponse response);
+ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response);
 
 
 

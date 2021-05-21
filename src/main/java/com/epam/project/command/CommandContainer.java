@@ -1,6 +1,8 @@
 package com.epam.project.command;
 
 import com.epam.project.command.imp.LoginCommand;
+import com.epam.project.command.imp.LogoutCommand;
+import com.epam.project.command.imp.RegisterCommand;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -14,6 +16,8 @@ public class CommandContainer {
 
     static {
         commandMap.put("login", new LoginCommand());
+        commandMap.put("logout", new LogoutCommand());
+        commandMap.put("register", new RegisterCommand());
         //future commands
 
 

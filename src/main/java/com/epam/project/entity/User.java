@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class User {
     private int id;
-    private String login;
+    private String email;
     private String password;
     private String name;
     private String surname;
@@ -32,12 +32,12 @@ public class User {
         return this;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public User setLogin(String login) {
-        this.login = login;
+    public User setEmail(String email) {
+        this.email = email;
         return this;
     }
 
@@ -73,7 +73,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
+                ", login='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
@@ -87,11 +87,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(login, user.login);
+        return Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login);
+        return Objects.hash(email);
     }
 }

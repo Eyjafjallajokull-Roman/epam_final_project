@@ -32,14 +32,19 @@ public class Controller extends HttpServlet {
         logger.trace("Request parameter: command --> " + commandName);
 
         Command command = commandContainer.get(commandName);
+        ResultOfExecution result = command.execute(req, resp);
 
-        String forward = command.execute(req, resp);
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
 
         logger.debug("Controller end");
-
-        if (forward != null) {
-            RequestDispatcher disp = req.getRequestDispatcher(forward);
-            disp.forward(req, resp);
+        if (result.isInvalidate())
+            req.getSession(false).invalidate();
+        if (result.getDirection() == Direction.FORWARD)
+            req.getRequestDispatcher(result.getPage()).forward(req, resp);
+        if (result.getDirection() == Direction.REDIRECT) {
+            resp.sendRedirect(result.getPage());
         }
     }
 }

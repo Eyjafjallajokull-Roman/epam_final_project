@@ -14,31 +14,31 @@ import java.util.List;
 public class UserDaoImp extends GenericAbstractDao<User> implements UserDao {
     private static final String FIND_ALL_USERS = "SELECT * from user;";
     private static final String FIND_USERS_BY_RolE = "SELECT * from user where role = ?";
-    private static final String CREATE_USER = "Insert into user(login,password,name,surname,role) values (?,?,?,?,?)";
+    private static final String CREATE_USER = "Insert into user(email,password,name,surname,role) values (?,?,?,?,?)";
     private static final String DELETE_USER = "DELETE FROM user where id = ?";
-    private static final String UPDATE_USER = "UPDATE user set login = ?, password = ?, name = ?, surname =?, role =? " +
+    private static final String UPDATE_USER = "UPDATE user set email = ?, password = ?, name = ?, surname =?, role =? " +
             "where (id = ?)";
-    private static final String FIND_USER_BY_LOGIN = "SELECT * from user where login = ?;";
+    private static final String FIND_USER_BY_EMAIL = "SELECT * from user where email = ?;";
     private static final String FIND_USER_BY_ID = "SELECT * from user where user.id = ?;";
     private final Connection connection;
-
     private final Mapper<User, PreparedStatement> mapperToDB = (User user, PreparedStatement preparedStatement) -> {
-        preparedStatement.setString(1, user.getLogin());
+        preparedStatement.setString(1, user.getEmail());
         preparedStatement.setString(2, user.getPassword());
         preparedStatement.setString(3, user.getName());
         preparedStatement.setString(4, user.getSurname());
         // 1 - roleId = "client"
-        preparedStatement.setInt(5, user.getRole().ordinal());
+        preparedStatement.setString(5, user.getRole().toString());
     };
     private final Mapper<ResultSet, User> mapperFromDB = (ResultSet rs, User user) -> {
         user.setId(rs.getInt(Fields.USER_ID));
-        user.setLogin(rs.getString(Fields.USER_LOGIN));
+        user.setEmail(rs.getString(Fields.USER_EMAIL));
         user.setPassword(rs.getString(Fields.USER_PASSWORD));
         user.setName(rs.getString(Fields.USER_NAME));
         user.setSurname(rs.getString(Fields.USER_SURNAME));
         //create field
         user.setRole(Role.valueOf(rs.getString(Fields.USER_ROLE)));
     };
+    User user = new User();
 
     public UserDaoImp(Connection connection) {
         this.connection = connection;
@@ -58,7 +58,7 @@ public class UserDaoImp extends GenericAbstractDao<User> implements UserDao {
 
     @Override
     public User findUserByLogin(String login) throws DataNotFoundException {
-        return findBy(connection, User.class, FIND_USER_BY_LOGIN, login);
+        return findBy(connection, User.class, FIND_USER_BY_EMAIL, login);
 
     }
 

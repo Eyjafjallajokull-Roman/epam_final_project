@@ -1,8 +1,13 @@
 package com.epam.project.command.imp;
 
 import com.epam.project.command.Command;
+import com.epam.project.constants.Path;
+import com.epam.project.constants.Role;
+import com.epam.project.controller.Direction;
+import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.User;
 import com.epam.project.exception.NoUserException;
+import com.epam.project.exception.WrongPasswordExeption;
 import com.epam.project.service.ServiceFactory;
 import org.apache.log4j.Logger;
 
@@ -15,40 +20,46 @@ public class LoginCommand implements Command {
 
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
 
         logger.debug("Login Command Start");
         HttpSession session = request.getSession();
-
+        ResultOfExecution resultOfExecution = new ResultOfExecution();
+        resultOfExecution.setDirection(Direction.REDIRECT);
         //obtain login and password
-        String login = request.getParameter("login");
-        logger.trace("Request parameter login: " + login);
+        String email = request.getParameter("email");
+        logger.trace("Request parameter login: " + email);
         String password = request.getParameter("password");
+
 
         //error handler
         String errorMessage = null;
-        String forward = "/error.jsp";
+        resultOfExecution.setPage(Path.ERROR);
         //todo error page
 
-        if (login == null || password == null || login.isEmpty() || password.isEmpty()) {
+        if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
             errorMessage = "Login/password cannot be empty";
-            request.setAttribute("errorMessage", errorMessage);
+            session.setAttribute("errorMessage", errorMessage);
             logger.error("errorMessage: " + errorMessage);
-            return forward;
+            return resultOfExecution;
         }
         try {
-            User user = ServiceFactory.getUserService().findUser(login, password);
+            User user = ServiceFactory.getUserService().findUser(email, password);
             logger.trace("Found in DB: user --> " + user);
-            request.setAttribute("userLogin", login);
-            forward = "/cabinet.jsp";
-
-        } catch (NoUserException e) {
+            session.setAttribute("user", user);
+            session.setAttribute("userLogin", email);
+            if (user.getRole() == Role.CLIENT) {
+                resultOfExecution.setPage(Path.USER_CABINET);
+            } else {
+                resultOfExecution.setPage(Path.ADMIN_CABINET);
+            }
+        } catch (NoUserException | WrongPasswordExeption e) {
             logger.error(e);
             errorMessage = "Cannot find user with such login/password";
-            request.setAttribute("errorMessage", errorMessage);
-            return forward;
+            session.setAttribute("errorMessage", errorMessage);
+            return resultOfExecution;
         }
 
-        return forward;
+        return resultOfExecution;
     }
 }
