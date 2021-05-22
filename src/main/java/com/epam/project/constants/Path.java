@@ -7,6 +7,7 @@ public final class Path {
     public static final String USER_LOGIN = "/project/login.jsp";
     public static final String ERROR = "/project/error.jsp";
     public static final String SECURITY_ERROR = "/project/securityError.jsp";
+    public static final String ACTIVITY_PAGE = "/project/page/createActivity.jsp";
 
 
 }

@@ -12,7 +12,7 @@ public class ServiceFactory {
         return new UserServiceImp();
     }
 
-    public static ActivityService activityService() {
+    public static ActivityService getActivityService() {
         return new ActivityServiceImp();
     }
 }

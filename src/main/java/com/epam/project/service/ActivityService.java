@@ -13,7 +13,10 @@ public interface ActivityService {
 
     List<Activity> findActivityByTypeOfActivity(TypeOfActivity typeOfActivity) throws NoSuchActivityException;
 
+    List<Activity> findAllActivitiesByCreatedId(Integer created_id) throws NoSuchActivityException;
+
     boolean addActivity(Activity activity);
+
 
     boolean updateActivity(Activity activity);
 

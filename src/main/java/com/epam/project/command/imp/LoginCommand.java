@@ -35,7 +35,7 @@ public class LoginCommand implements Command {
         //error handler
         String errorMessage = null;
         resultOfExecution.setPage(Path.ERROR);
-        //todo error page
+
 
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
             errorMessage = "Login/password cannot be empty";
@@ -56,7 +56,7 @@ public class LoginCommand implements Command {
         } catch (NoUserException | WrongPasswordExeption e) {
             logger.error(e);
             errorMessage = "Cannot find user with such login/password";
-            session.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", errorMessage);
             return resultOfExecution;
         }
 

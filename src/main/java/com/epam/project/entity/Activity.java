@@ -19,6 +19,7 @@ public class Activity {
     private int userID;
     private Set<User> users;
 
+
     public int getUserID() {
         return userID;
     }

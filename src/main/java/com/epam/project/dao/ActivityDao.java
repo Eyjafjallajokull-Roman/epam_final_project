@@ -14,6 +14,8 @@ public interface ActivityDao {
 
     List<Activity> findActivityByTypeOfActivity(TypeOfActivity typeOfActivity) throws DataNotFoundException;
 
+    List<Activity> findAllActivitiesByCreatedId(Integer created_id) throws DataNotFoundException;
+
     boolean createActivity(Activity activity);
 
     boolean updateActivity(Activity activity);

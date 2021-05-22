@@ -64,6 +64,21 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
+    public List<Activity> findAllActivitiesByCreatedId(Integer created_id) throws NoSuchActivityException {
+        List<Activity> activities;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findAllActivitiesByCreatedId(created_id);
+            daoFactory.close();
+        } catch (DataBaseConnectionException | DataNotFoundException e) {
+            log.error(e);
+            throw new NoSuchActivityException();
+        }
+        return activities;
+    }
+
+    @Override
     public boolean addActivity(Activity activity) {
         boolean result;
         try {

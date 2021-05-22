@@ -19,16 +19,18 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
     private static final String FIND_ALL_ACTIVITIES_BY_TYPE = "SELECT * from activity where type_of_activity =?";
     private static final String FIND_ACTIVITY_BY_ID = "SELECT * from activity where id = ?";
     //updated
-    private static final String CREATE_ACTIVITY = "Insert into activity(start_time,end_time,name,description,type_of_activity,created_by_id) values (?,?,?,?,?,?,?)";
+    private static final String CREATE_ACTIVITY = "Insert into activity(start_time,end_time,name,description,type_of_activity,created_by_id,activity_status_id) values (?,?,?,?,?,?,?)";
     private static final String DELETE_ACTIVITY = "DELETE FROM activity where id = ?";
-    private static final String UPDATE_ACTIVITY = "UPDATE activity set start_time = ?, end_time = ?, name = ?, description =?, type_of_activity =?, status =? where (id = ?)";
+    private static final String UPDATE_ACTIVITY = "UPDATE activity set start_time = ?, end_time = ?, name = ?, description =?, " +
+            "type_of_activity =?, created_by_id =?, activity_status_id =? where (id = ?)";
+    private static final String FIND_ACTIVITY_BY_CREATED_USER_ID = "SELECT * from activity JOIN activity_status on activity.activity_status_id=activity_status.id where created_by_id = ?";
 
     private final Mapper<Activity, PreparedStatement> mapperToDB = (Activity activity, PreparedStatement preparedStatement) -> {
         preparedStatement.setTimestamp(1, activity.getStartTime());
         preparedStatement.setTimestamp(2, activity.getEndTime());
         preparedStatement.setString(3, activity.getName());
         preparedStatement.setString(4, activity.getDescription());
-        preparedStatement.setInt(5, activity.getTypeOfActivity().ordinal());
+        preparedStatement.setString(5, activity.getTypeOfActivity().toString());
         preparedStatement.setInt(6, activity.getUserID());
         preparedStatement.setInt(7, activity.getStatus().ordinal());
     };
@@ -57,6 +59,10 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
         return findAll(connection, Activity.class, FIND_ALL_ACTIVITIES);
     }
 
+    public List<Activity> findAllActivitiesByCreatedId(Integer created_id) throws DataNotFoundException {
+        return findAsListBy(connection, Activity.class, FIND_ACTIVITY_BY_CREATED_USER_ID, created_id);
+    }
+
     @Override
     public Activity findActivityById(Integer id) throws DataNotFoundException {
         return findBy(connection, Activity.class, FIND_ACTIVITY_BY_ID, id);
@@ -74,7 +80,7 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
 
     @Override
     public boolean updateActivity(Activity activity) {
-        return updateInDB(connection, activity, UPDATE_ACTIVITY, 7, activity.getId());
+        return updateInDB(connection, activity, UPDATE_ACTIVITY, 8, activity.getId());
     }
 
     @Override
