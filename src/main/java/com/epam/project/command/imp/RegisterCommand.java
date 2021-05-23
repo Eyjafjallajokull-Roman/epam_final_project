@@ -2,18 +2,21 @@ package com.epam.project.command.imp;
 
 import com.epam.project.command.Command;
 import com.epam.project.constants.Path;
-import com.epam.project.constants.Role;
+import com.epam.project.entity.Role;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.User;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class RegisterCommand implements Command {
+    private static final Logger log = Logger.getLogger(RegisterCommand.class);
+
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         ResultOfExecution result = new ResultOfExecution();

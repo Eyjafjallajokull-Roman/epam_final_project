@@ -3,7 +3,7 @@ package com.epam.project.service.imp;
 import com.epam.project.dao.ActivityDao;
 import com.epam.project.dao.DAOFactory;
 import com.epam.project.entity.Activity;
-import com.epam.project.constants.TypeOfActivity;
+import com.epam.project.entity.TypeOfActivity;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.DataNotFoundException;
 import com.epam.project.exception.NoSuchActivityException;
@@ -25,6 +25,9 @@ public class ActivityServiceImp implements ActivityService {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
             activities = activityDao.findAllActivity();
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
             daoFactory.close();
         } catch (DataNotFoundException | DataBaseConnectionException e) {
             log.error(e);
@@ -40,6 +43,7 @@ public class ActivityServiceImp implements ActivityService {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
             activity = activityDao.findActivityById(id);
+            activityDao.addUsersToActivities(activity);
             daoFactory.close();
         } catch (DataBaseConnectionException | DataNotFoundException e) {
             log.error(e);
@@ -55,6 +59,9 @@ public class ActivityServiceImp implements ActivityService {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
             activities = activityDao.findActivityByTypeOfActivity(typeOfActivity);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
             daoFactory.close();
         } catch (DataBaseConnectionException | DataNotFoundException e) {
             log.error(e);
@@ -70,6 +77,9 @@ public class ActivityServiceImp implements ActivityService {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
             activities = activityDao.findAllActivitiesByCreatedId(created_id);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
             daoFactory.close();
         } catch (DataBaseConnectionException | DataNotFoundException e) {
             log.error(e);
@@ -77,6 +87,13 @@ public class ActivityServiceImp implements ActivityService {
         }
         return activities;
     }
+
+    @Override
+    public List<Activity> findFiveActivitiesOrderByStartTime() {
+        List<Activity> activities;
+        return null;
+    }
+
 
     @Override
     public boolean addActivity(Activity activity) {

@@ -1,6 +1,6 @@
 package com.epam.project.service.imp;
 
-import com.epam.project.constants.Role;
+import com.epam.project.entity.Role;
 import com.epam.project.dao.DAOFactory;
 import com.epam.project.dao.UserDao;
 import com.epam.project.entity.User;
@@ -26,6 +26,9 @@ public class UserServiceImp implements UserService {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
             users = userDao.findAllUsers();
+            for (User user : users) {
+                userDao.addActivitiesToUser(user);
+            }
             daoFactory.close();
         } catch (DataNotFoundException | DataBaseConnectionException e) {
             log.error(e);
@@ -41,6 +44,9 @@ public class UserServiceImp implements UserService {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
             users = userDao.findUsersByRole(role);
+            for (User user : users) {
+                userDao.addActivitiesToUser(user);
+            }
             daoFactory.close();
         } catch (DataNotFoundException | DataBaseConnectionException e) {
             log.error(e);
@@ -56,6 +62,7 @@ public class UserServiceImp implements UserService {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
             user = userDao.findUserByLogin(login);
+            userDao.addActivitiesToUser(user);
             daoFactory.close();
             if (!user.getPassword().equals(password))
                 throw new WrongPasswordExeption();
@@ -65,6 +72,23 @@ public class UserServiceImp implements UserService {
             throw new NoUserException();
 
         }
+    }
+
+    @Override
+    public User findUserByLogin(String login) throws NoUserException {
+        User user = new User();
+        try {
+            daoFactory.open();
+            userDao = daoFactory.getUserDao();
+            user = userDao.findUserByLogin(login);
+            userDao.addActivitiesToUser(user);
+            daoFactory.close();
+            return user;
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoUserException();
+        }
+
     }
 
     private boolean validateUserData(User user) {
@@ -118,4 +142,5 @@ public class UserServiceImp implements UserService {
         }
         return result;
     }
+
 }

@@ -2,7 +2,7 @@ package com.epam.project.command.imp;
 
 import com.epam.project.command.Command;
 import com.epam.project.constants.Path;
-import com.epam.project.constants.Role;
+import com.epam.project.entity.Role;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.User;
@@ -39,7 +39,7 @@ public class LoginCommand implements Command {
 
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
             errorMessage = "Login/password cannot be empty";
-            session.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", errorMessage);
             logger.error("errorMessage: " + errorMessage);
             return resultOfExecution;
         }

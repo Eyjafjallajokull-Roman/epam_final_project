@@ -1,0 +1,254 @@
+* {
+    margin: 0 auto;
+    box-sizing: border-box;
+    font-family: 'Josefin Sans', sans-serif;
+    outline: none;
+    padding: 0;
+}
+
+.header {
+    display: flex;
+    height: 60px;
+    background-color: #3577fa;
+
+    padding: 15px;
+}
+
+.leftHeader {
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.rightHeader {
+    display: flex;
+    margin-right: 10px;
+    align-items: center;
+
+}
+
+.langBtn {
+    margin-right: 50px;
+    background-color: white;
+    border: none;
+    border-radius: 35px;
+    width: 145px;
+    height: 40px;
+}
+
+footer {
+    text-align: center;
+    font-style: italic;
+    font-weight :bold;
+}
+
+.languages-list {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 145px;
+    margin-top: 5px;
+    border-radius: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+
+}
+
+.langBtn:hover {
+    border: 3px solid rgba(221, 221, 221, 0.808);
+}
+
+.languages-list a {
+
+    font-size: 14px;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.checkLanguage a:hover {
+    background-color: #ddd;
+    border-radius: 17px;
+}
+
+.show {
+    display: block;
+}
+
+.registrationBlock {
+    width: 450px;
+
+}
+
+h1 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+
+    align-items: center;
+    justify-content: center;
+    color: #3577fa;
+    /* font-family: 'Josefin Sans', sans-serif; */
+
+}
+
+#mainForm {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.form-control {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.form-control label {
+    display: inline-block;
+
+}
+
+.form-control input {
+    border: 2px solid #f0f0f0;
+    border-radius: 4px;
+    display: block;
+    font-family: inherit;
+    font-size: 16px;
+    padding: 10px;
+    width: 400px;
+}
+
+.form-control input:focus {
+    outline: 0;
+}
+
+.form-control.success input {
+    border-color: #3577fa;
+}
+
+.form-control.error input {
+    border-color: #e74c3c;
+}
+
+.form-control i {
+    visibility: hidden;
+    position: absolute;
+    top: 25px;
+    right: 10px;
+}
+
+.form-control.success i.gg-check-o {
+    color: #3577fa;
+    visibility: visible;
+}
+
+.form-control.error i.gg-close {
+    color: #e74c3c;
+    visibility: visible;
+}
+
+.form-control p {
+    border-radius: 5px;
+    color: #e60000;
+    padding: 5px;
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+    visibility: hidden;
+
+}
+
+.form-control.error p {
+    visibility: visible;
+}
+
+
+#btnForSinUp, #login_btn {
+    /* background-color:#3577fa; */
+    justify-content: center;
+    background: linear-gradient(to left, #3577fa, #2a37e9);
+    border: none;
+    display: block;
+    color: white;
+    font-size: 18px;
+    border-radius: 30px;
+    width: 260px;
+    height: 40px;
+}
+
+#btnForSinUp:hover {
+    box-shadow: 0px 8px 16px 0px rgba(0, 1, 1, 0.1);
+}
+
+#login_btn:hover {
+    box-shadow: 0px 8px 16px 0px rgba(0, 1, 1, 0.1);
+}
+
+
+#registered, #register {
+    border: none;
+    background-color: initial;
+    color: gray;
+    margin-top: 10px;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+#reg {
+    border: none;
+    margin-left: 145px;
+
+}
+
+.buttonsBlock {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#questionAboutAcc {
+    margin-top: 20px;
+    color: gray;
+}
+
+.footer{
+    position: fixed;
+    text-align: center;
+    font-style: italic;
+    font-weight :bold;
+    left: 0; bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(221, 221, 221, 0.808);
+    border-top: 3px solid #3577fa;
+}
+
+#alreadySignInPage {
+    margin-top: 20px;
+    display: flex;
+}
+
+.signForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.entering {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.entering input {
+    width: 300px;
+    height: 50px;
+}
+
+.entering i {
+    visibility: hidden;
+    position: absolute;
+    top: 30px;
+    right: 10px;
+}
+

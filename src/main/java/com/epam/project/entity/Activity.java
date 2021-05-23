@@ -1,8 +1,5 @@
 package com.epam.project.entity;
 
-import com.epam.project.constants.Status;
-import com.epam.project.constants.TypeOfActivity;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.Set;
@@ -13,12 +10,21 @@ public class Activity {
     private String name;
     private Timestamp startTime;
     private Timestamp endTime;
-    private String description;
+    private String descriptionEng;
+    private String descriptionRus;
     private TypeOfActivity typeOfActivity;
     private Status status;
     private int userID;
-    private Set<User> users;
+    private Set<Integer> usersId;
 
+    public Set<Integer> getUsersId() {
+        return usersId;
+    }
+
+    public Activity setUsersId(Set<Integer> usersId) {
+        this.usersId = usersId;
+        return this;
+    }
 
     public int getUserID() {
         return userID;
@@ -56,6 +62,24 @@ public class Activity {
         return this;
     }
 
+    public String getDescriptionEng() {
+        return descriptionEng;
+    }
+
+    public Activity setDescriptionEng(String descriptionEng) {
+        this.descriptionEng = descriptionEng;
+        return this;
+    }
+
+    public String getDescriptionRus() {
+        return descriptionRus;
+    }
+
+    public Activity setDescriptionRus(String descriptionRus) {
+        this.descriptionRus = descriptionRus;
+        return this;
+    }
+
     public String getName() {
         return name;
     }
@@ -83,15 +107,6 @@ public class Activity {
         return this;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public Activity setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "Activity{" +
@@ -99,11 +114,12 @@ public class Activity {
                 ", name='" + name + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", description='" + description + '\'' +
+                ", descriptionEng='" + descriptionEng + '\'' +
+                ", descriptionRus='" + descriptionRus + '\'' +
                 ", typeOfActivity=" + typeOfActivity +
                 ", status=" + status +
                 ", userID=" + userID +
-                ", users=" + users +
+                ", usersId=" + usersId +
                 '}';
     }
 

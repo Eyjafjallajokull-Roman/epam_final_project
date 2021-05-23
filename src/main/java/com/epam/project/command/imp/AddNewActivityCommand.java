@@ -3,8 +3,8 @@ package com.epam.project.command.imp;
 import com.epam.project.TimeParser;
 import com.epam.project.command.Command;
 import com.epam.project.constants.Path;
-import com.epam.project.constants.Status;
-import com.epam.project.constants.TypeOfActivity;
+import com.epam.project.entity.Status;
+import com.epam.project.entity.TypeOfActivity;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.Activity;
@@ -36,7 +36,8 @@ public class AddNewActivityCommand implements Command {
             if (user != null) {
                 String name = request.getParameter("name");
                 String typeOfActivity = request.getParameter("typeOfActivity");
-                String description = request.getParameter("description");
+                String descriptionEn = request.getParameter("description_en");
+                String descriptionRu = request.getParameter("description_ru");
                 String startTime = TimeParser.parseTimeFromJsp(request.getParameter("start_time"));
                 String endTime = TimeParser.parseTimeFromJsp(request.getParameter("end_time"));
                 int created_by = user.getId();
@@ -45,13 +46,17 @@ public class AddNewActivityCommand implements Command {
                 activity.setUserID(created_by);
                 activity.setStartTime(Timestamp.valueOf(startTime));
                 activity.setEndTime(Timestamp.valueOf(endTime));
-                activity.setDescription(description);
+                activity.setDescriptionEng(descriptionEn);
+                activity.setDescriptionRus(descriptionRu);
                 activity.setTypeOfActivity(TypeOfActivity.valueOf(typeOfActivity));
                 activity.setName(name);
                 activity.setStatus(Status.ON_CHECK);
                 ActivityService activityService = ServiceFactory.getActivityService();
 
                 if (activityService.addActivity(activity)) {
+//add to the table (many-many)
+
+
                     result.setPage(Path.USER_CABINET);
                 }
                 //todo validate

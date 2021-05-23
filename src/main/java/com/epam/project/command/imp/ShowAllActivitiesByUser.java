@@ -21,15 +21,16 @@ public class ShowAllActivitiesByUser implements Command {
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         ResultOfExecution result = new ResultOfExecution();
-        result.setDirection(Direction.REDIRECT);
+        result.setDirection(Direction.FORWARD);
         HttpSession session = request.getSession();
         String errorMessage = null;
         try {
             User user = (User) session.getAttribute("user");
             if (user != null) {
                 List<Activity> activityList = ServiceFactory.getActivityService().findAllActivitiesByCreatedId(user.getId());
-                session.setAttribute("activities", activityList);
-                result.setPage(Path.USER_CABINET);
+                request.setAttribute("activities", activityList);
+                result.setPage(Path.USER_CABINET_FWD);
+                System.out.println("cool");
             }
 
         } catch (Exception e) {

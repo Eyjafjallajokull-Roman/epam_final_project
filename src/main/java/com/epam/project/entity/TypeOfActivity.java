@@ -1,4 +1,4 @@
-package com.epam.project.constants;
+package com.epam.project.entity;
 
 public enum TypeOfActivity {
 EVENT,TASK,REMINDER

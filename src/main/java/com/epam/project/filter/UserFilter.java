@@ -1,7 +1,7 @@
 package com.epam.project.filter;
 
 import com.epam.project.constants.Path;
-import com.epam.project.constants.Role;
+import com.epam.project.entity.Role;
 import com.epam.project.entity.User;
 import org.apache.log4j.Logger;
 

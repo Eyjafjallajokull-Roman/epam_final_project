@@ -13,7 +13,8 @@ public final class Fields {
     public static final String ACTIVITY_START_TIME = "start_time";
     public static final String ACTIVITY_END_TIME = "end_time";
     public static final String ACTIVITY_NAME = "name";
-    public static final String ACTIVITY_DESCRIPTION = "description";
+    public static final String ACTIVITY_DESCRIPTION_En = "description_en";
+    public static final String ACTIVITY_DESCRIPTION_RUS = "description_ru";
     public static final String ACTIVITY_TYPE_OF_ACTIVITY = "type_of_activity";
     public static final String ACTIVITY_CREATED_BY_USER = "created_by_id";
     public static final String ACTIVITY_STATUS = "activity_status_id";

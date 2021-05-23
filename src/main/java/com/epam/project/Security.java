@@ -1,6 +1,6 @@
 package com.epam.project;
 
-import com.epam.project.constants.Role;
+import com.epam.project.entity.Role;
 import com.epam.project.entity.User;
 
 import javax.servlet.http.HttpSession;

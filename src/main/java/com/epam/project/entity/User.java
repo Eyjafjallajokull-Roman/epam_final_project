@@ -1,7 +1,5 @@
 package com.epam.project.entity;
 
-import com.epam.project.constants.Role;
-
 import java.util.Objects;
 import java.util.Set;
 
@@ -12,7 +10,16 @@ public class User {
     private String name;
     private String surname;
     private Role role;
-    private Set<Activity> activities;
+    private Set<Integer> activitiesId;
+
+    public Set<Integer> getActivitiesId() {
+        return activitiesId;
+    }
+
+    public User setActivitiesId(Set<Integer> activitiesId) {
+        this.activitiesId = activitiesId;
+        return this;
+    }
 
     public Role getRole() {
         return role;
@@ -68,17 +75,16 @@ public class User {
         return this;
     }
 
-
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", login='" + email + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", role=" + role +
-                ", activities=" + activities +
+                ", activitiesId=" + activitiesId +
                 '}';
     }
 

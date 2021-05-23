@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ include file="/WEB-INF/jspf/tagfile.jspf" %>
 <c:set var="language" value="${not empty param.language ? param.language :
                                 not empty language ? language :
                                 pageContext.request.locale}" scope="session"/>
@@ -20,7 +19,17 @@
     <button class="menubutton" type="submit">LOGOUT</button>
 </form>
 
-<a href="createActivity.jsp">Create Product</a>
+
+
+<form class="menuitem" name="createActivityPage" method="post" action="/project/controller">
+    <input type="hidden" name="command" value="createActivityPage"/>
+    <button class="menubutton" type="submit">Create Activity</button>
+</form>
+
+<form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
+    <input type="hidden" name="command" value="updateActivityPage"/>
+    <button class="menubutton" type="submit">Update Activity</button>
+</form>
 
 
 <form name="all-activities" method="post" action="/project/controller">
@@ -28,9 +37,16 @@
     <button class="menubutton" type="submit">Show Activities</button>
 </form>
 
-<div class="all-activities">
-    <h5>${activities}</h5>
-</div>
+<form name="updateUserPage" method="post" action="/project/controller">
+    <input type="hidden" name="command" value="updateUserPage"/>
+    <button class="menubutton" type="submit">Update</button>
+</form>
+
+
+<h3>All products:</h3>
+<div id="all-activities"></div>
+
+${activities}
 
 <form class="topcorner" method="post">
     <select id="language" name="language" onchange="submit()">
@@ -38,5 +54,6 @@
         <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
     </select>
 </form>
+<f:colontitle/>
 </body>
 </html>

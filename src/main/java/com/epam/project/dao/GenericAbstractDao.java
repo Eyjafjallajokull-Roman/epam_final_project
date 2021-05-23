@@ -97,6 +97,7 @@ public abstract class GenericAbstractDao<T> {
         return items;
     }
 
+
     protected boolean addToDB(Connection connection, T item, String SQL_addNew) {
         boolean result;
         try {
