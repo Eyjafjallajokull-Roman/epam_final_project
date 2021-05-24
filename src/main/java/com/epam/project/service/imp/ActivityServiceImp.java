@@ -7,6 +7,7 @@ import com.epam.project.entity.TypeOfActivity;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.DataNotFoundException;
 import com.epam.project.exception.NoSuchActivityException;
+import com.epam.project.exception.NoUserException;
 import com.epam.project.service.ActivityService;
 import org.apache.log4j.Logger;
 
@@ -89,9 +90,121 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public List<Activity> findFiveActivitiesOrderByStartTime() {
+    public List<Activity> findFirstFiveActivitiesByUserId(Integer id) throws NoUserException {
         List<Activity> activities;
-        return null;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findFirstFiveActivitiesByUserId(id);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoUserException();
+        }
+        return activities;
+    }
+
+    @Override
+    public List<Activity> findActivitiesByPaginationParam(Integer id, Integer limit, Integer offset, String orderParam) throws NoSuchActivityException {
+        List<Activity> activities;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findActivitiesByPaginationParam(id, limit, offset, orderParam);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoSuchActivityException();
+        }
+        return activities;
+    }
+
+    @Override
+    public Integer calculateActivityNumber() throws DataBaseConnectionException {
+        Integer result = 0;
+        try {
+            daoFactory.beginTransaction();
+            activityDao = daoFactory.getActivityDao();
+            result = activityDao.calculateActivityNumber();
+            daoFactory.commitTransaction();
+        } catch (DataBaseConnectionException | DataNotFoundException ex) {
+            log.error(ex);
+            daoFactory.rollbackTransaction();
+        }
+        return result;
+    }
+
+    @Override
+    public List<Activity> findAllFromTo(Integer id, Integer limit, Integer offset) throws NoSuchActivityException {
+        List<Activity> activities;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findAllFromTo(id, limit, offset);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoSuchActivityException();
+        }
+        return activities;
+    }
+
+    @Override
+    public List<Activity> findAllFromToWithWhereParam(Integer limit, Integer offset, String value1, String value2) throws NoSuchActivityException {
+        List<Activity> activities;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findAllFromToWithWhereParam(limit, offset, value1, value2);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoSuchActivityException();
+        }
+        return activities;
+    }
+
+    @Override
+    public Integer calculateActivityWithConditionAndWhereParam(String value1, String value2) throws DataBaseConnectionException {
+        Integer result = 0;
+        try {
+            daoFactory.beginTransaction();
+            activityDao = daoFactory.getActivityDao();
+            result = activityDao.calculateActivityWithConditionAndWhereParam(value1, value2);
+            daoFactory.commitTransaction();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            daoFactory.rollbackTransaction();
+        }
+        return result;
+    }
+
+
+    @Override
+    public Integer calculateActivityNumberWithCondition(String par) throws DataBaseConnectionException {
+        Integer result = 0;
+        try {
+            daoFactory.beginTransaction();
+            activityDao = daoFactory.getActivityDao();
+            result = activityDao.calculateActivityNumberWithCondition(par);
+            daoFactory.commitTransaction();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            daoFactory.rollbackTransaction();
+        }
+        return result;
     }
 
 

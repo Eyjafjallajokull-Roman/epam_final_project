@@ -25,6 +25,7 @@ public class CommandContainer {
         commandMap.put("updateUser", new UpdateUserCommand());
         commandMap.put("goToLogin", new GotoLoginPageCommand());
         commandMap.put("goToRegister", new GoToRegisterPageCommand());
+        commandMap.put("pageNext", new PageNextCommand());
 
         //future commands
 

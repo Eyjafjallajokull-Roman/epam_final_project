@@ -20,7 +20,6 @@
 </form>
 
 
-
 <form class="menuitem" name="createActivityPage" method="post" action="/project/controller">
     <input type="hidden" name="command" value="createActivityPage"/>
     <button class="menubutton" type="submit">Create Activity</button>
@@ -42,11 +41,21 @@
     <button class="menubutton" type="submit">Update</button>
 </form>
 
+<a href="/project/page/MyActivities.jsp">My Activities</a>
 
-<h3>All products:</h3>
+<h3>All activities:</h3>
 <div id="all-activities"></div>
+<c:forEach items="${activityList}" var="activity">
+    <tr>
+        <td class="tda">${activity.name}</td>
+        <td class="tda">${activity.startTime}</td>
+        <td class="tda">${activity.endTime}</td>
+        <td class="tda">${activity.descriptionEng}</td>
+        <td class="tda">${activity.descriptionRus}</td>
+        <td class="tda">${activity.typeOfActivity}</td>
+    </tr>
+</c:forEach>
 
-${activities}
 
 <form class="topcorner" method="post">
     <select id="language" name="language" onchange="submit()">
@@ -55,5 +64,6 @@ ${activities}
     </select>
 </form>
 <f:colontitle/>
+<script src="/js/cabinet.js"></script>
 </body>
 </html>

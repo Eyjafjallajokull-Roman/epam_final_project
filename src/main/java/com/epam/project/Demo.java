@@ -2,6 +2,7 @@ package com.epam.project;
 
 import com.epam.project.dao.UserDao;
 import com.epam.project.dao.imp.UserDaoImp;
+import com.epam.project.entity.Activity;
 import com.epam.project.entity.User;
 import com.epam.project.exception.DataNotFoundException;
 import com.epam.project.exception.NoSuchActivityException;
@@ -10,6 +11,10 @@ import com.epam.project.service.ActivityService;
 import com.epam.project.service.UserService;
 import com.epam.project.service.imp.ActivityServiceImp;
 import com.epam.project.service.imp.UserServiceImp;
+
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.*;
 
 
 public class Demo {
@@ -39,7 +44,13 @@ public class Demo {
 //        activityService.addActivity(activity);
 //        System.out.println(activityService.findAllActivitiesByCreatedId(2));
 
-        System.out.println(userService.findAllUsers());
+//        System.out.println(activityService.findFirstFiveActivitiesByUserId(2));
+
+        Activity activty = activityService.findActivityById(6);
+        long diff = activty.getEndTime().getTime() - activty.getStartTime().getTime();
+
+
+
 
 
 

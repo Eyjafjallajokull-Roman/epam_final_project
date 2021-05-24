@@ -21,6 +21,38 @@ public class DAOFactory {
         return new ActivityDaoImp(connection);
     }
 
+    public void beginTransaction() throws DataBaseConnectionException {
+        connection = dbManager.getConnection();
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException throwables) {
+            logger.error(throwables);
+            throw new DataBaseConnectionException();
+        }
+    }
+
+    public void commitTransaction() throws DataBaseConnectionException {
+        try {
+            connection.commit();
+            connection.close();
+        } catch (SQLException throwables) {
+            logger.error(throwables);
+            throw new DataBaseConnectionException();
+        }
+    }
+
+
+    public void rollbackTransaction() throws DataBaseConnectionException {
+        try {
+            connection.rollback();
+            connection.close();
+        } catch (SQLException throwables) {
+            logger.error(throwables);
+            //todo another exception
+            throw new DataBaseConnectionException();
+        }
+    }
+
     public void open() throws DataBaseConnectionException {
         connection = dbManager.getConnection();
     }

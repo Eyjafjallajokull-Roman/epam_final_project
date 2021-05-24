@@ -14,7 +14,7 @@ public class Activity {
     private String descriptionRus;
     private TypeOfActivity typeOfActivity;
     private Status status;
-    private int userID;
+    private int createdByUserID;
     private Set<Integer> usersId;
 
     public Set<Integer> getUsersId() {
@@ -26,12 +26,12 @@ public class Activity {
         return this;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getCreatedByUserID() {
+        return createdByUserID;
     }
 
-    public Activity setUserID(int userID) {
-        this.userID = userID;
+    public Activity setCreatedByUserID(int createdByUserID) {
+        this.createdByUserID = createdByUserID;
         return this;
     }
 
@@ -118,7 +118,7 @@ public class Activity {
                 ", descriptionRus='" + descriptionRus + '\'' +
                 ", typeOfActivity=" + typeOfActivity +
                 ", status=" + status +
-                ", userID=" + userID +
+                ", userID=" + createdByUserID +
                 ", usersId=" + usersId +
                 '}';
     }

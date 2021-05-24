@@ -43,7 +43,7 @@ public class AddNewActivityCommand implements Command {
                 int created_by = user.getId();
 
                 Activity activity = new Activity();
-                activity.setUserID(created_by);
+                activity.setCreatedByUserID(created_by);
                 activity.setStartTime(Timestamp.valueOf(startTime));
                 activity.setEndTime(Timestamp.valueOf(endTime));
                 activity.setDescriptionEng(descriptionEn);
@@ -54,9 +54,6 @@ public class AddNewActivityCommand implements Command {
                 ActivityService activityService = ServiceFactory.getActivityService();
 
                 if (activityService.addActivity(activity)) {
-//add to the table (many-many)
-
-
                     result.setPage(Path.USER_CABINET);
                 }
                 //todo validate

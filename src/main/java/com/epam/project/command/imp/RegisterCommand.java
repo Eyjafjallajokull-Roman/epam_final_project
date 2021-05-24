@@ -2,6 +2,7 @@ package com.epam.project.command.imp;
 
 import com.epam.project.command.Command;
 import com.epam.project.constants.Path;
+import com.epam.project.entity.Activity;
 import com.epam.project.entity.Role;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 public class RegisterCommand implements Command {
     private static final Logger log = Logger.getLogger(RegisterCommand.class);
@@ -29,7 +31,6 @@ public class RegisterCommand implements Command {
             String name = request.getParameter("name");
             String last = request.getParameter("lastName");
             String password = request.getParameter("password");
-
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
@@ -40,6 +41,8 @@ public class RegisterCommand implements Command {
             if (userService.addUser(user)) {
                 session.setAttribute("userLogin", email);
                 session.setAttribute("user", user);
+                List<Activity> activityList = ServiceFactory.getActivityService().findFirstFiveActivitiesByUserId(user.getId());
+                session.setAttribute("activityList", activityList);
                 result.setPage(Path.USER_CABINET);
             } else {
                 errorMessage = "CanNot Register";

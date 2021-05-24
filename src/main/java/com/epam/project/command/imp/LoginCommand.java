@@ -2,6 +2,7 @@ package com.epam.project.command.imp;
 
 import com.epam.project.command.Command;
 import com.epam.project.constants.Path;
+import com.epam.project.entity.Activity;
 import com.epam.project.entity.Role;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
@@ -9,11 +10,15 @@ import com.epam.project.entity.User;
 import com.epam.project.exception.NoUserException;
 import com.epam.project.exception.WrongPasswordExeption;
 import com.epam.project.service.ServiceFactory;
+import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 public class LoginCommand implements Command {
     private static final Logger logger = Logger.getLogger(LoginCommand.class);
@@ -50,6 +55,8 @@ public class LoginCommand implements Command {
             session.setAttribute("userLogin", email);
             if (user.getRole() == Role.CLIENT) {
                 resultOfExecution.setPage(Path.USER_CABINET);
+                List<Activity> activityList = ServiceFactory.getActivityService().findFirstFiveActivitiesByUserId(user.getId());
+                session.setAttribute("activityList", activityList);
             } else {
                 resultOfExecution.setPage(Path.ADMIN_CABINET);
             }

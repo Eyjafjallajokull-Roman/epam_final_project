@@ -14,5 +14,6 @@ public final class Path {
     public static final String ERROR_FWD = "/error.jsp";
     public static final String UPDATE_USER_PAGE_FWD = "/page/updateUser.jsp";
     public static final String USER_CABINET_FWD = "/page/cabinet.jsp";
+    public static final String MY_ACTIVITIES_PAGE_FWD = "/page/MyActivities.jsp";
 
 }
