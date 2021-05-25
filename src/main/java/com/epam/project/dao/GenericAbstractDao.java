@@ -42,11 +42,12 @@ public abstract class GenericAbstractDao<T> {
         return items;
     }
 
-    protected List<T> findAllFromToWithOrderParam(Connection connection, Class<T> t, Integer id, Integer limit, Integer offset, String SQL_getAll_base, String orderParam)
+    protected List<T> findAllFromToWithOrderParam(Connection connection, Class<T> t, String value, Integer limit, Integer offset, String SQL_getAll_base, String orderParam)
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + id + " order by " + orderParam + " limit " + limit + ", " + offset + ";");
+            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base  + " order by " + orderParam + " limit " + limit + ", " + offset + ";");
+            addParameterToPreparedStatement(ps, 1, value);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
                 T item = getItemInstance(t);
@@ -60,11 +61,12 @@ public abstract class GenericAbstractDao<T> {
         return items;
     }
 
-    protected List<T> findAllFromTo(Connection connection, Class<T> t, Integer id, Integer first, Integer offset, String SQL_getAll_base)
+    protected List<T> findAllFromTo(Connection connection, Class<T> t, String value1, Integer first, Integer offset, String SQL_getAll_base)
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + id + " limit " + first + ", " + offset + ";");
+            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + " limit " + first + ", " + offset + ";");
+            addParameterToPreparedStatement(ps, 1, value1);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
                 T item = getItemInstance(t);

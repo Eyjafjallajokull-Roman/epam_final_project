@@ -12,6 +12,7 @@ public interface UserService {
 
     List<User> findUsersByRole(Role role) throws NoUserException;
 
+    User findUserById(Integer id) throws NoUserException;
 
     User findUser(String login, String password) throws NoUserException, WrongPasswordExeption;
 
@@ -22,7 +23,6 @@ public interface UserService {
     boolean updateUser(User user);
 
     boolean deleteUser(User user);
-
 
 
 }

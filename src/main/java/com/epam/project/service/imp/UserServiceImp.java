@@ -1,5 +1,6 @@
 package com.epam.project.service.imp;
 
+import com.epam.project.entity.Activity;
 import com.epam.project.entity.Role;
 import com.epam.project.dao.DAOFactory;
 import com.epam.project.dao.UserDao;
@@ -11,7 +12,10 @@ import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.DataNotFoundException;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class UserServiceImp implements UserService {
     private static final Logger log = Logger.getLogger(UserServiceImp.class);
@@ -53,6 +57,23 @@ public class UserServiceImp implements UserService {
             throw new NoUserException();
         }
         return users;
+    }
+
+    @Override
+    public User findUserById(Integer id) throws NoUserException {
+        User user = new User();
+        try {
+            daoFactory.open();
+            userDao = daoFactory.getUserDao();
+            user = userDao.findUserById(id);
+            userDao.addActivitiesToUser(user);
+            daoFactory.close();
+            return user;
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoUserException();
+
+        }
     }
 
     @Override
@@ -142,5 +163,8 @@ public class UserServiceImp implements UserService {
         }
         return result;
     }
+
+
+
 
 }

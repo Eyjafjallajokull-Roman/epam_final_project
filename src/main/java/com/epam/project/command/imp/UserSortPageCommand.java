@@ -17,12 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-public class PageNextCommand implements Command {
-    private static final Logger log = Logger.getLogger(LogoutCommand.class);
+public class UserSortPageCommand implements Command {
+    private static final Logger log = Logger.getLogger(UserSortPageCommand.class);
     private static final List<String> types;
     private static final List<String> typesOfActivity;
 
@@ -49,23 +47,16 @@ public class PageNextCommand implements Command {
         List<Activity> activities;
         try {
             User user = (User) session.getAttribute("user");
-
+            currentPage = request.getParameter("currentPage") == null ? 1 : Integer.parseInt(request.getParameter("currentPage"));
             String parameter = types.stream().filter(s -> s.equals(request.getParameter("type"))).collect(Collectors.toList()).get(0);
             String typeOfActivity = typesOfActivity.stream().filter(s -> s.equals(request.getParameter("typeActivity"))).collect(Collectors.toList()).get(0);
-            //set current page
-            if (request.getParameter("currentPage") == null) {
-                currentPage = 1;
-            } else {
-                currentPage = Integer.parseInt(request.getParameter("currentPage"));
-            }
-//set how to sort
+
             if (typeOfActivity.equals("all")) {
-                activities = activityService.findAllFromTo(user.getId(), (currentPage - 1) * 5, 5);
-                totalPages = (activityService.calculateActivityNumberWithCondition(String.valueOf(user.getId())) / 5) + 1;
-                System.out.println(totalPages + " if");
+                activities = activityService.findActivitiesWhereCreatedIdWithLimit(String.valueOf(user.getId()), (currentPage - 1) * 5, 5);
+                totalPages = (activityService.calculateActivityNumberWithCreatedByIdCondition(String.valueOf(user.getId())) / 5) + 1;
             } else {
-                totalPages = (activityService.calculateActivityWithConditionAndWhereParam(typeOfActivity, String.valueOf(user.getId())) / 5) + 1;
-                activities = activityService.findAllFromToWithWhereParam((currentPage - 1) * 5, 5, typeOfActivity, String.valueOf(user.getId()));
+                totalPages = (activityService.calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(typeOfActivity, String.valueOf(user.getId())) / 5) + 1;
+                activities = activityService.findAllActivityByCreatedIdAndTypeActivity((currentPage - 1) * 5, 5, typeOfActivity, String.valueOf(user.getId()));
             }
             request.setAttribute("type", parameter);
             request.setAttribute("typeActivity", typeOfActivity);

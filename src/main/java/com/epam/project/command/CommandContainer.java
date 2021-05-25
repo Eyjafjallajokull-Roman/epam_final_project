@@ -14,6 +14,7 @@ public class CommandContainer {
     private static CommandContainer instance = null;
 
     static {
+        //user
         commandMap.put("login", new LoginCommand());
         commandMap.put("logout", new LogoutCommand());
         commandMap.put("register", new RegisterCommand());
@@ -25,7 +26,13 @@ public class CommandContainer {
         commandMap.put("updateUser", new UpdateUserCommand());
         commandMap.put("goToLogin", new GotoLoginPageCommand());
         commandMap.put("goToRegister", new GoToRegisterPageCommand());
-        commandMap.put("pageNext", new PageNextCommand());
+        commandMap.put("pageNext", new UserSortPageCommand());
+
+
+        //admin
+        commandMap.put("activitiesOnCheck", new AdminActivitiesOnCheckCommand());
+        commandMap.put("AcDecActivity", new AcceptDeclineActivityCommand());
+        commandMap.put("pageNextAdmin", new AdminSortPageCommand());
 
         //future commands
 

@@ -19,10 +19,9 @@ public class GoToUpdatePageCommand implements Command {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
         try {
-
             result.setPage(Path.ACTIVITY_PAGE_FWD);
             request.setAttribute("type", "update");
-            System.out.println(request.getAttribute("type"));
+
 
         } catch (Exception e) {
             logger.error(e);

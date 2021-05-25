@@ -19,17 +19,27 @@ public interface ActivityService {
 
     List<Activity> findFirstFiveActivitiesByUserId(Integer id) throws NoUserException;
 
-    List<Activity> findActivitiesByPaginationParam(Integer id, Integer limit, Integer offset, String orderParam) throws NoSuchActivityException;
+    List<Activity> findActivitiesByPaginationParam(String value, Integer limit, Integer offset, String orderParam) throws NoSuchActivityException;
 
     Integer calculateActivityNumber() throws DataBaseConnectionException;
 
-    List<Activity> findAllFromTo(Integer id, Integer limit, Integer offset) throws NoSuchActivityException;
+    Integer calculateNumberOfUsersInActivity(String value) throws DataBaseConnectionException;
 
-    List<Activity> findAllFromToWithWhereParam(Integer limit, Integer offset, String value1, String value2) throws NoSuchActivityException;
+    Integer calculateActivityNumberByStatusName(String value) throws DataBaseConnectionException;
 
-    Integer calculateActivityWithConditionAndWhereParam(String value1, String value2) throws DataBaseConnectionException;
+    List<Activity> findActivitiesByStatusName(String value, Integer limit, Integer offset) throws NoSuchActivityException;
 
-    Integer calculateActivityNumberWithCondition(String par) throws DataBaseConnectionException;
+    List<Activity> findActivitiesWhereCreatedIdWithLimit(String value, Integer limit, Integer offset) throws NoSuchActivityException;
+
+    List<Activity> findAllActivityByCreatedIdAndTypeActivity(Integer limit, Integer offset, String value1, String value2) throws NoSuchActivityException;
+
+    List<Activity> findActivitiesByTypeOfActivityAndStatusAccept(String value, Integer limit, Integer offset, String orderParam) throws NoSuchActivityException;
+
+    Integer calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(String value1, String value2) throws DataBaseConnectionException;
+
+    Integer calculateActivityNumberWithCreatedByIdCondition(String par) throws DataBaseConnectionException;
+
+    Integer calculateActivityByTypeOfActivityAndStatusAccepted(String value) throws DataBaseConnectionException;
 
     boolean addActivity(Activity activity);
 

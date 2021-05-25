@@ -2,7 +2,7 @@ package com.epam.project.constants;
 
 public final class Path {
     //path for redirect
-    public static final String ADMIN_CABINET = "/project/page/adminCabinet.jsp";
+    public static final String ADMIN_CABINET = "/project/admin/adminCabinet.jsp";
     public static final String USER_CABINET = "/project/page/cabinet.jsp";
     public static final String USER_LOGIN = "/project/login.jsp";
     public static final String USER_REGISTER = "/project/register.jsp";
@@ -15,5 +15,9 @@ public final class Path {
     public static final String UPDATE_USER_PAGE_FWD = "/page/updateUser.jsp";
     public static final String USER_CABINET_FWD = "/page/cabinet.jsp";
     public static final String MY_ACTIVITIES_PAGE_FWD = "/page/MyActivities.jsp";
+
+
+    public static final String ADMIN_ACTIVITIES_ON_CHECK_FWD = "/admin/ActivitiesOnCheck.jsp";
+    public static final String ADMIN_ALL_ACTIVITIES_FWD = "/admin/AllActivities.jsp";
 
 }

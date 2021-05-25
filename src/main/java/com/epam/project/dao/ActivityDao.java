@@ -24,19 +24,29 @@ public interface ActivityDao {
 
     List<Activity> findFirstFiveActivitiesByUserId(Integer id) throws DataNotFoundException;
 
-    List<Activity> findAllFromTo(Integer id, Integer limit, Integer offset) throws DataNotFoundException;
+    List<Activity> findActivitiesWhereCreatedIdWithLimit(String value, Integer limit, Integer offset) throws DataNotFoundException;
 
-    List<Activity> findAllFromToWithWhereParam(Integer limit, Integer offset, String value1, String value2) throws DataNotFoundException;
+    List<Activity> findAllActivityByCreatedIdAndTypeActivity(Integer limit, Integer offset, String value1, String value2) throws DataNotFoundException;
 
-    List<Activity> findActivitiesByPaginationParam(Integer id, Integer limit, Integer offset, String orderParam) throws DataNotFoundException;
+    List<Activity> findActivitiesByPaginationParam(String value, Integer limit, Integer offset, String orderParam) throws DataNotFoundException;
+
+    List<Activity> findActivitiesByStatusName(String value, Integer limit, Integer offset) throws DataNotFoundException;
+
+    List<Activity> findActivitiesByTypeOfActivityAndStatusAccept(String value, Integer limit, Integer offset, String orderParam) throws DataNotFoundException;
 
 
     //calculate
-    Integer calculateActivityNumberWithCondition(String value) throws DataNotFoundException;
+    Integer calculateActivityNumberWithCreatedByIdCondition(String value) throws DataNotFoundException;
 
     Integer calculateActivityNumber() throws DataNotFoundException;
 
-    Integer calculateActivityWithConditionAndWhereParam(String value1, String value2) throws DataNotFoundException;
+    Integer calculateActivityNumberByStatusName(String value) throws DataNotFoundException;
+
+    Integer calculateActivityByCreatedAndTypeActivityCondition(String value1, String value2) throws DataNotFoundException;
+
+    Integer calculateActivityByTypeOfActivityAndStatusAccepted(String value) throws DataNotFoundException;
+
+    Integer calculateNumberOfUsersInActivity (String value) throws DataNotFoundException;
     //crud
 
     Set<Integer> addUsersToActivities(Activity activity) throws DataNotFoundException;
