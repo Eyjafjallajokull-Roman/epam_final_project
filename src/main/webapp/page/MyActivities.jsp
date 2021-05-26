@@ -16,7 +16,7 @@
         <option value="activity.start_time">Start Time</option>
         <option value="activity.end_time">End Time</option>
     </select>
-    <select name="typeActivity" >
+    <select name="typeActivity">
         <option value="all">All</option>
         <option value="EVENT">Event</option>
         <option value="TASK">Task</option>
@@ -33,6 +33,13 @@
         <td class="tda">${activity.descriptionEng}</td>
         <td class="tda">${activity.descriptionRus}</td>
         <td class="tda">${activity.typeOfActivity}</td>
+
+            <%--delete page send reques to admin--%>
+
+        <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
+            <input type="hidden" name="command" value="updateActivityPage"/>
+            <button class="menubutton" type="submit">Update Activity</button>
+        </form>
     </tr>
 
 </c:forEach>

@@ -11,6 +11,7 @@ public class FooterHandler extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
+
         try {
             pageContext.getOut().write("<footer>");
             pageContext.getOut().write("<p class='footer'>");

@@ -31,7 +31,6 @@ public class LoginCommand implements Command {
         HttpSession session = request.getSession();
         ResultOfExecution resultOfExecution = new ResultOfExecution();
         resultOfExecution.setDirection(Direction.REDIRECT);
-        //obtain login and password
         String email = request.getParameter("email");
         logger.trace("Request parameter login: " + email);
         String password = request.getParameter("password");

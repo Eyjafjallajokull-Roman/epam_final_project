@@ -44,10 +44,10 @@
                 <input id="login_btn" type="submit" value="<fmt:message key="login.send" bundle="${local}"/>">
             </form>
             <br/>
-            <p id="questionAboutAcc">You dont have accout?</p>
+            <p id="questionAboutAcc"><fmt:message key="login.no_account" bundle="${local}"/></p>
             <form name="goToRegister" action="/project/controller" method="post">
                 <input type="hidden" name="command" value="goToRegister">
-                <button id="register" type="submit">Register here</button>
+                <button id="register" type="submit"><fmt:message key="login.register_here" bundle="${local}"/></button>
             </form>
         </div>
     </div>
