@@ -3,6 +3,7 @@
 <c:set value="${pageScope.get(\"currentPage\")}" var="currentPage" scope="page"/>
 <c:set value="${pageScope.get(\"type\")}" var="type" scope="page"/>
 <c:set value="${pageScope.get(\"typeActivity\")}" var="typeActivity" scope="page"/>
+<c:set value="${sessionScope.get(\"user\")}" var="user" scope="session"/>
 <html>
 <head>
     <title>MyActivities</title>
@@ -26,21 +27,29 @@
 </form>
 
 <c:forEach items="${activities}" var="activity">
-    <tr>
-        <td class="tda">${activity.name}</td>
-        <td class="tda">${activity.startTime}</td>
-        <td class="tda">${activity.endTime}</td>
-        <td class="tda">${activity.descriptionEng}</td>
-        <td class="tda">${activity.descriptionRus}</td>
-        <td class="tda">${activity.typeOfActivity}</td>
+    <form name="activity">
+    <td class="tda">${activity.id}</td>
+    <td class="tda">${activity.name}</td>
+    <td class="tda">${activity.startTime}</td>
+    <td class="tda">${activity.endTime}</td>
+    <td class="tda">${activity.descriptionEng}</td>
+    <td class="tda">${activity.descriptionRus}</td>
+    <td class="tda">${activity.typeOfActivity}</td>
 
-            <%--delete page send reques to admin--%>
-
+    <c:if test="${activity.createdByUserID.equals(user.id)}">
+        <form class="menuitem" name="deleteActivityUser" method="post" action="/project/controller">
+            <input type="hidden" name="command" value="deleteActivityUser"/>
+            <input type="hidden" name="idDelete"  value="${activity.id}">
+            <button class="menubutton" type="submit">Delete Activity</button>
+        </form>
         <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
             <input type="hidden" name="command" value="updateActivityPage"/>
+            <input type="hidden" name="idUpdate"  value="${activity.id}">
             <button class="menubutton" type="submit">Update Activity</button>
         </form>
-    </tr>
+        </tr>
+    </c:if>
+    </form>
 
 </c:forEach>
 <div class="pagination">

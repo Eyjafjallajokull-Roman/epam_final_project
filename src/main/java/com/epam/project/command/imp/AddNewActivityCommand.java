@@ -25,12 +25,11 @@ public class AddNewActivityCommand implements Command {
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         ResultOfExecution result = new ResultOfExecution();
-        result.setDirection(Direction.REDIRECT);
+        result.setDirection(Direction.FORWARD);
         HttpSession session = request.getSession();
 
-        String errorMessage = null;
+        String errorMessage;
         try {
-            //todo if else and throw exeption
 
             User user = (User) session.getAttribute("user");
             if (user != null) {
@@ -53,21 +52,29 @@ public class AddNewActivityCommand implements Command {
                 activity.setStatus(Status.ON_CHECK);
                 ActivityService activityService = ServiceFactory.getActivityService();
 
+                System.out.println("activity get");
+
                 if (activityService.addActivity(activity)) {
+                    result.setDirection(Direction.REDIRECT);
                     result.setPage(Path.USER_CABINET);
+                    System.out.println("Activity create");
+                }else {
+                    errorMessage = "Wrong data, check pls Time. Start Time must be > Time now, and End Time > Start time";
+                    request.setAttribute("errorMessage", errorMessage);
+                    result.setPage(Path.ERROR_FWD);
                 }
-                //todo validate
-            } else {
+            }
+            else {
                 errorMessage = "User was not found";
                 request.setAttribute("errorMessage", errorMessage);
-                result.setPage(Path.ERROR);
+                result.setPage(Path.ERROR_FWD);
                 return result;
             }
         } catch (Exception e) {
             log.error(e);
             errorMessage = "Can not add activity";
             request.setAttribute("errorMessage", errorMessage);
-            result.setPage(Path.ERROR);
+            result.setPage(Path.ERROR_FWD);
         }
         return result;
     }

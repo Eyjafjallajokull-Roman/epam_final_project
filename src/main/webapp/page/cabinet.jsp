@@ -47,13 +47,27 @@
 <div id="all-activities"></div>
 <c:forEach items="${activityList}" var="activity">
     <tr>
-        <td class="tda">${activity.name}</td>
-        <td class="tda">${activity.startTime}</td>
-        <td class="tda">${activity.endTime}</td>
-        <td class="tda">${activity.descriptionEng}</td>
-        <td class="tda">${activity.descriptionRus}</td>
-        <td class="tda">${activity.typeOfActivity}</td>
-    </tr>
+    <td class="tda">${activity.id}</td>
+    <td class="tda">${activity.name}</td>
+    <td class="tda">${activity.startTime}</td>
+    <td class="tda">${activity.endTime}</td>
+    <td class="tda">${activity.descriptionEng}</td>
+    <td class="tda">${activity.descriptionRus}</td>
+    <td class="tda">${activity.typeOfActivity}</td>
+    <c:if test="${activity.createdByUserID.equals(user.id)}">
+        <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
+            <input type="hidden" name="command" value="deleteActivityUser"/>
+            <input type="hidden" name="idDelete" value="${activity.id}">
+            <button class="menubutton" type="submit">Delete Activity</button>
+        </form>
+        <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
+            <input type="hidden" name="command" value="updateActivityPage"/>
+            <input type="hidden" name="idUpdate" value="${activity.id}">
+            <button class="menubutton" type="submit">Update Activity</button>
+        </form>
+        </tr>
+    </c:if>
+
 </c:forEach>
 
 
@@ -64,6 +78,5 @@
     </select>
 </form>
 <f:colontitle/>
-<script src="/js/cabinet.js"></script>
 </body>
 </html>

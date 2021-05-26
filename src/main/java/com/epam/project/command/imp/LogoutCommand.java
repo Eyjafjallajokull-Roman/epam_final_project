@@ -23,7 +23,8 @@ public class LogoutCommand implements Command {
             result.setPage(Path.USER_LOGIN);
         } catch (Exception e) {
             log.error(e);
-            result.setPage(Path.ERROR);
+            result.setDirection(Direction.FORWARD);
+            result.setPage(Path.ERROR_FWD);
             String errorMessage = "Unpredictable exception";
             request.setAttribute("errorMessage", errorMessage);
         }

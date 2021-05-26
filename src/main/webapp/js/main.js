@@ -36,6 +36,7 @@ function checkInputs() {
     setSuccessFor(username);
   }
 
+
   if (lastValue === "") {
     setErrorFor(last, "Last name cannot be blank");
   } else if (!isLastName(lastValue)) {
@@ -115,11 +116,11 @@ function isPassword(passwordIn) {
 }
 
 function isUsername(username) {
-  return /^[a-zA-Z]{1,20}$/.test(username);
+  return /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/.test(username);
 }
 
 function isLastName(last) {
-  return /^[a-zA-Z]{1,20}$/.test(last);
+  return /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/.test(last);
 }
 
 function validate() {

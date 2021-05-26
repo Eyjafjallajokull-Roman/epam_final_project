@@ -46,10 +46,12 @@ public class Demo {
 
 //        System.out.println(activityService.findFirstFiveActivitiesByUserId(2));
 
-        Activity activty = activityService.findActivityById(6);
-        long diff = activty.getEndTime().getTime() - activty.getStartTime().getTime();
+//        Activity activty = activityService.findActivityById(6);
+//        long diff = activty.getEndTime().getTime() - activty.getStartTime().getTime();
 
+        Timestamp ts3 = Timestamp.valueOf(LocalDateTime.now());
 
+        System.out.println(ts3);
 
 
     }

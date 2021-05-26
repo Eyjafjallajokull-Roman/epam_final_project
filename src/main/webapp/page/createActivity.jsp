@@ -29,15 +29,17 @@
 <c:if test="${type=='update'}">
     <form name="updateActivity" method="post" action="/project/controller">
         <input type="hidden" name="command" value="updateActivity">
-        <input type="text" name="name" placeholder="name">
+        <input type="text" name="name" value="${name}" placeholder="name">
         <select name="typeOfActivity">
             <option value="EVENT">Event</option>
             <option value="TASK">Task</option>
             <option value="REMINDER">Reminder</option>
         </select>
-        <input type="text" name="description" placeholder="description">
-        <input type="datetime-local" name="start_time" placeholder="start">
-        <input type="datetime-local" name="end_time" placeholder="end">
+        <input type="text" name="description_en" value="${description_en}" placeholder="description_en">
+        <input type="text" name="description_ru" value="${description_ru}" placeholder="description_ru">
+        <input type="datetime-local" name="start_time" value="${start_time}" placeholder="start">
+        <input type="datetime-local" name="end_time" value="${end_time}"  placeholder="end_Time">
+        <input type="hidden" name="id" value="${id}">
         <input type="submit" value="updateActivity">
     </form>
 </c:if>

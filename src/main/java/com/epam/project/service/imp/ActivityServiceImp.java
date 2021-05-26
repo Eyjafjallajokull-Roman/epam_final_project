@@ -11,6 +11,8 @@ import com.epam.project.exception.NoUserException;
 import com.epam.project.service.ActivityService;
 import org.apache.log4j.Logger;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -295,7 +297,7 @@ public class ActivityServiceImp implements ActivityService {
         try {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
-            result = activityDao.createActivity(activity);
+            result = validateActivity(activity) && activityDao.createActivity(activity);
             daoFactory.close();
         } catch (DataBaseConnectionException e) {
             log.error(e);
@@ -306,6 +308,21 @@ public class ActivityServiceImp implements ActivityService {
 
     @Override
     public boolean updateActivity(Activity activity) {
+        boolean result;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            result = validateActivity(activity) && activityDao.updateActivity(activity);
+            daoFactory.close();
+        } catch (DataBaseConnectionException e) {
+            log.error(e);
+            return false;
+        }
+        return result;
+    }
+
+    @Override
+    public boolean updateActivityWithoutValidation(Activity activity) {
         boolean result;
         try {
             daoFactory.open();
@@ -332,5 +349,17 @@ public class ActivityServiceImp implements ActivityService {
             return false;
         }
         return result;
+    }
+
+    private boolean validateActivity(Activity activity) {
+        Timestamp endTs = activity.getEndTime();
+        Timestamp startTs = activity.getStartTime();
+        Timestamp nowTs = Timestamp.valueOf(LocalDateTime.now());
+
+        //compares ts1 with ts2
+        int b3 = endTs.compareTo(startTs);
+        int b2 = startTs.compareTo(nowTs);
+        return b3 > 0 && b2 > 0;
+
     }
 }

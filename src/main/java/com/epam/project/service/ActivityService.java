@@ -45,5 +45,7 @@ public interface ActivityService {
 
     boolean updateActivity(Activity activity);
 
+    boolean updateActivityWithoutValidation(Activity activity);
+
     boolean deleteActivity(Activity activity);
 }

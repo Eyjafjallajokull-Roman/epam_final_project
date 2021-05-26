@@ -19,9 +19,11 @@ public class CommandContainer {
         commandMap.put("logout", new LogoutCommand());
         commandMap.put("register", new RegisterCommand());
         commandMap.put("createActivity", new AddNewActivityCommand());
+        commandMap.put("updateActivity", new UpdateActivityCommand());
         commandMap.put("all-activities", new ShowAllActivitiesByUser());
         commandMap.put("createActivityPage", new GoToCreatePageCommand());
         commandMap.put("updateActivityPage", new GoToUpdatePageCommand());
+        commandMap.put("deleteActivityUser", new UserDeleteActivityCommand());
         commandMap.put("updateUserPage", new GoToUpdateUserPageCommand());
         commandMap.put("updateUser", new UpdateUserCommand());
         commandMap.put("goToLogin", new GotoLoginPageCommand());

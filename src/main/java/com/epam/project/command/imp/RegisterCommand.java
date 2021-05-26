@@ -22,9 +22,9 @@ public class RegisterCommand implements Command {
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         ResultOfExecution result = new ResultOfExecution();
-        result.setDirection(Direction.REDIRECT);
+        result.setDirection(Direction.FORWARD);
         HttpSession session = request.getSession();
-        String errorMessage = null;
+        String errorMessage;
 
         try {
             String email = request.getParameter("email");
@@ -39,20 +39,27 @@ public class RegisterCommand implements Command {
             user.setSurname(last);
             user.setRole(Role.CLIENT);
             UserService userService = ServiceFactory.getUserService();
-            if (userService.addUser(user)) {
-                session.setAttribute("userLogin", email);
-                session.setAttribute("user", user);
-                List<Activity> activityList = ServiceFactory.getActivityService().findFirstFiveActivitiesByUserId(user.getId());
-                session.setAttribute("activityList", activityList);
-                result.setPage(Path.USER_CABINET);
+            if (confirmPassword.equals(password)) {
+                if (userService.addUser(user)) {
+                    session.setAttribute("userLogin", email);
+                    session.setAttribute("user", user);
+                    List<Activity> activityList = ServiceFactory.getActivityService().findFirstFiveActivitiesByUserId(user.getId());
+                    session.setAttribute("activityList", activityList);
+                    result.setDirection(Direction.REDIRECT);
+                    result.setPage(Path.USER_CABINET);
+                } else {
+                    errorMessage = "Not Valid Data";
+                    request.setAttribute("errorMessage", errorMessage);
+                    result.setPage(Path.ERROR_FWD);
+                }
             } else {
-                errorMessage = "CanNot Register";
+                errorMessage = "Password mismatch";
                 request.setAttribute("errorMessage", errorMessage);
-                result.setPage(Path.ERROR);
+                result.setPage(Path.ERROR_FWD);
             }
 
         } catch (Exception e) {
-            errorMessage = "Unexpected exeption";
+            errorMessage = "Unexpected exception";
             request.setAttribute("errorMessage", errorMessage);
             result.setPage(Path.ERROR);
         }

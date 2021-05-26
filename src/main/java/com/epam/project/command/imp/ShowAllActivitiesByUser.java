@@ -36,7 +36,7 @@ public class ShowAllActivitiesByUser implements Command {
         } catch (Exception e) {
             log.error(e);
             errorMessage = "something go wrong";
-            result.setPage(Path.ERROR);
+            result.setPage(Path.ERROR_FWD);
             request.setAttribute("errorMessage", errorMessage);
         }
         return result;

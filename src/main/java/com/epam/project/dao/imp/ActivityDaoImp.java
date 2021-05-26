@@ -30,7 +30,7 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
     private static final String FIND_ALL_ACTIVITIES_BY_TYPE_OF_ACTIVITY_AND_ORDER_PARAM = SQL_BASE + "where type_of_activity =? and activity_status.name ='ACCEPT' ";
     private static final String FIND_USERS_BY_ACTIVITIES = "Select id from user join user_activity on user_activity.user_id = user.id where user_activity.activity_id = ?;";
     private static final String FIND_ACTIVITY_BY_USER_ID_FIRST_FIVE = SQL_BASE +
-            "left join user_activity on user_activity.activity_id = activity.id where created_by_id = ? or user_activity.user_id = ? limit 5;";
+            " join user_activity on user_activity.activity_id = activity.id where created_by_id = ? or user_activity.user_id = ? and activity_status.name = 'Accept' order by start_time  limit 5;";
 
 
     //crd
@@ -198,3 +198,5 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
 
 
 }
+
+

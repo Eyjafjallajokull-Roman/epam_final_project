@@ -12,10 +12,9 @@ import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.DataNotFoundException;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+
 
 public class UserServiceImp implements UserService {
     private static final Logger log = Logger.getLogger(UserServiceImp.class);
@@ -97,7 +96,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User findUserByLogin(String login) throws NoUserException {
-        User user = new User();
+        User user;
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
@@ -120,13 +119,23 @@ public class UserServiceImp implements UserService {
                 || user.getRole() == null);
     }
 
+    private boolean validateRegex(User user){
+
+        return (user.getName().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$") &&
+                user.getSurname().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$")&&
+                user.getEmail().matches("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")&&
+                user.getPassword().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$"));
+    }
+
+
     @Override
     public boolean addUser(User user) {
         boolean result;
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            result = validateUserData(user) && userDao.createUser(user);
+            System.out.println(validateRegex(user));
+            result = validateUserData(user) && userDao.createUser(user)  && validateRegex(user);
             daoFactory.close();
         } catch (DataBaseConnectionException e) {
             log.error(e);
@@ -141,7 +150,7 @@ public class UserServiceImp implements UserService {
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            result = validateUserData(user) && userDao.updateUser(user);
+            result = validateUserData(user) && userDao.updateUser(user) && validateRegex(user);
         } catch (DataBaseConnectionException e) {
             log.error(e);
             return false;
@@ -155,7 +164,7 @@ public class UserServiceImp implements UserService {
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            result = validateUserData(user) && userDao.deleteUser(user);
+            result = validateUserData(user) && userDao.deleteUser(user) && validateRegex(user);
             daoFactory.close();
         } catch (DataBaseConnectionException ex) {
             log.error(ex);
