@@ -35,18 +35,20 @@
             <td class="tda">${userService.findUserById(activity.getCreatedByUserID()).getEmail()}</td>
                 <%-- add user.Email --%>
         </tr>
-            <form action="/project/controller" name="accept" , method="get">
-                <input type="hidden" name="command" value="AcDecActivity">
-                <input type="hidden" name="option" value="acceptActivity">
-                <input type="hidden" name="id" value="${activity.id}">
-                <button type="submit">Accept</button>
-            </form>
-            <form action="/project/controller" name="accept"  method="get">
-                <input type="hidden" name="command" value="AcDecActivity">
-                <input type="hidden" name="option" value="declineActivity">
-                <input type="hidden" name="id" value="${activity.id}">
-                <button type="submit">Decline</button>
-            </form>
+        <form action="/project/controller" name="accept" , method="get">
+            <input type="hidden" name="command" value="AcDecActivity">
+            <input type="hidden" name="option" value="acceptActivity">
+            <input type="hidden" name="typeOf" value="${type}">
+            <input type="hidden" name="id" value="${activity.id}">
+            <button type="submit">Accept</button>
+        </form>
+        <form action="/project/controller" name="accept" method="get">
+            <input type="hidden" name="command" value="AcDecActivity">
+            <input type="hidden" name="option" value="declineActivity">
+            <input type="hidden" name="typeOf" value="${type}">
+            <input type="hidden" name="id" value="${activity.id}">
+            <button type="submit">Decline</button>
+        </form>
     </div>
 </c:forEach>
 <div class="pagination">

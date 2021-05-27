@@ -71,11 +71,11 @@
                     </div>
                 </form>
                 <p id="questionAboutAcc"><fmt:message key="register.have_account" bundle="${local}"/></p>
-                <form name="goToLogin" action="/project/controller" method="post">
-                    <input type="hidden" name="command" value="goToLogin">
-                    <button id="registered" type="submit"><fmt:message key="register.login_here" bundle="${local}"/></button>
-                </form>
             </div>
+            <form name="goToLogin" action="/project/controller" method="post">
+                <input type="hidden" name="command" value="goToLogin">
+                <button id="registered" type="submit"><fmt:message key="register.login_here" bundle="${local}"/></button>
+            </form>
         </div>
     </div>
     <f:colontitle/>

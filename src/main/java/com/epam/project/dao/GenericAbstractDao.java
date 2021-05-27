@@ -46,7 +46,7 @@ public abstract class GenericAbstractDao<T> {
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base  + " order by " + orderParam + " limit " + limit + ", " + offset + ";");
+            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + " order by " + orderParam + " limit " + limit + ", " + offset + ";");
             addParameterToPreparedStatement(ps, 1, value);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
@@ -61,7 +61,24 @@ public abstract class GenericAbstractDao<T> {
         return items;
     }
 
-    protected List<T> findAllFromTo(Connection connection, Class<T> t, String value1, Integer first, Integer offset, String SQL_getAll_base)
+    protected List<T> findAllFromTo(Connection connection, Class<T> t, Integer first, Integer offset, String SQL_getAll_base)
+            throws DataNotFoundException {
+        List<T> items = new LinkedList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + " limit " + first + ", " + offset + ";");
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                T item = getItemInstance(t);
+                mapperFromDB.map(resultSet, item);
+                items.add(item);
+            }
+        } catch (SQLException sqle) {
+            throw new DataNotFoundException();
+        }
+        return items;
+    }
+
+    protected List<T> findAllFromToWithValue(Connection connection, Class<T> t, String value1, Integer first, Integer offset, String SQL_getAll_base)
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();
         try {
@@ -186,7 +203,7 @@ public abstract class GenericAbstractDao<T> {
         return result;
     }
 
-    public Integer calculateRowCountsWithCondition(Connection connection,String SQL_CONDITION, String value) throws DataNotFoundException {
+    public Integer calculateRowCountsWithCondition(Connection connection, String SQL_CONDITION, String value) throws DataNotFoundException {
         Integer result = 0;
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) AS ROWCOUNT FROM " + SQL_CONDITION);
@@ -237,6 +254,20 @@ public abstract class GenericAbstractDao<T> {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_delete);
             addParameterToPreparedStatement(preparedStatement, 1, value);
+            result = preparedStatement.executeUpdate() > 0;
+        } catch (SQLException sqle) {
+            log.error(sqle);
+            return false;
+        }
+        return result;
+    }
+
+    protected <V> boolean deleteFromDBWithTwoValue(Connection connection, String SQL_delete, V value1, V value2) {
+        boolean result;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_delete);
+            addParameterToPreparedStatement(preparedStatement, 1, value1);
+            addParameterToPreparedStatement(preparedStatement, 1, value2);
             result = preparedStatement.executeUpdate() > 0;
         } catch (SQLException sqle) {
             log.error(sqle);

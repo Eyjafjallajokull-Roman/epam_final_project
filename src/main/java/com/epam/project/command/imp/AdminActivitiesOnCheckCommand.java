@@ -31,12 +31,9 @@ public class AdminActivitiesOnCheckCommand implements Command {
         List<Activity> activities;
 
         try {
-
-
             currentPage = (request.getParameter("currentPage") == null ? 1 : Integer.parseInt(request.getParameter("currentPage")));
             activities = activityService.findActivitiesByStatusName(param, (currentPage - 1) * 5, 5);
             totalPages = (activityService.calculateActivityNumberByStatusName(param) / 5) + 1;
-
 
             request.setAttribute("userService", ServiceFactory.getUserService());
 //            request.setAttribute("users", users);

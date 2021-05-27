@@ -31,10 +31,11 @@
 </form>
 
 
-<form name="all-activities" method="post" action="/project/controller">
+<form name="all-activities" method="get" action="/project/controller">
     <input type="hidden" name="command" value="all-activities"/>
     <button class="menubutton" type="submit">Show Activities</button>
 </form>
+
 
 <form name="updateUserPage" method="post" action="/project/controller">
     <input type="hidden" name="command" value="updateUserPage"/>
@@ -44,31 +45,29 @@
 <a href="/project/page/MyActivities.jsp">My Activities</a>
 
 <h3>All activities:</h3>
-<div id="all-activities"></div>
-<c:forEach items="${activityList}" var="activity">
-    <tr>
-    <td class="tda">${activity.id}</td>
-    <td class="tda">${activity.name}</td>
-    <td class="tda">${activity.startTime}</td>
-    <td class="tda">${activity.endTime}</td>
-    <td class="tda">${activity.descriptionEng}</td>
-    <td class="tda">${activity.descriptionRus}</td>
-    <td class="tda">${activity.typeOfActivity}</td>
-    <c:if test="${activity.createdByUserID.equals(user.id)}">
-        <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
-            <input type="hidden" name="command" value="deleteActivityUser"/>
-            <input type="hidden" name="idDelete" value="${activity.id}">
-            <button class="menubutton" type="submit">Delete Activity</button>
-        </form>
-        <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
-            <input type="hidden" name="command" value="updateActivityPage"/>
-            <input type="hidden" name="idUpdate" value="${activity.id}">
-            <button class="menubutton" type="submit">Update Activity</button>
-        </form>
-        </tr>
-    </c:if>
+<div id="all-activities">
+    <c:forEach items="${activityList}" var="activity">
+        <tr>
+        <td class="tda">${activity.id}</td>
+        <td class="tda">${activity.name}</td>
+        <td class="tda">${activity.startTime}</td>
+        <td class="tda">${activity.endTime}</td>
+        <td class="tda">${activity.descriptionEng}</td>
+        <td class="tda">${activity.descriptionRus}</td>
+        <td class="tda">${activity.typeOfActivity}</td>
+        <c:if test="${activity.createdByUserID.equals(user.id)}">
 
-</c:forEach>
+            <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
+                <input type="hidden" name="command" value="addUserToActivity"/>
+                <input type="hidden" name="activityToInsert" value="${activity.id}">
+                <input type="text" name="userEmail" placeholder="User Email">
+                <button class="menubutton" type="submit">Add User</button>
+            </form>
+            </tr>
+        </c:if>
+
+    </c:forEach>
+</div>
 
 
 <form class="topcorner" method="post">

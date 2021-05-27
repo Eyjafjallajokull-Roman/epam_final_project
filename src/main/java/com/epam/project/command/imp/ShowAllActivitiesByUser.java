@@ -20,16 +20,22 @@ public class ShowAllActivitiesByUser implements Command {
 
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
+        String url = request.getHeader("referer").replaceFirst("http://localhost:8080", "");
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
         HttpSession session = request.getSession();
-        String errorMessage = null;
+        String errorMessage;
         try {
             User user = (User) session.getAttribute("user");
             if (user != null) {
                 List<Activity> activityList = ServiceFactory.getActivityService().findAllActivitiesByCreatedId(user.getId());
-                request.setAttribute("activities", activityList);
-                result.setPage(Path.USER_CABINET_FWD);
+                if ((session.getAttribute("activityList") == null)) {
+                    result.setPage(Path.USER_CABINET_FWD);
+                } else {
+                    result.setPage(url);
+                    result.setDirection(Direction.REDIRECT);
+                }
+                request.setAttribute("activityList", activityList);
                 System.out.println("cool");
             }
 

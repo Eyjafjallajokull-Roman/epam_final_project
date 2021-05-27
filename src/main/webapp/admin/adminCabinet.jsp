@@ -12,6 +12,8 @@
 <a href="ActivitiesOnCheck.jsp">OnCheck</a>
 
 <a href="AllActivities.jsp">All Activities</a>
+<a href="AllUsers.jsp">All Users</a>
+
 <f:colontitle/>
 </body>
 </html>

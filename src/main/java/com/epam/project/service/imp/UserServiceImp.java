@@ -111,6 +111,102 @@ public class UserServiceImp implements UserService {
 
     }
 
+    @Override
+    public List<User> findAllConnectingUsersByActivity(Integer activity, Integer limit, Integer offset) throws NoUserException {
+        List<User> users;
+        try {
+            daoFactory.open();
+            userDao = daoFactory.getUserDao();
+            users = userDao.findAllConnectingUsersByActivity(activity, limit, offset);
+            for (User user : users) {
+                userDao.addActivitiesToUser(user);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoUserException();
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findAllUsersWithLimit(Integer limit, Integer offset, String value) throws NoUserException {
+        List<User> users;
+        try {
+            daoFactory.open();
+            userDao = daoFactory.getUserDao();
+            users = userDao.findAllUsersWithLimit(limit, offset, value);
+            for (User user : users) {
+                userDao.addActivitiesToUser(user);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoUserException();
+        }
+        return users;
+    }
+
+    @Override
+    public Integer calculateUsersInActivity(String value) throws DataBaseConnectionException {
+        Integer result = 0;
+        try {
+            daoFactory.beginTransaction();
+            userDao = daoFactory.getUserDao();
+            result = userDao.calculateUsersInActivity(value);
+            daoFactory.commitTransaction();
+        } catch (DataBaseConnectionException | DataNotFoundException ex) {
+            log.error(ex);
+            daoFactory.rollbackTransaction();
+        }
+        return result;
+    }
+
+    @Override
+    public Integer calculateAllUsers() throws DataBaseConnectionException {
+        Integer result = 0;
+        try {
+            daoFactory.beginTransaction();
+            userDao = daoFactory.getUserDao();
+            result = userDao.calculateAllUsers();
+            daoFactory.commitTransaction();
+        } catch (DataBaseConnectionException | DataNotFoundException ex) {
+            log.error(ex);
+            daoFactory.rollbackTransaction();
+        }
+        return result;
+    }
+
+    @Override
+    public boolean addUserToActivity(Activity activity, User user) throws NoUserException {
+        boolean result;
+        try {
+            daoFactory.open();
+            userDao = daoFactory.getUserDao();
+            result = validateIfUserThere(activity, user) && userDao.addUserToActivity(activity, user);
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoUserException();
+        }
+        return result;
+    }
+
+    @Override
+    public boolean deleteUserFromActivity(Integer activityId, Integer userId) {
+        boolean result;
+        try {
+            daoFactory.open();
+            userDao = daoFactory.getUserDao();
+            result = userDao.deleteUserFromActivity(activityId, userId);
+            daoFactory.close();
+        } catch (DataBaseConnectionException ex) {
+            log.error(ex);
+            return false;
+        }
+        return result;
+    }
+
     private boolean validateUserData(User user) {
         return !(user.getName() == null
                 || user.getName().isEmpty()
@@ -119,11 +215,11 @@ public class UserServiceImp implements UserService {
                 || user.getRole() == null);
     }
 
-    private boolean validateRegex(User user){
+    private boolean validateRegex(User user) {
 
         return (user.getName().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$") &&
-                user.getSurname().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$")&&
-                user.getEmail().matches("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$")&&
+                user.getSurname().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$") &&
+                user.getEmail().matches("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$") &&
                 user.getPassword().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$"));
     }
 
@@ -135,7 +231,7 @@ public class UserServiceImp implements UserService {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
             System.out.println(validateRegex(user));
-            result = validateUserData(user) && userDao.createUser(user)  && validateRegex(user);
+            result = validateUserData(user) && userDao.createUser(user) && validateRegex(user);
             daoFactory.close();
         } catch (DataBaseConnectionException e) {
             log.error(e);
@@ -173,7 +269,10 @@ public class UserServiceImp implements UserService {
         return result;
     }
 
-
+    private boolean validateIfUserThere(Activity activity, User user) throws DataNotFoundException {
+        int i = userDao.checkIfUserAlreadyInThisActivity(String.valueOf(activity.getId()), String.valueOf(user.getId()));
+        return !(activity.getCreatedByUserID() == user.getId()) && i == 0 && !user.getRole().equals(Role.ADMIN);
+    }
 
 
 }

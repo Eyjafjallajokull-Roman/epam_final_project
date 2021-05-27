@@ -7,6 +7,7 @@ import com.epam.project.entity.Role;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.User;
+import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
 import org.apache.log4j.Logger;
@@ -22,7 +23,7 @@ public class RegisterCommand implements Command {
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         ResultOfExecution result = new ResultOfExecution();
-        result.setDirection(Direction.FORWARD);
+        result.setDirection(Direction.REDIRECT);
         HttpSession session = request.getSession();
         String errorMessage;
 
@@ -43,10 +44,6 @@ public class RegisterCommand implements Command {
                 if (userService.addUser(user)) {
                     session.setAttribute("userLogin", email);
                     session.setAttribute("user", user);
-                    List<Activity> activityList = ServiceFactory.getActivityService().findFirstFiveActivitiesByUserId(user.getId());
-                    session.setAttribute("activityList", activityList);
-                    result.setDirection(Direction.REDIRECT);
-                    result.setPage(Path.USER_CABINET);
                 } else {
                     errorMessage = "Not Valid Data";
                     request.setAttribute("errorMessage", errorMessage);

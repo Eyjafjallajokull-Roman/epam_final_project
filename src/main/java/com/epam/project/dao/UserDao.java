@@ -17,7 +17,22 @@ public interface UserDao {
 
     List<User> findUsersByRole(Role role) throws DataNotFoundException;
 
+    List<User> findAllConnectingUsersByActivity(Integer activityId, Integer limit, Integer offset) throws DataNotFoundException;
+
     Set<Integer> addActivitiesToUser(User user) throws DataNotFoundException;
+
+    List<User> findAllUsersWithLimit(Integer limit, Integer offset, String value) throws DataNotFoundException;
+
+
+    Integer checkIfUserAlreadyInThisActivity(String activityId, String userId) throws DataNotFoundException;
+
+    Integer calculateUsersInActivity(String value) throws DataNotFoundException;
+
+    Integer calculateAllUsers() throws DataNotFoundException;
+
+    boolean addUserToActivity(Activity activity, User user) throws DataNotFoundException;
+
+    boolean deleteUserFromActivity(Integer activityId, Integer userId);
 
     boolean createUser(User user);
 

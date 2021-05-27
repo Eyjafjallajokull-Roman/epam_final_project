@@ -24,6 +24,7 @@
     </select>
     <button type="submit" class="giantbutton">My Activities</button>
 </form>
+<%--show users by this activity--%>
 
 
 <c:forEach items="${AllActivities}" var="activity">
@@ -37,6 +38,18 @@
             <td class="tda">${activity.descriptionRus}</td>
             <td class="tda">${activity.typeOfActivity}</td>
             <td class="tda">${userService.findUserById(activity.getCreatedByUserID()).getEmail()}</td>
+            <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
+                <input type="hidden" name="command" value="addUserToActivity"/>
+                <input type="hidden" name="activityToInsert" value="${activity.id}">
+                <input type="text" name="userEmail" placeholder="User Email">
+                <button class="menubutton" type="submit">Add User</button>
+            </form>
+
+            <form class="menuitem" name="pageNextUser" method="get" action="/project/controller">
+                <input type="hidden" name="command" value="pageNextUser"/>
+                <input type="hidden" name="activityId" value="${activity.id}">
+                <button class="menubutton" type="submit">Show Users</button>
+            </form>
         </tr>
     </div>
 </c:forEach>

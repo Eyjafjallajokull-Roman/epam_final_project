@@ -28,27 +28,35 @@
 
 <c:forEach items="${activities}" var="activity">
     <form name="activity">
-    <td class="tda">${activity.id}</td>
-    <td class="tda">${activity.name}</td>
-    <td class="tda">${activity.startTime}</td>
-    <td class="tda">${activity.endTime}</td>
-    <td class="tda">${activity.descriptionEng}</td>
-    <td class="tda">${activity.descriptionRus}</td>
-    <td class="tda">${activity.typeOfActivity}</td>
+        <tr>
+            <td class="tda">${activity.id}</td>
+            <td class="tda">${activity.name}</td>
+            <td class="tda">${activity.startTime}</td>
+            <td class="tda">${activity.endTime}</td>
+            <td class="tda">${activity.descriptionEng}</td>
+            <td class="tda">${activity.descriptionRus}</td>
+            <td class="tda">${activity.typeOfActivity}</td>
 
-    <c:if test="${activity.createdByUserID.equals(user.id)}">
-        <form class="menuitem" name="deleteActivityUser" method="post" action="/project/controller">
-            <input type="hidden" name="command" value="deleteActivityUser"/>
-            <input type="hidden" name="idDelete"  value="${activity.id}">
-            <button class="menubutton" type="submit">Delete Activity</button>
-        </form>
-        <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
-            <input type="hidden" name="command" value="updateActivityPage"/>
-            <input type="hidden" name="idUpdate"  value="${activity.id}">
-            <button class="menubutton" type="submit">Update Activity</button>
-        </form>
+            <c:if test="${activity.createdByUserID.equals(user.id)}">
+            <form class="menuitem" name="deleteActivityUser" method="post" action="/project/controller">
+                <input type="hidden" name="command" value="deleteActivityUser"/>
+                <input type="hidden" name="idDelete" value="${activity.id}">
+                <button class="menubutton" type="submit">Delete Activity</button>
+            </form>
+            <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
+                <input type="hidden" name="command" value="updateActivityPage"/>
+                <input type="hidden" name="idUpdate" value="${activity.id}">
+                <button class="menubutton" type="submit">Update Activity</button>
+            </form>
+            <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
+                <input type="hidden" name="command" value="addUserToActivity"/>
+                <input type="hidden" name="activityToInsert" value="${activity.id}">
+                <input type="text" name="userEmail" placeholder="User Email">
+                <button class="menubutton" type="submit">Add User</button>
+            </form>
+
         </tr>
-    </c:if>
+        </c:if>
     </form>
 
 </c:forEach>

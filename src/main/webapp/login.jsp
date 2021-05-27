@@ -45,11 +45,11 @@
             </form>
             <br/>
             <p id="questionAboutAcc"><fmt:message key="login.no_account" bundle="${local}"/></p>
-            <form name="goToRegister" action="/project/controller" method="post">
-                <input type="hidden" name="command" value="goToRegister">
-                <button id="register" type="submit"><fmt:message key="login.register_here" bundle="${local}"/></button>
-            </form>
         </div>
+        <form name="goToRegister" action="/project/controller" method="post">
+            <input type="hidden" name="command" value="goToRegister">
+            <button id="register" type="submit"><fmt:message key="login.register_here" bundle="${local}"/></button>
+        </form>
     </div>
     <f:colontitle/>
 </div>
