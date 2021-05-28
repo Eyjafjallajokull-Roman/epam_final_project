@@ -19,7 +19,7 @@ import java.util.TreeSet;
 public class UserDaoImp extends GenericAbstractDao<User> implements UserDao {
     private static final Logger log = Logger.getLogger(UserDaoImp.class);
     private static final String FIND_ALL_USERS = "SELECT * from user ";
-    private static final String FIND_ALL_USERS_ORDER = "SELECT * from user where role = 'CLIENT' ORDER BY ? ";
+    private static final String FIND_ALL_USERS_ORDER = "SELECT * from user where role = 'CLIENT' ORDER BY  ";
 
     private static final String FIND_USERS_BY_RolE = "SELECT * from user where role = ?";
     private static final String CREATE_USER = "Insert into user(email,password,name,surname,role) values (?,?,?,?,?)";
@@ -32,7 +32,8 @@ public class UserDaoImp extends GenericAbstractDao<User> implements UserDao {
 
     private static final String CHECK_IF_USER_IN_ACTIVITY = " user_activity where activity_id = ?  and user_id = ? ;";
     private static final String FIND_ACTIVITIES_BY_USER = "Select id from activity join user_activity on user_activity.activity_id = activity.id where user_activity.user_id = ?;";
-    private static final String FIND_ALL_CONNECTING_USERS_BY_ACTIVITY = "Select user_id from user_activity join activity on activity.id = user_activity.activity_id where activity_id = ? ";
+    private static final String FIND_ALL_CONNECTING_USERS_BY_ACTIVITY = "Select user_id from user_activity join activity on activity.id = user_activity.activity_id " +
+            "join user on user_id = user.id where activity_id = ? order by ";
     private static final String COUNT__ALL_CONNECTING_USERS_BY_ACTIVITY = " user_activity join activity on activity.id = user_activity.activity_id where activity_id = ? ";
 
     private static final String DELETE_USER_FROM_ACTIVITY = "DELETE FROM user_activity where activity_id = ? and user_id = ?";
@@ -82,9 +83,9 @@ public class UserDaoImp extends GenericAbstractDao<User> implements UserDao {
     }
 
     @Override
-    public List<User> findAllConnectingUsersByActivity(Integer id, Integer limit, Integer offset) throws DataNotFoundException {
+    public List<User> findAllConnectingUsersByActivity(Integer id, Integer limit, Integer offset, String order) throws DataNotFoundException {
         List<User> users = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_CONNECTING_USERS_BY_ACTIVITY)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_CONNECTING_USERS_BY_ACTIVITY + order + " limit " + limit + " , " + offset + ";")) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -115,8 +116,8 @@ public class UserDaoImp extends GenericAbstractDao<User> implements UserDao {
     }
 
     @Override
-    public List<User> findAllUsersWithLimit(Integer limit, Integer offset, String value) throws DataNotFoundException {
-        return findAllFromToWithValue(connection, User.class, value, limit, offset, FIND_ALL_USERS_ORDER);
+    public List<User> findAllUsersWithLimit(Integer limit, Integer offset, String order) throws DataNotFoundException {
+        return findAllFromToWithOrderParam(connection, User.class, limit, offset, FIND_ALL_USERS_ORDER, order);
     }
 
 

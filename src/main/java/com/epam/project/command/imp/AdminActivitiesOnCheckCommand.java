@@ -28,11 +28,12 @@ public class AdminActivitiesOnCheckCommand implements Command {
         int currentPage;
         int totalPages;
         String param = request.getParameter("type");
+        String paramOrder = request.getParameter("typeParam");
         List<Activity> activities;
 
         try {
             currentPage = (request.getParameter("currentPage") == null ? 1 : Integer.parseInt(request.getParameter("currentPage")));
-            activities = activityService.findActivitiesByStatusName(param, (currentPage - 1) * 5, 5);
+            activities = activityService.findActivitiesByStatusName(param, (currentPage - 1) * 5, 5, paramOrder);
             totalPages = (activityService.calculateActivityNumberByStatusName(param) / 5) + 1;
 
             request.setAttribute("userService", ServiceFactory.getUserService());

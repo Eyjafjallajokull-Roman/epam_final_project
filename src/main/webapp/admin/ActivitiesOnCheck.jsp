@@ -13,12 +13,14 @@
 <form name="activitiesOnCheck" action="/project/controller" method="get">
     <input type="hidden" name="command" value="activitiesOnCheck">
     <input type="hidden" name="type" value="ON_CHECK">
+    <input type="hidden" name="typeParam" value="activity_status.name">
     <button type="submit">ShowActivitiesOnCheck</button>
 </form>
 
 <form name="activitiesOnDelete" action="/project/controller" method="get">
     <input type="hidden" name="command" value="activitiesOnCheck">
     <input type="hidden" name="type" value="ON_DELETE">
+    <input type="hidden" name="typeParam" value="activity_status.name">
     <button type="submit">ShowActivitiesOnDelete</button>
 </form>
 

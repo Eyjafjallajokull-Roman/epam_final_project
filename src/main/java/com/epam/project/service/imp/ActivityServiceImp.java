@@ -109,23 +109,6 @@ public class ActivityServiceImp implements ActivityService {
         return activities;
     }
 
-    @Override
-    public List<Activity> findActivitiesByPaginationParam(String value, Integer limit, Integer offset, String orderParam) throws NoSuchActivityException {
-        List<Activity> activities;
-        try {
-            daoFactory.open();
-            activityDao = daoFactory.getActivityDao();
-            activities = activityDao.findActivitiesByPaginationParam(value, limit, offset, orderParam);
-            for (Activity activity : activities) {
-                activityDao.addUsersToActivities(activity);
-            }
-            daoFactory.close();
-        } catch (DataNotFoundException | DataBaseConnectionException e) {
-            log.error(e);
-            throw new NoSuchActivityException();
-        }
-        return activities;
-    }
 
     @Override
     public Integer calculateActivityNumber() throws DataBaseConnectionException {
@@ -173,12 +156,12 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public List<Activity> findActivitiesByStatusName(String value, Integer limit, Integer offset) throws NoSuchActivityException {
+    public List<Activity> findActivitiesByStatusName(String value, Integer limit, Integer offset, String order) throws NoSuchActivityException {
         List<Activity> activities;
         try {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
-            activities = activityDao.findActivitiesByStatusName(value, limit, offset);
+            activities = activityDao.findActivitiesByStatusName(value, limit, offset, order);
             for (Activity activity : activities) {
                 activityDao.addUsersToActivities(activity);
             }
@@ -191,12 +174,12 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public List<Activity> findActivitiesWhereCreatedIdWithLimit(String value, Integer limit, Integer offset) throws NoSuchActivityException {
+    public List<Activity> findActivitiesWhereCreatedIdWithLimit(String value, Integer limit, Integer offset, String order) throws NoSuchActivityException {
         List<Activity> activities;
         try {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
-            activities = activityDao.findActivitiesWhereCreatedIdWithLimit(value, limit, offset);
+            activities = activityDao.findActivitiesWhereCreatedIdWithLimit(value, limit, offset, order);
             for (Activity activity : activities) {
                 activityDao.addUsersToActivities(activity);
             }
@@ -209,12 +192,12 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public List<Activity> findAllActivityByCreatedIdAndTypeActivity(Integer limit, Integer offset, String value1, String value2) throws NoSuchActivityException {
+    public List<Activity> findAllActivityByCreatedIdAndTypeActivity(Integer limit, Integer offset, String value1, String value2, String order) throws NoSuchActivityException {
         List<Activity> activities;
         try {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
-            activities = activityDao.findAllActivityByCreatedIdAndTypeActivity(limit, offset, value1, value2);
+            activities = activityDao.findAllActivityByCreatedIdAndTypeActivity(limit, offset, value1, value2, order);
             for (Activity activity : activities) {
                 activityDao.addUsersToActivities(activity);
             }
@@ -233,6 +216,42 @@ public class ActivityServiceImp implements ActivityService {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
             activities = activityDao.findActivitiesByTypeOfActivityAndStatusAccept(value, limit, offset, orderParam);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoSuchActivityException();
+        }
+        return activities;
+    }
+
+    @Override
+    public List<Activity> findAllConnectingActivityByUserIdAndStatus(Integer userId, String status, Integer limit, Integer offset,String order) throws DataNotFoundException, NoSuchActivityException {
+        List<Activity> activities;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findAllConnectingActivityByUserIdAndStatus(userId, status, limit, offset, order);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoSuchActivityException();
+        }
+        return activities;
+    }
+
+    @Override
+    public List<Activity> findAllConnectingActivityByUserIdAndStatusAndTypeActivity(Integer userId, String status, String typeActivity, Integer limit, Integer offset,String order) throws NoSuchActivityException {
+        List<Activity> activities;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findAllConnectingActivityByUserIdAndStatusAndTypeActivity(userId, status, typeActivity, limit, offset,order);
             for (Activity activity : activities) {
                 activityDao.addUsersToActivities(activity);
             }
@@ -282,6 +301,36 @@ public class ActivityServiceImp implements ActivityService {
             daoFactory.beginTransaction();
             activityDao = daoFactory.getActivityDao();
             result = activityDao.calculateActivityByTypeOfActivityAndStatusAccepted(value);
+            daoFactory.commitTransaction();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            daoFactory.rollbackTransaction();
+        }
+        return result;
+    }
+
+    @Override
+    public Integer calculateConnectingActivityByUserIdAndStatus(Integer userId, String status) throws DataNotFoundException, DataBaseConnectionException {
+        Integer result = 0;
+        try {
+            daoFactory.beginTransaction();
+            activityDao = daoFactory.getActivityDao();
+            result = activityDao.calculateConnectingActivityByUserIdAndStatus(userId, status);
+            daoFactory.commitTransaction();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            daoFactory.rollbackTransaction();
+        }
+        return result;
+    }
+
+    @Override
+    public Integer calculateConnectingActivityByUsersBIdAndStatusAndType(Integer userId, String status, String typeActivity) throws DataBaseConnectionException {
+        Integer result = 0;
+        try {
+            daoFactory.beginTransaction();
+            activityDao = daoFactory.getActivityDao();
+            result = activityDao.calculateConnectingActivityByUsersIdAndStatusAndTypeActivity(userId, status, typeActivity);
             daoFactory.commitTransaction();
         } catch (DataNotFoundException | DataBaseConnectionException e) {
             log.error(e);

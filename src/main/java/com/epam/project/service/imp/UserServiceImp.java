@@ -112,12 +112,12 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> findAllConnectingUsersByActivity(Integer activity, Integer limit, Integer offset) throws NoUserException {
+    public List<User> findAllConnectingUsersByActivity(Integer activity, Integer limit, Integer offset, String order) throws NoUserException {
         List<User> users;
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            users = userDao.findAllConnectingUsersByActivity(activity, limit, offset);
+            users = userDao.findAllConnectingUsersByActivity(activity, limit, offset,order);
             for (User user : users) {
                 userDao.addActivitiesToUser(user);
             }

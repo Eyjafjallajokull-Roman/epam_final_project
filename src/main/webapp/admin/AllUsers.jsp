@@ -26,8 +26,14 @@
             <td class="tda">${user.email}</td>
         </tr>
     </form>
-</c:forEach>
 
+    <form class="menuitem" name="pageNextUser" method="get" action="/project/controller">
+        <input type="hidden" name="command" value="pageNextFUActivity"/>
+        <input type="hidden" name="email" value="${user.email}">
+        <button class="menubutton" type="submit">Show Activities</button>
+    </form>
+
+</c:forEach>
 <div class="pagination">
     <c:forEach var="i" begin="1" end="${totalPages}">
         <c:if test="${i==currentPageU}">

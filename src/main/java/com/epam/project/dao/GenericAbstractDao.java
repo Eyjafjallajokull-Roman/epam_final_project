@@ -42,12 +42,11 @@ public abstract class GenericAbstractDao<T> {
         return items;
     }
 
-    protected List<T> findAllFromToWithOrderParam(Connection connection, Class<T> t, String value, Integer limit, Integer offset, String SQL_getAll_base, String orderParam)
+    protected List<T> findAllFromToWithOrderParam(Connection connection, Class<T> t, Integer limit, Integer offset, String SQL_getAll_base, String orderParam)
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + " order by " + orderParam + " limit " + limit + ", " + offset + ";");
-            addParameterToPreparedStatement(ps, 1, value);
+            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base  + orderParam + " limit " + limit + ", " + offset + ";");
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
                 T item = getItemInstance(t);
@@ -78,11 +77,11 @@ public abstract class GenericAbstractDao<T> {
         return items;
     }
 
-    protected List<T> findAllFromToWithValue(Connection connection, Class<T> t, String value1, Integer first, Integer offset, String SQL_getAll_base)
+    protected List<T> findAllFromToWithValue(Connection connection, Class<T> t, String value1, Integer first, Integer offset, String order, String SQL_getAll_base)
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + " limit " + first + ", " + offset + ";");
+            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + order + " limit " + first + ", " + offset + ";");
             addParameterToPreparedStatement(ps, 1, value1);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
@@ -97,11 +96,11 @@ public abstract class GenericAbstractDao<T> {
     }
 
     //maybe rewrite
-    protected <V> List<T> findAllFromToWithWhereParam(Connection connection, Class<T> t, Integer first, Integer offset, String SQL_getAll_base, V value1, V value2)
+    protected <V> List<T> findAllFromToWithWhereParam(Connection connection, Class<T> t, Integer first, Integer offset, String SQL_getAll_base, V value1, V value2, String order)
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + " limit " + first + ", " + offset + ";");
+            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + order + " limit " + first + ", " + offset + ";");
             addParameterToPreparedStatement(ps, 1, value1);
             addParameterToPreparedStatement(ps, 2, value2);
             ResultSet resultSet = ps.executeQuery();
@@ -235,6 +234,23 @@ public abstract class GenericAbstractDao<T> {
         return result;
     }
 
+    public Integer calculateRowCountsWithConditionWithThreeParam(Connection connection, String SQL_Condition, String value1, String value2, String value3) throws DataNotFoundException {
+        Integer result = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) AS ROWCOUNT FROM " + SQL_Condition);
+            addParameterToPreparedStatement(ps, 1, value1);
+            addParameterToPreparedStatement(ps, 2, value2);
+            addParameterToPreparedStatement(ps, 3, value3);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                result = resultSet.getInt("ROWCOUNT");
+            }
+        } catch (SQLException sqle) {
+            throw new DataNotFoundException();
+        }
+        return result;
+    }
+
     protected <V> boolean updateInDB(Connection connection, T item, String SQL_update, Integer paramNum, V value) {
         boolean result;
         try {
@@ -267,7 +283,7 @@ public abstract class GenericAbstractDao<T> {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_delete);
             addParameterToPreparedStatement(preparedStatement, 1, value1);
-            addParameterToPreparedStatement(preparedStatement, 1, value2);
+            addParameterToPreparedStatement(preparedStatement, 2, value2);
             result = preparedStatement.executeUpdate() > 0;
         } catch (SQLException sqle) {
             log.error(sqle);

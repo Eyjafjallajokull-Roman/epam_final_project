@@ -46,8 +46,8 @@
             </form>
 
             <form class="menuitem" name="pageNextUser" method="get" action="/project/controller">
-                <input type="hidden" name="command" value="pageNextUser"/>
-                <input type="hidden" name="activityId" value="${activity.id}">
+                <input type="hidden" name="command" value="pageNextFUA"/>
+                <input type="hidden" name="activityIdFUA" value="${activity.id}">
                 <button class="menubutton" type="submit">Show Users</button>
             </form>
         </tr>

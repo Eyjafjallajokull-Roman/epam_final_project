@@ -37,6 +37,8 @@ public class CommandContainer {
         commandMap.put("pageNextAdmin", new AdminSortPageCommand());
         commandMap.put("pageNextUser", new GetAllUsersAdminCommand());
         commandMap.put("deleteUserFromActivity", new DeleteUserFromActivity());
+        commandMap.put("pageNextFUA", new FindUserByActivityAdminCommand());
+        commandMap.put("pageNextFUActivity", new FindAllActivityByUserAdminCommand());
 
         //future commands
 

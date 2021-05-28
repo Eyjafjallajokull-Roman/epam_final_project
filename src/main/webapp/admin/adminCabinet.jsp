@@ -13,7 +13,9 @@
 
 <a href="AllActivities.jsp">All Activities</a>
 <a href="AllUsers.jsp">All Users</a>
+<a href="FindUserByActivity.jsp">FindUsersActivity</a>
 
+<a href="FindActivityByUser.jsp">Find Activity User</a>
 <f:colontitle/>
 </body>
 </html>

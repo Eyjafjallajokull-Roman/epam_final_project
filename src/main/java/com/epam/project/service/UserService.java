@@ -21,7 +21,7 @@ public interface UserService {
 
     User findUserByLogin(String login) throws NoUserException;
 
-    List<User> findAllConnectingUsersByActivity(Integer activity, Integer limit, Integer offset) throws DataNotFoundException, NoUserException;
+    List<User> findAllConnectingUsersByActivity(Integer activity, Integer limit, Integer offset, String order) throws DataNotFoundException, NoUserException;
 
     List<User> findAllUsersWithLimit(Integer limit, Integer offset, String value) throws NoUserException;
 

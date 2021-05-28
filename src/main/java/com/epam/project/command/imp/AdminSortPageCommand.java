@@ -10,6 +10,8 @@ import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.NoSuchActivityException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
+import com.epam.project.service.UserService;
+import com.epam.project.service.imp.UserServiceImp;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,14 +47,16 @@ public class AdminSortPageCommand implements Command {
         int currentPage;
         int totalPages;
         List<Activity> activities;
+        UserService userService = new UserServiceImp();
         try {
+            session.setAttribute("userService", userService);
             currentPage = request.getParameter("currentPageAdmin") == null ? 1 : Integer.parseInt(request.getParameter("currentPageAdmin"));
             String parameter = types.stream().filter(s -> s.equals(request.getParameter("typeAdmin"))).collect(Collectors.toList()).get(0);
             String typeOfActivity = typesOfActivity.stream().filter(s -> s.equals(request.getParameter("typeActivityAdmin"))).collect(Collectors.toList()).get(0);
 
             //do methods
             if (typeOfActivity.equals("all")) {
-                activities = activityService.findActivitiesByStatusName(Status.ACCEPT.name(), (currentPage - 1) * 5, 5);
+                activities = activityService.findActivitiesByStatusName(Status.ACCEPT.name(), (currentPage - 1) * 5, 5, parameter);
                 totalPages = (activityService.calculateActivityNumberByStatusName(Status.ACCEPT.name()) / 5) + 1;
             } else {
                 totalPages = (activityService.calculateActivityByTypeOfActivityAndStatusAccepted(typeOfActivity) / 5) + 1;

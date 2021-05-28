@@ -20,5 +20,7 @@ public final class Path {
     public static final String ADMIN_ACTIVITIES_ON_CHECK_FWD = "/admin/ActivitiesOnCheck.jsp";
     public static final String ADMIN_ALL_ACTIVITIES_FWD = "/admin/AllActivities.jsp";
     public static final String ADMIN_ALL_USERS_FWD = "/admin/AllUsers.jsp";
+    public static final String ADMIN_USERS_BY_ACTIVITY = "/admin/FindUserByActivity.jsp";
+    public static final String ADMIN_ACTIVITY_BY_USER = "/admin/FindActivityByUser.jsp";
 
 }

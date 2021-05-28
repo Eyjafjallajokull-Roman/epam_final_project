@@ -52,11 +52,11 @@ public class UserSortPageCommand implements Command {
             String typeOfActivity = typesOfActivity.stream().filter(s -> s.equals(request.getParameter("typeActivity"))).collect(Collectors.toList()).get(0);
 
             if (typeOfActivity.equals("all")) {
-                activities = activityService.findActivitiesWhereCreatedIdWithLimit(String.valueOf(user.getId()), (currentPage - 1) * 5, 5);
+                activities = activityService.findActivitiesWhereCreatedIdWithLimit(String.valueOf(user.getId()), (currentPage - 1) * 5, 5,parameter);
                 totalPages = (activityService.calculateActivityNumberWithCreatedByIdCondition(String.valueOf(user.getId())) / 5) + 1;
             } else {
                 totalPages = (activityService.calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(typeOfActivity, String.valueOf(user.getId())) / 5) + 1;
-                activities = activityService.findAllActivityByCreatedIdAndTypeActivity((currentPage - 1) * 5, 5, typeOfActivity, String.valueOf(user.getId()));
+                activities = activityService.findAllActivityByCreatedIdAndTypeActivity((currentPage - 1) * 5, 5, typeOfActivity, String.valueOf(user.getId()), parameter);
             }
             request.setAttribute("type", parameter);
             request.setAttribute("typeActivity", typeOfActivity);

@@ -49,10 +49,8 @@ public class Demo {
 //        Activity activty = activityService.findActivityById(6);
 //        long diff = activty.getEndTime().getTime() - activty.getStartTime().getTime();
 
-        Timestamp ts3 = Timestamp.valueOf(LocalDateTime.now());
-
-        System.out.println(ts3);
 
 
+        System.out.println(userService.findAllConnectingUsersByActivity(5,0,5,"user.name"));
     }
 }

@@ -24,8 +24,9 @@ public class DeleteUserFromActivity implements Command {
         String errorMessage;
         UserService userService = ServiceFactory.getUserService();
         try {
-            Integer activityId = Integer.valueOf(request.getParameter("activityId2"));
-            Integer userId = userService.findUserByLogin("email").getId();
+            Integer activityId = Integer.valueOf(request.getParameter("activityIdFUA"));
+            Integer userId = userService.findUserByLogin(request.getParameter("email")).getId();
+            System.out.println(request.getParameter("email"));
             System.out.println(userId);
             System.out.println(activityId);
 
