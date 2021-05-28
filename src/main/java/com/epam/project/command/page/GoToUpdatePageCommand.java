@@ -31,8 +31,6 @@ public class GoToUpdatePageCommand implements Command {
 
             result.setPage(Path.ACTIVITY_PAGE_FWD);
 
-
-
             request.setAttribute("name", activity.getName());
             request.setAttribute("id", id);
             request.setAttribute("typeOfActivity", activity.getTypeOfActivity());

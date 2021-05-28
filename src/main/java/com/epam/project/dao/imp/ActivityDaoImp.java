@@ -22,12 +22,12 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
     private static final String SQL_BASE = "SELECT * from activity JOIN activity_status on activity.activity_status_id=activity_status.id ";
 
     //Select
-    private static final String FIND_ALL_ACTIVITIES_BY_CREATED_USERS_ID = SQL_BASE + " where created_by_id=? or  and  activity_status.name = 'ACCEPT' order by "; //2 param
+    private static final String FIND_ALL_ACTIVITIES_BY_CREATED_USERS_ID = SQL_BASE + " where created_by_id=? and activity_status.name = 'ACCEPT' order by "; //2 param
     private static final String FIND_ALL_ACTIVITIES_BY_CREATED_USER_ID_AND_TYPE = SQL_BASE + " where type_of_activity=? and created_by_id =? and activity_status.name ='ACCEPT' order by ";
     private static final String FIND_ALL_ACTIVITIES_BY_STATUS_NAME = SQL_BASE + " where activity_status.name=? order by ";
     private static final String FIND_ALL_ACTIVITIES_BY_TYPE = SQL_BASE + " where type_of_activity =? and activity_status.name ='ACCEPT'";
     private static final String FIND_ACTIVITY_BY_ID = SQL_BASE + " where activity.id = ?";
-    private static final String FIND_ACTIVITY_BY_CREATED_USER_ID = SQL_BASE + " where created_by_id = ? and activity_status.name ='ACCEPT' order by activity.id limit 5";
+    private static final String FIND_ACTIVITY_BY_CREATED_USER_ID = SQL_BASE + " where created_by_id = ? and activity_status.name ='ACCEPT' order by start_time limit 5 ";
     private static final String FIND_ALL_ACTIVITIES_BY_TYPE_OF_ACTIVITY_AND_ORDER_PARAM = SQL_BASE + "where type_of_activity =? and activity_status.name ='ACCEPT' order by ";
     private static final String FIND_USERS_BY_ACTIVITIES = "Select id from user join user_activity on user_activity.user_id = user.id where user_activity.activity_id = ?;";
     private static final String FIND_ACTIVITY_BY_USER_ID_FIRST_FIVE = SQL_BASE +
@@ -35,7 +35,7 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
 
     private static final String FIND_ALL_CONNECTING_ACTIVITY_BY_USER = "Select activity_id from user_activity join user on user.id = user_activity.user_id where user.email = ? ";
 
-    private static final String FIND_ALL_ACTIVITIES_BY_CONNECTING_USER_AND_STATUS_AND_TYPE_ACTIVITY =  "SELECT activity_id from activity JOIN activity_status on activity.activity_status_id=activity_status.id join user_activity on user_activity.activity_id = activity.id where user_id  = ?  and activity_status.name = ? and type_of_activity = ? order by ";
+    private static final String FIND_ALL_ACTIVITIES_BY_CONNECTING_USER_AND_STATUS_AND_TYPE_ACTIVITY = "SELECT activity_id from activity JOIN activity_status on activity.activity_status_id=activity_status.id join user_activity on user_activity.activity_id = activity.id where user_id  = ?  and activity_status.name = ? and type_of_activity = ? order by ";
     private static final String FIND_ALL_ACTIVITIES_BY_CONNECTING_USER_AND_STATUS = "SELECT activity_id from activity JOIN activity_status on activity.activity_status_id=activity_status.id join user_activity on user_activity.activity_id = activity.id where user_id  = ? and activity_status.name = ?  order by ";
     //crd
     private static final String CREATE_ACTIVITY = "INSERT INTO activity(start_time,end_time,name,description_en,description_ru,type_of_activity,created_by_id,activity_status_id) values (?,?,?,?,?,?,?,?)";
@@ -157,12 +157,12 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
     }
 
     @Override
-    public List<Activity> findActivitiesWhereCreatedIdWithLimit(String value, Integer limit, Integer offset,String order) throws DataNotFoundException {
-        return findAllFromToWithValue(connection, Activity.class, value, limit, offset,order, FIND_ALL_ACTIVITIES_BY_CREATED_USERS_ID);
+    public List<Activity> findActivitiesWhereCreatedIdWithLimit(String value, Integer limit, Integer offset, String order) throws DataNotFoundException {
+        return findAllFromToWithValue(connection, Activity.class, value, limit, offset, order, FIND_ALL_ACTIVITIES_BY_CREATED_USERS_ID);
     }
 
     @Override
-    public List<Activity> findAllActivityByCreatedIdAndTypeActivity(Integer limit, Integer offset, String value1, String value2,String order) throws DataNotFoundException {
+    public List<Activity> findAllActivityByCreatedIdAndTypeActivity(Integer limit, Integer offset, String value1, String value2, String order) throws DataNotFoundException {
         return findAllFromToWithWhereParam(connection, Activity.class, limit, offset, FIND_ALL_ACTIVITIES_BY_CREATED_USER_ID_AND_TYPE, value1, value2, order);
     }
 
@@ -212,9 +212,9 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
     }
 
     @Override
-    public List<Activity> findAllConnectingActivityByUserIdAndStatus(Integer userId, String status, Integer limit, Integer offset,String order) throws DataNotFoundException {
+    public List<Activity> findAllConnectingActivityByUserIdAndStatus(Integer userId, String status, Integer limit, Integer offset, String order) throws DataNotFoundException {
         List<Activity> activities = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_ACTIVITIES_BY_CONNECTING_USER_AND_STATUS + order  + " limit " + limit + " , " + offset + ";")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_ACTIVITIES_BY_CONNECTING_USER_AND_STATUS + order + " limit " + limit + " , " + offset + ";")) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setString(2, status);
             ResultSet resultSet = preparedStatement.executeQuery();

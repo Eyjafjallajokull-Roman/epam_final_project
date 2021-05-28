@@ -48,8 +48,10 @@
 
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-        <url-pattern>/page/adminCabinet.jsp</url-pattern>
+        <url-pattern>/admin/adminCabinet.jsp</url-pattern>
     </filter-mapping>
+
+
 
 
 </web-app>

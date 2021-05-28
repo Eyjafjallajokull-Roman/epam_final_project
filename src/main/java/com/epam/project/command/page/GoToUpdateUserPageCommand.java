@@ -22,6 +22,7 @@ public class GoToUpdateUserPageCommand implements Command {
         result.setDirection(Direction.FORWARD);
         try {
 
+
             result.setPage(Path.UPDATE_USER_PAGE_FWD);
         } catch (Exception e) {
             logger.error(e);

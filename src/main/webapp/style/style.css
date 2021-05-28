@@ -97,6 +97,11 @@ h1 {
 
 }
 
+.login_here{
+    display: flex;
+    flex-direction: column;
+}
+
 .form-control {
     margin-bottom: 15px;
     padding-bottom: 10px;
@@ -250,5 +255,21 @@ h1 {
     position: absolute;
     top: 30px;
     right: 10px;
+}
+
+#questionPass{
+    position: absolute;
+    top: 11px;
+    right: 10px;
+
+}
+
+#passwordMustContain{
+    width: 390px;
+    position:absolute;
+    top: 65px;
+    left: 10px;
+    color: grey;
+    font-size: 13px;
 }
 

@@ -35,13 +35,15 @@
                 <h1><fmt:message key="register.sign_up" bundle="${local}"/></h1>
                 <form class="register-form" action="/project/controller" method="post">
                     <div class="form-control">
-                        <input name="name" type="text" id="userName" placeholder="<fmt:message key="register.name" bundle="${local}"/>"/>
+                        <input name="name" type="text" id="userName"
+                               placeholder="<fmt:message key="register.name" bundle="${local}"/>"/>
                         <i class="gg-check-o"></i>
                         <i class="gg-close"></i>
                         <p>Not a valid name</p>
                     </div>
                     <div class="form-control">
-                        <input name="lastName" type="text"  id="last" placeholder="<fmt:message key="register.surname" bundle="${local}"/>"/>
+                        <input name="lastName" type="text" id="last"
+                               placeholder="<fmt:message key="register.surname" bundle="${local}"/>"/>
                         <i class="gg-check-o"></i>
                         <i class="gg-close"></i>
                         <p>Not a valid surname</p>
@@ -53,23 +55,22 @@
                         <p>Not a valid email</p>
                     </div>
                     <div class="form-control">
-                        <input name="password" type="password" id="pass" placeholder="<fmt:message key="register.password" bundle="${local}"/>"/>
-                        <div onclick=" openQuestionBlock()" class="question">
-                            <img id="questionPass"
-                                    style="width: 20px"
-                                    src="icons/question.svg"
-                                    alt=""/>
-                        </div>
-                        <div style="display: none" id="passwordMustContain">
-                            Your password must contain: At least 8 letters 1 digit one lower
-                            alpha char and one upper alpha char Do not contain space
-                        </div>
+                        <input name="password" type="password" id="pass"
+                               placeholder="<fmt:message key="register.password" bundle="${local}"/>"/>
+<%--                        <div onclick=" openQuestionBlock()" class="question">--%>
+<%--                            <img id="questionPass" style="width: 20px" src="icons/question.svg" alt=""/>--%>
+<%--                        </div>--%>
+<%--                        <div style="display: none" id="passwordMustContain">--%>
+<%--                            Your password must contain: At least 8 letters 1 digit one lower--%>
+<%--                            alpha char and one upper alpha char Do not contain space--%>
+<%--                        </div>--%>
                         <i class="gg-check-o"></i>
                         <i class="gg-close"></i>
                         <p>Not a valid password</p>
                     </div>
                     <div class="form-control">
-                        <input name="confirmPassword" type="password" id="pass2" placeholder="<fmt:message key="register.confirm_password" bundle="${local}"/>"/>
+                        <input name="confirmPassword" type="password" id="pass2"
+                               placeholder="<fmt:message key="register.confirm_password" bundle="${local}"/>"/>
                         <i class="gg-check-o"></i>
                         <i class="gg-close"></i>
                         <p>Not a valid password</p>
@@ -82,10 +83,13 @@
                 </form>
                 <p id="questionAboutAcc"><fmt:message key="register.have_account" bundle="${local}"/></p>
             </div>
+            <div class="login_here">
             <form name="goToLogin" action="/project/controller" method="post">
                 <input type="hidden" name="command" value="goToLogin">
-                <button id="registered" type="submit"><fmt:message key="register.login_here" bundle="${local}"/></button>
+                <button id="registered" type="submit"><fmt:message key="register.login_here"
+                                                                   bundle="${local}"/></button>
             </form>
+            </div>
         </div>
     </div>
     <f:colontitle/>
