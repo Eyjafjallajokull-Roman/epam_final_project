@@ -14,8 +14,9 @@
 <form action="/project/controller" method="get">
     <input type="hidden" name="command" value="pageNext"/>
     <select name="type">
-        <option value="activity.start_time">Start Time</option>
-        <option value="activity.end_time">End Time</option>
+        <option value="start_time">Start Time</option>
+        <option value="end_time">End Time</option>
+        <option value="activity.name">Name</option>
     </select>
     <select name="typeActivity">
         <option value="all">All</option>

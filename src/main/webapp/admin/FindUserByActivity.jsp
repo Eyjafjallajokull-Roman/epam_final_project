@@ -9,7 +9,7 @@
 <body>
 <form action="/project/controller" method="get">
     <input type="hidden" name="command" value="pageNextFUA">
-    <input type="text" name="activityIdFUA" value="activityIdFUA">
+    <input type="text" name="activityIdFUA" value="${activityIdFUA}">
     <button type="submit" class="giantbutton">Users</button>
 </form>
 

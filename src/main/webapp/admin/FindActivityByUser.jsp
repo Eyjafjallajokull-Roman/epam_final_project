@@ -2,6 +2,8 @@
 <%@ include file="/WEB-INF/jspf/tagfile.jspf" %>
 <c:set value="${pageScope.get(\"currentPageFUA\")}" var="currentPageFUA" scope="page"/>
 <c:set value="${pageScope.get(\"typeFUA\")}" var="typeFUA" scope="page"/>
+<c:set value="${pageScope.get(userService.findUserById(activity.getCreatedByUserID()).getEmail())}" var="createdId"
+       scope="page"/>
 <html>
 <head>
     <title>Activity List</title>
@@ -42,8 +44,13 @@
             <td class="tda">${activity.descriptionEng}</td>
             <td class="tda">${activity.descriptionRus}</td>
             <td class="tda">${activity.typeOfActivity}</td>
-            <td class="tda">${userService.findUserById(activity.getCreatedByUserID()).getEmail()}</td>
-            
+            <td class="tda">${createdId}</td>
+            <form>
+                <input type="hidden" name="command" value="showCreatedUser"/>
+                <input type="hidden" name="email" value="${createdId}">
+                <button type="submit">ShowInfoWhoCreated</button>
+            </form>
+
             <c:if test="${not empty email}">
                 <form>
                     <input type="hidden" name="command" value="deleteUserFromActivity"/>

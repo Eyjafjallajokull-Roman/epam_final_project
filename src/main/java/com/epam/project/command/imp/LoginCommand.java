@@ -52,7 +52,6 @@ public class LoginCommand implements Command {
             User user = ServiceFactory.getUserService().findUser(email, password);
             logger.trace("Found in DB: user --> " + user);
             session.setAttribute("user", user);
-            session.setAttribute("userLogin", email);
             if (user.getRole() == Role.CLIENT) {
                 resultOfExecution.setPage(Path.USER_CABINET);
             } else {

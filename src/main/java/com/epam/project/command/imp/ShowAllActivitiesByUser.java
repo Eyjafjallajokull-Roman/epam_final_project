@@ -25,6 +25,7 @@ public class ShowAllActivitiesByUser implements Command {
         result.setDirection(Direction.FORWARD);
         HttpSession session = request.getSession();
         String errorMessage;
+        String showTable = request.getParameter("showTable");
         try {
             User user = (User) session.getAttribute("user");
             if (user != null) {
@@ -35,8 +36,14 @@ public class ShowAllActivitiesByUser implements Command {
                     result.setPage(url);
                     result.setDirection(Direction.REDIRECT);
                 }
+                if (showTable.equals("0") || showTable.equals("")) {
+                    showTable = "1";
+                } else {
+                    showTable = "0";
+                }
+                System.out.println(session.getAttribute("language"));
+                request.setAttribute("showTable", showTable);
                 request.setAttribute("activityList", activityList);
-                System.out.println("cool");
             }
 
         } catch (Exception e) {

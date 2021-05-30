@@ -86,8 +86,7 @@
             <div class="login_here">
             <form name="goToLogin" action="/project/controller" method="post">
                 <input type="hidden" name="command" value="goToLogin">
-                <button id="registered" type="submit"><fmt:message key="register.login_here"
-                                                                   bundle="${local}"/></button>
+                <button id="registered" type="submit"><fmt:message key="register.login_here" bundle="${local}"/></button>
             </form>
             </div>
         </div>

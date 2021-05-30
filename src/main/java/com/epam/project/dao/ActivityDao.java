@@ -38,13 +38,13 @@ public interface ActivityDao {
 
 
     //calculate
-    Integer calculateActivityNumberWithCreatedByIdCondition(String value) throws DataNotFoundException;
+    Integer calculateActivityNumberWithCreatedByIdCondition(Integer value) throws DataNotFoundException;
 
     Integer calculateActivityNumber() throws DataNotFoundException;
 
     Integer calculateActivityNumberByStatusName(String value) throws DataNotFoundException;
 
-    Integer calculateActivityByCreatedAndTypeActivityCondition(String value1, String value2) throws DataNotFoundException;
+    Integer calculateActivityByCreatedAndTypeActivityCondition(Integer value1, String value2) throws DataNotFoundException;
 
     Integer calculateActivityByTypeOfActivityAndStatusAccepted(String value) throws DataNotFoundException;
 

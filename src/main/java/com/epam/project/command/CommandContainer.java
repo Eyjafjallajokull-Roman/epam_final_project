@@ -29,6 +29,7 @@ public class CommandContainer {
         commandMap.put("goToLogin", new GotoLoginPageCommand());
         commandMap.put("goToRegister", new GoToRegisterPageCommand());
         commandMap.put("pageNext", new UserSortPageCommand());
+        commandMap.put("goToMyActivities", new GoToMyActivityPage());
 
         commandMap.put("addUserToActivity", new AddUserToActivity());
         //admin
@@ -39,6 +40,7 @@ public class CommandContainer {
         commandMap.put("deleteUserFromActivity", new DeleteUserFromActivity());
         commandMap.put("pageNextFUA", new FindUserByActivityAdminCommand());
         commandMap.put("pageNextFUActivity", new FindAllActivityByUserAdminCommand());
+        commandMap.put("showCreatedUser", new AdminFindCreatedUser());
 
         //future commands
 

@@ -8,6 +8,7 @@ public final class Path {
     public static final String USER_REGISTER = "/project/register.jsp";
     public static final String ERROR = "/project/error.jsp";
     public static final String SECURITY_ERROR = "/project/securityError.jsp";
+    public static final String MY_ACTIVITIES_PAGE = "/project/page/MyActivities.jsp";
     public static final String ACTIVITY_PAGE = "/project/page/createActivity.jsp";
     //path for forward
     public static final String ACTIVITY_PAGE_FWD = "/page/createActivity.jsp";
@@ -15,6 +16,7 @@ public final class Path {
     public static final String UPDATE_USER_PAGE_FWD = "/page/updateUser.jsp";
     public static final String USER_CABINET_FWD = "/page/cabinet.jsp";
     public static final String MY_ACTIVITIES_PAGE_FWD = "/page/MyActivities.jsp";
+
 
 
     public static final String ADMIN_ACTIVITIES_ON_CHECK_FWD = "/admin/ActivitiesOnCheck.jsp";

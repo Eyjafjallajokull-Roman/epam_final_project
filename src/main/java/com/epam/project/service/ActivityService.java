@@ -38,9 +38,9 @@ public interface ActivityService {
 
     List<Activity> findAllConnectingActivityByUserIdAndStatusAndTypeActivity(Integer userId, String status, String typeActivity, Integer limit, Integer offset, String order) throws NoSuchActivityException;
 
-    Integer calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(String value1, String value2) throws DataBaseConnectionException;
+    Integer calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(Integer value1, String value2) throws DataBaseConnectionException;
 
-    Integer calculateActivityNumberWithCreatedByIdCondition(String par) throws DataBaseConnectionException;
+    Integer calculateActivityNumberWithCreatedByIdCondition(Integer par) throws DataBaseConnectionException;
 
     Integer calculateActivityByTypeOfActivityAndStatusAccepted(String value) throws DataBaseConnectionException;
 

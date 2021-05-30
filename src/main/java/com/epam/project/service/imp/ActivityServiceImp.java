@@ -264,7 +264,7 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public Integer calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(String value1, String value2) throws DataBaseConnectionException {
+    public Integer calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(Integer value1, String value2) throws DataBaseConnectionException {
         Integer result = 0;
         try {
             daoFactory.beginTransaction();
@@ -280,7 +280,7 @@ public class ActivityServiceImp implements ActivityService {
 
 
     @Override
-    public Integer calculateActivityNumberWithCreatedByIdCondition(String par) throws DataBaseConnectionException {
+    public Integer calculateActivityNumberWithCreatedByIdCondition(Integer par) throws DataBaseConnectionException {
         Integer result = 0;
         try {
             daoFactory.beginTransaction();

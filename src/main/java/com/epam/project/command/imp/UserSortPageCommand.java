@@ -31,8 +31,9 @@ public class UserSortPageCommand implements Command {
         typesOfActivity.add("EVENT");
         typesOfActivity.add("all");
         typesOfActivity.add("TASK");
-        types.add("activity.start_time");
-        types.add("activity.end_time");
+        types.add("start_time");
+        types.add("end_time");
+        types.add("activity.name");
     }
 
 
@@ -52,11 +53,13 @@ public class UserSortPageCommand implements Command {
             String typeOfActivity = typesOfActivity.stream().filter(s -> s.equals(request.getParameter("typeActivity"))).collect(Collectors.toList()).get(0);
 
             if (typeOfActivity.equals("all")) {
-                activities = activityService.findActivitiesWhereCreatedIdWithLimit(String.valueOf(user.getId()), (currentPage - 1) * 5, 5,parameter);
-                totalPages = (activityService.calculateActivityNumberWithCreatedByIdCondition(String.valueOf(user.getId())) / 5) + 1;
+                activities = activityService.findActivitiesWhereCreatedIdWithLimit(String.valueOf(user.getId()), (currentPage - 1) * 5, 5, parameter);
+                totalPages = (activityService.calculateActivityNumberWithCreatedByIdCondition(user.getId()) / 5) + 1;
+                System.out.println(totalPages);
             } else {
-                totalPages = (activityService.calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(typeOfActivity, String.valueOf(user.getId())) / 5) + 1;
-                activities = activityService.findAllActivityByCreatedIdAndTypeActivity((currentPage - 1) * 5, 5, typeOfActivity, String.valueOf(user.getId()), parameter);
+                totalPages = (activityService.calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(user.getId(), typeOfActivity) / 5) + 1;
+                activities = activityService.findAllActivityByCreatedIdAndTypeActivity((currentPage - 1) * 5, 5, String.valueOf(user.getId()), typeOfActivity, parameter);
+
             }
             request.setAttribute("type", parameter);
             request.setAttribute("typeActivity", typeOfActivity);

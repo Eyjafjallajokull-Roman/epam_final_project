@@ -1,7 +1,9 @@
 
 
-function myFunction() {
-    document.getElementById("ChangeLanguage").classList.toggle("show");
+
+
+function language(){
+
 }
 
 
@@ -163,11 +165,4 @@ function openProfilePage() {
     }
 }
 
-function openQuestionBlock() {
-    let display = document.getElementById("questionPass").style.display;
-    if (display == "block") {
-        document.getElementById("passwordMustContain").style.display = "none";
-    } else {
-        document.getElementById("passwordMustContain").style.display = "block";
-    }
-}
+
