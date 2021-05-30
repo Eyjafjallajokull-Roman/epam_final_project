@@ -18,7 +18,7 @@ public final class Path {
     public static final String MY_ACTIVITIES_PAGE_FWD = "/page/MyActivities.jsp";
 
 
-
+    public static final String ADMIN_SHOW_CREATED_ID_FWD = "/admin/ShowUserCreatedActivity.jsp";
     public static final String ADMIN_ACTIVITIES_ON_CHECK_FWD = "/admin/ActivitiesOnCheck.jsp";
     public static final String ADMIN_ALL_ACTIVITIES_FWD = "/admin/AllActivities.jsp";
     public static final String ADMIN_ALL_USERS_FWD = "/admin/AllUsers.jsp";

@@ -30,7 +30,7 @@ public class AdminFindCreatedUser implements Command {
             request.setAttribute("name", user.getName());
             request.setAttribute("surname", user.getSurname());
             request.setAttribute("email", user.getEmail());
-            result.setPage()
+            result.setPage(Path.ADMIN_SHOW_CREATED_ID_FWD);
         } catch (NoUserException e) {
             log.error(e);
             errorMessage = "user was not found";
