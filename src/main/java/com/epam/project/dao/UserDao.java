@@ -17,7 +17,7 @@ public interface UserDao {
 
     List<User> findUsersByRole(Role role) throws DataNotFoundException;
 
-    List<User> findAllConnectingUsersByActivity(Integer activityId, Integer limit, Integer offset,  String order) throws DataNotFoundException;
+    List<User> findAllConnectingUsersByActivity(Integer activityId, Integer limit, Integer offset, String order) throws DataNotFoundException;
 
     Set<Integer> addActivitiesToUser(User user) throws DataNotFoundException;
 
@@ -37,6 +37,7 @@ public interface UserDao {
     boolean createUser(User user);
 
     boolean updateUser(User user);
+
 
     boolean deleteUser(User user);
 

@@ -37,6 +37,8 @@ public interface UserService {
 
     boolean updateUser(User user);
 
+    boolean updateUserWithoutEmail(User user);
+
     boolean deleteUser(User user);
 
 

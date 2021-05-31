@@ -1,12 +1,3 @@
-
-
-
-
-function language(){
-
-}
-
-
 const form = document.getElementById("mainForm");
 const username = document.getElementById("userName");
 const last = document.getElementById("last");
@@ -114,9 +105,6 @@ function isPass2(password2) {
     return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/.test(password2);
 }
 
-function isPassword(password) {
-    return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/.test(password);
-}
 
 function isPassword(passwordIn) {
     return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/.test(passwordIn);

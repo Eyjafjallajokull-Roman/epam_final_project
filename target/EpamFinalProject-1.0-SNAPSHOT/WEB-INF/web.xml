@@ -50,11 +50,6 @@
         <url-pattern>/page/*</url-pattern>
     </filter-mapping>
 
-    <filter-mapping>
-        <filter-name>UserFilter</filter-name>
-        <url-pattern>/project/controller</url-pattern>
-    </filter-mapping>
-
     <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>com.epam.project.filter.AdminFilter</filter-class>

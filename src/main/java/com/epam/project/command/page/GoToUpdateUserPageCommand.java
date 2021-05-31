@@ -21,16 +21,14 @@ public class GoToUpdateUserPageCommand implements Command {
 
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
-        String errorMessage = "Exeption error";
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
-
         HttpSession session = request.getSession();
         ErrorConfig error = ErrorConfig.getInstance();
 
 
         User user = (User) session.getAttribute("user");
-        if (!CheckRole.checkRole(session, Role.ADMIN)) {
+        if (!CheckRole.checkRole(session, Role.CLIENT)) {
             request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_ADMIN));
             result.setPage(Path.ADMIN_ERROR_FWD);
             return result;

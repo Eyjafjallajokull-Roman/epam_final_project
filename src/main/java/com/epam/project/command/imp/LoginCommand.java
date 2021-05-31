@@ -12,6 +12,7 @@ import com.epam.project.exception.WrongPasswordExeption;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
+import com.epam.project.taghandler.PasswordEncoder;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -32,7 +33,7 @@ public class LoginCommand implements Command {
         logger.debug("Login Command Start");
         HttpSession session = request.getSession();
         ResultOfExecution resultOfExecution = new ResultOfExecution();
-        resultOfExecution.setDirection(Direction.REDIRECT);
+        resultOfExecution.setDirection(Direction.FORWARD);
         String email = request.getParameter("email");
         logger.trace("Request parameter login: " + email);
         String password = request.getParameter("password");
@@ -42,30 +43,36 @@ public class LoginCommand implements Command {
 
         //error handler
         String errorMessage = null;
-        resultOfExecution.setPage(Path.ERROR);
+
 
 
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
             errorMessage = "Login/password cannot be empty";
             request.setAttribute("errorMessage", errorMessage);
             logger.error("errorMessage: " + errorMessage);
+            resultOfExecution.setPage(Path.ERROR_FWD);
             return resultOfExecution;
         }
         try {
-            User user = ServiceFactory.getUserService().findUser(email, password);
-            logger.trace("Found in DB: user --> " + user);
+            String hashPassword = PasswordEncoder.hashPassword(password);
+            User user = ServiceFactory.getUserService().findUser(email, hashPassword);
             session.setAttribute("user", user);
             session.setAttribute("userService", userService);
             session.setAttribute("activityService", activityService);
+
             if (user.getRole() == Role.CLIENT) {
+                resultOfExecution.setDirection(Direction.REDIRECT);
                 resultOfExecution.setPage(Path.USER_CABINET);
             } else {
+                resultOfExecution.setDirection(Direction.REDIRECT);
                 resultOfExecution.setPage(Path.ADMIN_CABINET);
             }
+
         } catch (NoUserException | WrongPasswordExeption e) {
             logger.error(e);
             errorMessage = "Cannot find user with such login/password";
             request.setAttribute("errorMessage", errorMessage);
+            resultOfExecution.setPage(Path.ERROR_FWD);
             return resultOfExecution;
         }
 

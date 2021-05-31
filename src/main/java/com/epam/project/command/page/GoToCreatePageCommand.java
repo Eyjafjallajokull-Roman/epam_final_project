@@ -2,6 +2,8 @@ package com.epam.project.command.page;
 
 import com.epam.project.command.Command;
 import com.epam.project.command.imp.LoginCommand;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
@@ -15,7 +17,7 @@ public class GoToCreatePageCommand implements Command {
 
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
-
+        ErrorConfig error = ErrorConfig.getInstance();
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
         try {
@@ -27,6 +29,7 @@ public class GoToCreatePageCommand implements Command {
         } catch (Exception e) {
             logger.error(e);
             result.setPage(Path.ERROR);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.PAGE_NOT_FOUND));
         }
         return result;
     }

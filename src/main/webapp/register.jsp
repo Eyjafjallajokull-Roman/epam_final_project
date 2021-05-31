@@ -34,6 +34,7 @@
             <div id="mainForm">
                 <h1><fmt:message key="register.sign_up" bundle="${local}"/></h1>
                 <form class="register-form" action="/project/controller" method="post">
+                    <input type="hidden" name="command" value="register">
                     <div class="form-control">
                         <input name="name" type="text" id="userName"
                                placeholder="<fmt:message key="register.name" bundle="${local}"/>"/>
@@ -75,7 +76,6 @@
                         <i class="gg-close"></i>
                         <p>Not a valid password</p>
                     </div>
-                    <input type="hidden" name="command" value="register">
                     <div class="buttonsBlock">
                         <button onclick="checkInputs()" id="btnForSinUp" type="submit"><fmt:message key="register.sign" bundle="${local}"/></button>
                         <br/>

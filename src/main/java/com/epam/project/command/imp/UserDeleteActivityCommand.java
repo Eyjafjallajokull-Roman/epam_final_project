@@ -1,6 +1,8 @@
 package com.epam.project.command.imp;
 
 import com.epam.project.command.Command;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
@@ -22,9 +24,9 @@ public class UserDeleteActivityCommand implements Command {
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         String url = request.getHeader("referer").replaceFirst("http://localhost:8080", "");
         ResultOfExecution result = new ResultOfExecution();
+        ErrorConfig error = ErrorConfig.getInstance();
         ActivityService activityService = ServiceFactory.getActivityService();
         result.setDirection(Direction.FORWARD);
-        String errorMessage;
         try {
             Activity activity = activityService.findActivityById(Integer.valueOf(request.getParameter("idDelete")));
             activity.setStatus(Status.ON_DELETE);
@@ -35,8 +37,7 @@ public class UserDeleteActivityCommand implements Command {
             }
         } catch (NoSuchActivityException e) {
             log.error(e);
-            errorMessage = "Something go wrong";
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_DECLINE_ACTIVITY));
             result.setPage(Path.ERROR_FWD);
         }
         return result;

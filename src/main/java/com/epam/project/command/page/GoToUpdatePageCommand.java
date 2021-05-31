@@ -3,10 +3,13 @@ package com.epam.project.command.page;
 import com.epam.project.TimeParser;
 import com.epam.project.command.Command;
 import com.epam.project.command.imp.LoginCommand;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.Activity;
+import com.epam.project.exception.NoSuchActivityException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import org.apache.log4j.Logger;
@@ -23,6 +26,7 @@ public class GoToUpdatePageCommand implements Command {
         ActivityService activityService = ServiceFactory.getActivityService();
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
+        ErrorConfig error = ErrorConfig.getInstance();
         String errorMessage;
         try {
             Integer id = Integer.valueOf(request.getParameter("idUpdate"));
@@ -41,11 +45,9 @@ public class GoToUpdatePageCommand implements Command {
             request.setAttribute("end_time", activity.getEndTime());
             request.setAttribute("type", "update");
 
-        } catch (Exception e) {
-            errorMessage = "Not Such activity";
-            request.setAttribute("errorMessage", errorMessage);
+        } catch (NoSuchActivityException e) {
             logger.error(e);
-            result.setPage(Path.ERROR_FWD);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.NO_SUCH_ACTIVITY));
         }
         return result;
     }

@@ -10,6 +10,7 @@ import com.epam.project.exception.WrongPasswordExeption;
 import com.epam.project.service.UserService;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.DataNotFoundException;
+import com.epam.project.taghandler.PasswordEncoder;
 import org.apache.log4j.Logger;
 
 
@@ -117,7 +118,7 @@ public class UserServiceImp implements UserService {
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            users = userDao.findAllConnectingUsersByActivity(activity, limit, offset,order);
+            users = userDao.findAllConnectingUsersByActivity(activity, limit, offset, order);
             for (User user : users) {
                 userDao.addActivitiesToUser(user);
             }
@@ -223,6 +224,13 @@ public class UserServiceImp implements UserService {
                 user.getPassword().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$"));
     }
 
+    private boolean validateRegexWithoutPassword(User user){
+
+        return (user.getName().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$") &&
+                user.getSurname().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$") &&
+                user.getEmail().matches("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$"));
+    }
+
 
     @Override
     public boolean addUser(User user) {
@@ -231,8 +239,34 @@ public class UserServiceImp implements UserService {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
             System.out.println(validateRegex(user));
-            result = validateUserData(user) && userDao.createUser(user) && validateRegex(user);
-            daoFactory.close();
+            if (validateUserData(user) && validateRegex(user)) {
+                user.setPassword(PasswordEncoder.hashPassword(user.getPassword()));
+                result = userDao.createUser(user);
+                daoFactory.close();
+            } else {
+                return false;
+            }
+        } catch (DataBaseConnectionException e) {
+            log.error(e);
+            return false;
+        }
+        return result;
+    }
+
+
+    @Override
+    public boolean updateUser(User user) {
+        boolean result;
+        try {
+            daoFactory.open();
+            userDao = daoFactory.getUserDao();
+            if (validateUserData(user) && validateRegex(user)) {
+                user.setPassword(PasswordEncoder.hashPassword(user.getPassword()));
+                result = userDao.updateUser(user);
+                daoFactory.close();
+            } else {
+                return false;
+            }
         } catch (DataBaseConnectionException e) {
             log.error(e);
             return false;
@@ -241,12 +275,18 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public boolean updateUserWithoutEmail(User user) {
         boolean result;
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            result = validateUserData(user) && userDao.updateUser(user) && validateRegex(user);
+            if (validateUserData(user) && validateRegexWithoutPassword(user)) {
+                user.setPassword(PasswordEncoder.hashPassword(user.getPassword()));
+                result = userDao.updateUser(user);
+                daoFactory.close();
+            } else {
+                return false;
+            }
         } catch (DataBaseConnectionException e) {
             log.error(e);
             return false;
@@ -260,7 +300,7 @@ public class UserServiceImp implements UserService {
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            result = validateUserData(user) && userDao.deleteUser(user) && validateRegex(user);
+            result = validateUserData(user) && validateRegex(user) && userDao.deleteUser(user);
             daoFactory.close();
         } catch (DataBaseConnectionException ex) {
             log.error(ex);

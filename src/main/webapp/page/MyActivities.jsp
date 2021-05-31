@@ -49,7 +49,7 @@
                 <input type="hidden" name="idUpdate" value="${activity.id}">
                 <button class="menubutton" type="submit">Update Activity</button>
             </form>
-            <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
+            <form class="menuitem" name="AddUser" method="post" action="/project/controller">
                 <input type="hidden" name="command" value="addUserToActivity"/>
                 <input type="hidden" name="activityToInsert" value="${activity.id}">
                 <input type="text" name="userEmail" placeholder="User Email">

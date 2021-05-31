@@ -2,6 +2,8 @@ package com.epam.project.command.page;
 
 import com.epam.project.command.Command;
 import com.epam.project.command.imp.LoginCommand;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
@@ -18,13 +20,14 @@ public class GotoLoginPageCommand implements Command {
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         String errorMessage = "Exeption error";
         ResultOfExecution result = new ResultOfExecution();
+        ErrorConfig error = ErrorConfig.getInstance();
         result.setDirection(Direction.REDIRECT);
         try {
             result.setPage(Path.USER_LOGIN);
         } catch (Exception e) {
             logger.error(e);
             result.setPage(Path.ERROR);
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.PAGE_NOT_FOUND));
         }
         return result;
     }

@@ -2,6 +2,8 @@ package com.epam.project.command.page;
 
 import com.epam.project.command.Command;
 import com.epam.project.command.imp.LoginCommand;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
@@ -17,6 +19,7 @@ public class GoToMyActivityPage implements Command {
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         String errorMessage = "Exception error";
         ResultOfExecution result = new ResultOfExecution();
+        ErrorConfig error = ErrorConfig.getInstance();
         try {
             result.setDirection(Direction.REDIRECT);
             result.setPage(Path.MY_ACTIVITIES_PAGE);
@@ -24,7 +27,7 @@ public class GoToMyActivityPage implements Command {
             result.setDirection(Direction.FORWARD);
             logger.error(e);
             result.setPage(Path.ERROR_FWD);
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.PAGE_NOT_FOUND));
         }
         return result;
     }

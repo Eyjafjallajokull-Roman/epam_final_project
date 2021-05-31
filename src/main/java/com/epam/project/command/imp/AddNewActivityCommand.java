@@ -2,6 +2,8 @@ package com.epam.project.command.imp;
 
 import com.epam.project.TimeParser;
 import com.epam.project.command.Command;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.entity.Status;
 import com.epam.project.entity.TypeOfActivity;
@@ -27,8 +29,8 @@ public class AddNewActivityCommand implements Command {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
         HttpSession session = request.getSession();
+        ErrorConfig error = ErrorConfig.getInstance();
 
-        String errorMessage;
         try {
 
             User user = (User) session.getAttribute("user");
@@ -59,21 +61,18 @@ public class AddNewActivityCommand implements Command {
                     result.setPage(Path.USER_CABINET);
                     System.out.println("Activity create");
                 }else {
-                    errorMessage = "Wrong data, check pls Time. Start Time must be > Time now, and End Time > Start time";
-                    request.setAttribute("errorMessage", errorMessage);
+                    request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.WRONG_INPUT_TIME));
                     result.setPage(Path.ERROR_FWD);
                 }
             }
             else {
-                errorMessage = "User was not found";
-                request.setAttribute("errorMessage", errorMessage);
+                request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.UNABLE_TO_FOUND_USER));
                 result.setPage(Path.ERROR_FWD);
                 return result;
             }
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             log.error(e);
-            errorMessage = "Can not add activity";
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.Data_WAS_NOT_FOUND));
             result.setPage(Path.ERROR_FWD);
         }
         return result;

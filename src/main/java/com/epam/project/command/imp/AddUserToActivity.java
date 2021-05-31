@@ -1,6 +1,8 @@
 package com.epam.project.command.imp;
 
 import com.epam.project.command.Command;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
@@ -24,28 +26,40 @@ public class AddUserToActivity implements Command {
         String url = request.getHeader("referer").replaceFirst("http://localhost:8080", "");
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
-        UserService userService = ServiceFactory.getUserService();
-        ActivityService activityService = ServiceFactory.getActivityService();
-        String errorMessage;
+        ErrorConfig error = ErrorConfig.getInstance();
+
         try {
+            UserService userService = ServiceFactory.getUserService();
+            ActivityService activityService = ServiceFactory.getActivityService();
             String email = request.getParameter("userEmail");
             Integer activityId = Integer.valueOf(request.getParameter("activityToInsert"));
             User user = userService.findUserByLogin(email);
             Activity activity = activityService.findActivityById(activityId);
             if (userService.addUserToActivity(activity, user)) {
-                System.out.println("Я тут");
+
                 result.setPage(url);
                 result.setDirection(Direction.REDIRECT);
             } else {
-                errorMessage = "This User already in Activity ";
-                request.setAttribute("errorMessage", errorMessage);
+                request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.USER_ALREADY_IN_ACTIVITY));
                 result.setPage(Path.ERROR_FWD);
             }
-        } catch (NoUserException | NoSuchActivityException | NullPointerException e) {
+
+        } catch (NoUserException e) {
+            log.error(e);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.UNABLE_TO_FOUND_USER));
+            result.setPage(Path.ERROR_FWD);
+
+        } catch (NoSuchActivityException e) {
+
             System.out.println("error");
             log.error(e);
-            errorMessage = "No User/ No Such Activity";
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.NO_SUCH_ACTIVITY));
+            result.setPage(Path.ERROR_FWD);
+
+        } catch (NullPointerException e) {
+
+            log.error(e);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.DATA_BASE_CONNECTION));
             result.setPage(Path.ERROR_FWD);
         }
 

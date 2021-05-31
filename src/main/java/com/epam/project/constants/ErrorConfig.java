@@ -1,12 +1,5 @@
 package com.epam.project.constants;
 
-import com.epam.project.controller.ResultOfExecution;
-import com.epam.project.entity.Role;
-import com.epam.project.entity.User;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.ResourceBundle;

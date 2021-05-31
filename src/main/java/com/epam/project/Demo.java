@@ -11,6 +11,7 @@ import com.epam.project.service.ActivityService;
 import com.epam.project.service.UserService;
 import com.epam.project.service.imp.ActivityServiceImp;
 import com.epam.project.service.imp.UserServiceImp;
+import com.epam.project.taghandler.PasswordEncoder;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -21,6 +22,7 @@ public class Demo {
     public static void main(String[] args) throws DataNotFoundException, NoUserException, NoSuchActivityException {
         UserService userService = new UserServiceImp();
         ActivityService activityService = new ActivityServiceImp();
+
 //        User user = new User();
 //        user.setEmail("titanmki");
 //        user.setPassword("12345");
@@ -50,7 +52,9 @@ public class Demo {
 //        long diff = activty.getEndTime().getTime() - activty.getStartTime().getTime();
 
 
+        System.out.println(userService.findAllConnectingUsersByActivity(5, 0, 5, "user.name"));
+//
+        System.out.println(PasswordEncoder.hashPassword("322Tinker228"));
 
-        System.out.println(userService.findAllConnectingUsersByActivity(5,0,5,"user.name"));
     }
 }
