@@ -1,5 +1,4 @@
 package com.epam.project.controller;
-
 public class ResultOfExecution {
 
     private String page;
@@ -32,8 +31,11 @@ public class ResultOfExecution {
         isInvalidate = invalidate;
         return this;
     }
+
     public void invalidateSession() {
         isInvalidate = true;
     }
+
+
 
 }

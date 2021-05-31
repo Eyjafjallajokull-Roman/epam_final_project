@@ -13,6 +13,7 @@ public final class Path {
     //path for forward
     public static final String ACTIVITY_PAGE_FWD = "/page/createActivity.jsp";
     public static final String ERROR_FWD = "/error.jsp";
+    public static final String ADMIN_ERROR_FWD= "/securityError.jsp";
     public static final String UPDATE_USER_PAGE_FWD = "/page/updateUser.jsp";
     public static final String USER_CABINET_FWD = "/page/cabinet.jsp";
     public static final String MY_ACTIVITIES_PAGE_FWD = "/page/MyActivities.jsp";
@@ -24,5 +25,7 @@ public final class Path {
     public static final String ADMIN_ALL_USERS_FWD = "/admin/AllUsers.jsp";
     public static final String ADMIN_USERS_BY_ACTIVITY = "/admin/FindUserByActivity.jsp";
     public static final String ADMIN_ACTIVITY_BY_USER = "/admin/FindActivityByUser.jsp";
+    public static final String ADMIN_USER_CREATED_BY_USER_ID = "/admin/CreatedByUserActivity.jsp";
+
 
 }

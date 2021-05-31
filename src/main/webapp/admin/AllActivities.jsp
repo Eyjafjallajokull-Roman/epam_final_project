@@ -50,6 +50,12 @@
                 <input type="hidden" name="activityIdFUA" value="${activity.id}">
                 <button class="menubutton" type="submit">Show Users</button>
             </form>
+            <form>
+                <input type="hidden" name="command" value="showCreatedUser"/>
+                <input type="hidden" name="createdId"
+                       value="${userService.findUserById(activity.getCreatedByUserID()).getEmail()}">
+                <button type="submit">ShowInfoWhoCreated</button>
+            </form>
         </tr>
     </div>
 </c:forEach>

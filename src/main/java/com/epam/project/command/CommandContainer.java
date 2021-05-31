@@ -41,6 +41,7 @@ public class CommandContainer {
         commandMap.put("pageNextFUA", new FindUserByActivityAdminCommand());
         commandMap.put("pageNextFUActivity", new FindAllActivityByUserAdminCommand());
         commandMap.put("showCreatedUser", new AdminFindCreatedUser());
+        commandMap.put("showActivitiesByCreatedId", new AdminFindWhatUserCreated());
 
         //future commands
 

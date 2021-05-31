@@ -156,6 +156,39 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
+    public Integer calculateActivityByCreatedId(Integer userId) throws DataBaseConnectionException {
+        Integer result = 0;
+        try {
+            daoFactory.beginTransaction();
+            activityDao = daoFactory.getActivityDao();
+            result = activityDao.calculateActivityByCreatedId(userId);
+            daoFactory.commitTransaction();
+        } catch (DataBaseConnectionException | DataNotFoundException ex) {
+            log.error(ex);
+            daoFactory.rollbackTransaction();
+        }
+        return result;
+    }
+
+    @Override
+    public List<Activity> findAllActivitiesByCreatedId(Integer id, String order, Integer limit, Integer offset) throws NoSuchActivityException {
+        List<Activity> activities;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findAllActivitiesByCreatedId(id, order, limit, offset);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoSuchActivityException();
+        }
+        return activities;
+    }
+
+    @Override
     public List<Activity> findActivitiesByStatusName(String value, Integer limit, Integer offset, String order) throws NoSuchActivityException {
         List<Activity> activities;
         try {

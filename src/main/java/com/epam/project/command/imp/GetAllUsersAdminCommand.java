@@ -1,9 +1,13 @@
 package com.epam.project.command.imp;
 
+import com.epam.project.CheckRole;
 import com.epam.project.command.Command;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
+import com.epam.project.entity.Role;
 import com.epam.project.entity.User;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.DataNotFoundException;
@@ -14,6 +18,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class GetAllUsersAdminCommand implements Command {
@@ -21,21 +26,26 @@ public class GetAllUsersAdminCommand implements Command {
 
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
-        String url = request.getHeader("referer").replaceFirst("http://localhost:8080", "");
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
-        String errorMessage;
-        int currentPage;
-        int totalPages;
-        String param;
 
-        List<User> users;
-        UserService userService = ServiceFactory.getUserService();
+        HttpSession session = request.getSession();
+        ErrorConfig error = ErrorConfig.getInstance();
+        if (!CheckRole.checkRole(session, Role.ADMIN)) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_ADMIN));
+            result.setPage(Path.ADMIN_ERROR_FWD);
+            return result;
+        }
+
         try {
+            int currentPage;
+            int totalPages;
+            String param;
+            List<User> users;
+            UserService userService = ServiceFactory.getUserService();
             currentPage = request.getParameter("currentPageU") == null ? 1
                     : Integer.parseInt(request.getParameter("currentPageU"));
             param = request.getParameter("typeU");
-
 
             users = userService.findAllUsersWithLimit((currentPage - 1) * 5, 5, param);
             totalPages = (userService.calculateAllUsers() / 5) + 1;
@@ -45,9 +55,12 @@ public class GetAllUsersAdminCommand implements Command {
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("currentPageU", currentPage);
             result.setPage(Path.ADMIN_ALL_USERS_FWD);
-        } catch (NoUserException | DataBaseConnectionException e) {
-            errorMessage = " Something go wrong";
-            request.setAttribute("errorMessage", errorMessage);
+        } catch (NoUserException e) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.UNABLE_TO_FOUND_USER));
+            log.error(e);
+            result.setPage(Path.ERROR_FWD);
+        } catch (DataBaseConnectionException e) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.DATA_BASE_CONNECTION));
             log.error(e);
             result.setPage(Path.ERROR_FWD);
         }

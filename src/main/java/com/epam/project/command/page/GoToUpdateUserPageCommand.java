@@ -1,10 +1,15 @@
 package com.epam.project.command.page;
 
+import com.epam.project.CheckRole;
 import com.epam.project.command.Command;
 import com.epam.project.command.imp.LoginCommand;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
+import com.epam.project.entity.Role;
+import com.epam.project.entity.User;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +23,18 @@ public class GoToUpdateUserPageCommand implements Command {
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         String errorMessage = "Exeption error";
         ResultOfExecution result = new ResultOfExecution();
-        HttpSession session = request.getSession();
         result.setDirection(Direction.FORWARD);
+
+        HttpSession session = request.getSession();
+        ErrorConfig error = ErrorConfig.getInstance();
+
+
+        User user = (User) session.getAttribute("user");
+        if (!CheckRole.checkRole(session, Role.ADMIN)) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_ADMIN));
+            result.setPage(Path.ADMIN_ERROR_FWD);
+            return result;
+        }
         try {
 
 
@@ -27,7 +42,7 @@ public class GoToUpdateUserPageCommand implements Command {
         } catch (Exception e) {
             logger.error(e);
             result.setPage(Path.ERROR);
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.PAGE_NOT_FOUND));
         }
         return result;
     }

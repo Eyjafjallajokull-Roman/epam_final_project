@@ -1,9 +1,13 @@
 package com.epam.project.command.imp;
 
+import com.epam.project.CheckRole;
 import com.epam.project.command.Command;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
+import com.epam.project.entity.Role;
 import com.epam.project.entity.User;
 import com.epam.project.exception.NoUserException;
 import com.epam.project.service.ServiceFactory;
@@ -12,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class AdminFindCreatedUser implements Command {
     private static final Logger log = Logger.getLogger(UserSortPageCommand.class);
@@ -21,22 +26,31 @@ public class AdminFindCreatedUser implements Command {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
         UserService userService = ServiceFactory.getUserService();
-        String errorMessage;
+
+        HttpSession session = request.getSession();
+        ErrorConfig error = ErrorConfig.getInstance();
+        if (!CheckRole.checkRole(session, Role.ADMIN)) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_ADMIN));
+            result.setPage(Path.ADMIN_ERROR_FWD);
+            return result;
+        }
+
         try {
-            String email = request.getParameter("emailCreatedBy");
-            User user = userService.findUserByLogin(email);
+            String email = request.getParameter("createdId");
+            System.out.println(email);
+            User userByLogin = userService.findUserByLogin(email);
 
 
-            request.setAttribute("name", user.getName());
-            request.setAttribute("surname", user.getSurname());
-            request.setAttribute("email", user.getEmail());
+            request.setAttribute("name", userByLogin.getName());
+            request.setAttribute("surname", userByLogin.getSurname());
+            request.setAttribute("email", userByLogin.getEmail());
             result.setPage(Path.ADMIN_SHOW_CREATED_ID_FWD);
+
         } catch (NoUserException e) {
             log.error(e);
-            errorMessage = "user was not found";
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.UNABLE_TO_FOUND_USER));
             result.setPage(Path.ERROR_FWD);
         }
-        return null;
+        return result;
     }
 }

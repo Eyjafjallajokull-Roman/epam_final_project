@@ -82,7 +82,7 @@ public abstract class GenericAbstractDao<T> {
         return items;
     }
 
-    protected List<T> findAllFromToWithValue(Connection connection, Class<T> t, String value1, Integer first, Integer offset, String order, String SQL_getAll_base)
+    protected <V> List<T> findAllFromToWithValue(Connection connection, Class<T> t, V value1, Integer first, Integer offset, String order, String SQL_getAll_base)
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();
         try {
@@ -255,7 +255,7 @@ public abstract class GenericAbstractDao<T> {
         return result;
     }
 
-    public Integer calculateRowCountsWithCondition(Connection connection, String SQL_CONDITION, String value) throws DataNotFoundException {
+    public <V> Integer calculateRowCountsWithCondition(Connection connection, String SQL_CONDITION, V value) throws DataNotFoundException {
         Integer result = 0;
         try {
             PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) AS ROWCOUNT FROM " + SQL_CONDITION);

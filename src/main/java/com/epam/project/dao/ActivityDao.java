@@ -24,7 +24,7 @@ public interface ActivityDao {
 
     List<Activity> findFirstFiveActivitiesByUserId(Integer id) throws DataNotFoundException;
 
-    List<Activity> findActivitiesWhereCreatedIdWithLimit(String value, Integer limit, Integer offset,String order) throws DataNotFoundException;
+    List<Activity> findActivitiesWhereCreatedIdWithLimit(String value, Integer limit, Integer offset, String order) throws DataNotFoundException;
 
     List<Activity> findAllActivityByCreatedIdAndTypeActivity(Integer limit, Integer offset, String value1, String value2, String order) throws DataNotFoundException;
 
@@ -35,6 +35,8 @@ public interface ActivityDao {
     List<Activity> findAllConnectingActivityByUserIdAndStatus(Integer userId, String status, Integer limit, Integer offset, String order) throws DataNotFoundException;
 
     List<Activity> findAllConnectingActivityByUserIdAndStatusAndTypeActivity(Integer userId, String status, String typeActivity, Integer limit, Integer offset, String order) throws DataNotFoundException;
+
+    List<Activity> findAllActivitiesByCreatedId(Integer id, String order, Integer limit, Integer offset) throws DataNotFoundException;
 
 
     //calculate
@@ -53,6 +55,8 @@ public interface ActivityDao {
     Integer calculateConnectingActivityByUserIdAndStatus(Integer userId, String status) throws DataNotFoundException;
 
     Integer calculateConnectingActivityByUsersIdAndStatusAndTypeActivity(Integer userId, String status, String typeActivity) throws DataNotFoundException;
+
+    Integer calculateActivityByCreatedId(Integer userId) throws DataNotFoundException;
     //crud
 
     Set<Integer> addUsersToActivities(Activity activity) throws DataNotFoundException;

@@ -26,6 +26,10 @@ public interface ActivityService {
 
     Integer calculateActivityNumberByStatusName(String value) throws DataBaseConnectionException;
 
+    Integer calculateActivityByCreatedId(Integer userId) throws DataBaseConnectionException;
+
+    List<Activity> findAllActivitiesByCreatedId(Integer id, String order, Integer limit, Integer offset) throws NoSuchActivityException;
+
     List<Activity> findActivitiesByStatusName(String value, Integer limit, Integer offset, String order) throws NoSuchActivityException;
 
     List<Activity> findActivitiesWhereCreatedIdWithLimit(String value, Integer limit, Integer offset, String order) throws NoSuchActivityException;

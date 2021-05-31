@@ -1,11 +1,16 @@
 package com.epam.project.command.imp;
 
+import com.epam.project.CheckRole;
 import com.epam.project.command.Command;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.Activity;
+import com.epam.project.entity.Role;
 import com.epam.project.entity.Status;
+import com.epam.project.entity.User;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.DataNotFoundException;
 import com.epam.project.exception.NoSuchActivityException;
@@ -17,6 +22,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,27 +45,32 @@ public class FindAllActivityByUserAdminCommand implements Command {
         types.add("activity.name");
     }
 
+
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
-        String errorMessage;
-        int currentPage;
-        int totalPages;
-        String param;
-        String typeOfActivity;
-        String email;
+        HttpSession session = request.getSession();
+        ErrorConfig error = ErrorConfig.getInstance();
+        if (!CheckRole.checkRole(session, Role.ADMIN)) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_ADMIN));
+            result.setPage(Path.ADMIN_ERROR_FWD);
+            return result;
+        }
 
-        List<Activity> activities;
-        UserService userService = ServiceFactory.getUserService();
-        ActivityService activityService = ServiceFactory.getActivityService();
         try {
+            int currentPage;
+            int totalPages;
+            String param;
+            String typeOfActivity;
+            String email;
+            List<Activity> activities;
+            UserService userService = ServiceFactory.getUserService();
+            ActivityService activityService = ServiceFactory.getActivityService();
             email = request.getParameter("email");
             Integer userId = userService.findUserByLogin(email).getId();
-
             currentPage = request.getParameter("currentPageFUA") == null ? 1
                     : Integer.parseInt(request.getParameter("currentPageFUA"));
-
 
             if (request.getParameter("typeFUA") == null || request.getParameter("typeActivityFUA") == null) {
                 param = "activity.name";
@@ -84,9 +95,20 @@ public class FindAllActivityByUserAdminCommand implements Command {
             request.setAttribute("totalPagesFUA", totalPages);
             request.setAttribute("currentPageFUA", currentPage);
             result.setPage(Path.ADMIN_ACTIVITY_BY_USER);
-        } catch (NoSuchActivityException | DataNotFoundException | DataBaseConnectionException | NoUserException e) {
-            errorMessage = " Something go wrong";
-            request.setAttribute("errorMessage", errorMessage);
+        } catch (NoSuchActivityException e) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.UNABLE_TO_FOUND_USER));
+            log.error(e);
+            result.setPage(Path.ERROR_FWD);
+        } catch (DataNotFoundException e) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.Data_WAS_NOT_FOUND));
+            log.error(e);
+            result.setPage(Path.ERROR_FWD);
+        } catch (DataBaseConnectionException e) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.DATA_BASE_CONNECTION));
+            log.error(e);
+            result.setPage(Path.ERROR_FWD);
+        } catch (NoUserException e) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.NO_SUCH_ACTIVITY));
             log.error(e);
             result.setPage(Path.ERROR_FWD);
         }

@@ -26,20 +26,25 @@ public class RegisterCommand implements Command {
         result.setDirection(Direction.REDIRECT);
         HttpSession session = request.getSession();
         String errorMessage;
+        ActivityService activityService = ServiceFactory.getActivityService();
+        UserService userService = ServiceFactory.getUserService();
 
         try {
+            session.setAttribute("userService", userService);
+            session.setAttribute("activityService", activityService);
             String email = request.getParameter("email");
             String name = request.getParameter("name");
             String last = request.getParameter("lastName");
             String password = request.getParameter("password");
             String confirmPassword = request.getParameter("confirmPassword");
+
             User user = new User();
             user.setEmail(email);
             user.setPassword(password);
             user.setName(name);
             user.setSurname(last);
             user.setRole(Role.CLIENT);
-            UserService userService = ServiceFactory.getUserService();
+            userService = ServiceFactory.getUserService();
             if (confirmPassword.equals(password)) {
                 if (userService.addUser(user)) {
                     session.setAttribute("userLogin", email);

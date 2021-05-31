@@ -42,6 +42,19 @@
             <button type="submit">DeleteUserFromActivity</button>
         </form>
     </c:if>
+    <td>
+        <form class="menuitem" name="pageNextUser" method="get" action="/project/controller">
+            <input type="hidden" name="command" value="pageNextFUActivity"/>
+            <input type="hidden" name="email" value="${user.email}">
+            <button class="menubutton" type="submit">Show Activities</button>
+        </form>
+    </td>
+    <form class="menuitem" name="showActivitiesByCreatedId" method="get" action="/project/controller">
+        <input type="hidden" name="command" value="showActivitiesByCreatedId"/>
+        <input type="hidden" name="createdBy" value="${user.email}">
+        <button class="menubutton" type="submit">Show Created Activities</button>
+    </form>
+
 </c:forEach>
 <div class="pagination">
     <c:forEach var="i" begin="1" end="${totalPagesFUA}">

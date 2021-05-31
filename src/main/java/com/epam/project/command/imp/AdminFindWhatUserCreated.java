@@ -12,83 +12,61 @@ import com.epam.project.entity.Role;
 import com.epam.project.entity.User;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.NoSuchActivityException;
+import com.epam.project.exception.NoUserException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
+import com.epam.project.service.UserService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class UserSortPageCommand implements Command {
+public class AdminFindWhatUserCreated implements Command {
     private static final Logger log = Logger.getLogger(UserSortPageCommand.class);
-    private static final List<String> types;
-    private static final List<String> typesOfActivity;
-
-    static {
-        types = new ArrayList<>();
-        typesOfActivity = new ArrayList<>();
-        typesOfActivity.add("REMINDER");
-        typesOfActivity.add("EVENT");
-        typesOfActivity.add("all");
-        typesOfActivity.add("TASK");
-        types.add("start_time");
-        types.add("end_time");
-        types.add("activity.name");
-    }
-
 
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
         ErrorConfig error = ErrorConfig.getInstance();
-
-        if (!CheckRole.checkRole(session, Role.CLIENT)) {
+        if (!CheckRole.checkRole(session, Role.ADMIN)) {
             request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_ADMIN));
             result.setPage(Path.ADMIN_ERROR_FWD);
             return result;
         }
 
         try {
+            UserService userService = ServiceFactory.getUserService();
             ActivityService activityService = ServiceFactory.getActivityService();
             int currentPage;
             int totalPages;
             List<Activity> activities;
+            String email = request.getParameter("createdBy");
+            User userToFind = userService.findUserByLogin(email);
             currentPage = request.getParameter("currentPage") == null ? 1 : Integer.parseInt(request.getParameter("currentPage"));
-            String parameter = types.stream().filter(s -> s.equals(request.getParameter("type"))).collect(Collectors.toList()).get(0);
-            String typeOfActivity = typesOfActivity.stream().filter(s -> s.equals(request.getParameter("typeActivity"))).collect(Collectors.toList()).get(0);
+            activities = activityService.findAllActivitiesByCreatedId(userToFind.getId(), "start_time", (currentPage - 1) * 5, 5);
+            totalPages = (activityService.calculateActivityByCreatedId(userToFind.getId()) / 5) + 1;
 
-            if (typeOfActivity.equals("all")) {
-                activities = activityService.findActivitiesWhereCreatedIdWithLimit(String.valueOf(user.getId()), (currentPage - 1) * 5, 5, parameter);
-                totalPages = (activityService.calculateActivityNumberWithCreatedByIdCondition(user.getId()) / 5) + 1;
-                System.out.println(totalPages);
-            } else {
-                totalPages = (activityService.calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(user.getId(), typeOfActivity) / 5) + 1;
-                activities = activityService.findAllActivityByCreatedIdAndTypeActivity((currentPage - 1) * 5, 5, String.valueOf(user.getId()), typeOfActivity, parameter);
-            }
-
-            request.setAttribute("type", parameter);
-            request.setAttribute("typeActivity", typeOfActivity);
+            request.setAttribute("createdBy", email);
             request.setAttribute("activities", activities);
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("currentPage", currentPage);
-            result.setPage(Path.MY_ACTIVITIES_PAGE_FWD);
-
-        } catch (NoSuchActivityException e) {
-            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.NO_SUCH_ACTIVITY));
+            result.setPage(Path.ADMIN_USER_CREATED_BY_USER_ID);
+        } catch (NoUserException e) {
+            log.error(e);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.UNABLE_TO_FOUND_USER));
             result.setPage(Path.ERROR_FWD);
-
         } catch (DataBaseConnectionException e) {
+            log.error(e);
             request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.DATA_BASE_CONNECTION));
             result.setPage(Path.ERROR_FWD);
-
-
+        } catch (NoSuchActivityException e) {
+            log.error(e);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.NO_SUCH_ACTIVITY));
+            result.setPage(Path.ERROR_FWD);
         }
         return result;
     }

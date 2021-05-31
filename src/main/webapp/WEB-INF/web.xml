@@ -23,11 +23,21 @@
     <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>com.epam.project.filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>requestEncoding</param-name>
+            <param-value>UTF8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>responseEncoding</param-name>
+            <param-value>cp1251</param-value>
+        </init-param>
     </filter>
 
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
+
+
     </filter-mapping>
 
     <filter>
@@ -40,7 +50,6 @@
         <url-pattern>/page/*</url-pattern>
     </filter-mapping>
 
-
     <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>com.epam.project.filter.AdminFilter</filter-class>
@@ -48,8 +57,10 @@
 
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-        <url-pattern>/admin/adminCabinet.jsp</url-pattern>
+        <url-pattern>/admin/*</url-pattern>
     </filter-mapping>
+
+
 
 
 

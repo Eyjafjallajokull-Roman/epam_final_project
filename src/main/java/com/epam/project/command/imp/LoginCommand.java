@@ -11,6 +11,7 @@ import com.epam.project.exception.NoUserException;
 import com.epam.project.exception.WrongPasswordExeption;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
+import com.epam.project.service.UserService;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -35,6 +36,8 @@ public class LoginCommand implements Command {
         String email = request.getParameter("email");
         logger.trace("Request parameter login: " + email);
         String password = request.getParameter("password");
+        ActivityService activityService = ServiceFactory.getActivityService();
+        UserService userService = ServiceFactory.getUserService();
 
 
         //error handler
@@ -52,6 +55,8 @@ public class LoginCommand implements Command {
             User user = ServiceFactory.getUserService().findUser(email, password);
             logger.trace("Found in DB: user --> " + user);
             session.setAttribute("user", user);
+            session.setAttribute("userService", userService);
+            session.setAttribute("activityService", activityService);
             if (user.getRole() == Role.CLIENT) {
                 resultOfExecution.setPage(Path.USER_CABINET);
             } else {

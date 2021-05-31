@@ -1,11 +1,16 @@
 package com.epam.project.command.imp;
 
+import com.epam.project.CheckRole;
 import com.epam.project.command.Command;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.Activity;
+import com.epam.project.entity.Role;
 import com.epam.project.entity.Status;
+import com.epam.project.entity.User;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.NoSuchActivityException;
 import com.epam.project.service.ActivityService;
@@ -42,13 +47,20 @@ public class AdminSortPageCommand implements Command {
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
-        ActivityService activityService = ServiceFactory.getActivityService();
         HttpSession session = request.getSession();
-        int currentPage;
-        int totalPages;
-        List<Activity> activities;
-        UserService userService = new UserServiceImp();
+        ErrorConfig error = ErrorConfig.getInstance();
+        if (!CheckRole.checkRole(session, Role.ADMIN)) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_ADMIN));
+            result.setPage(Path.ADMIN_ERROR_FWD);
+            return result;
+        }
+
         try {
+            ActivityService activityService = ServiceFactory.getActivityService();
+            int currentPage;
+            int totalPages;
+            List<Activity> activities;
+            UserService userService = new UserServiceImp();
             session.setAttribute("userService", userService);
             currentPage = request.getParameter("currentPageAdmin") == null ? 1 : Integer.parseInt(request.getParameter("currentPageAdmin"));
             String parameter = types.stream().filter(s -> s.equals(request.getParameter("typeAdmin"))).collect(Collectors.toList()).get(0);
@@ -71,9 +83,15 @@ public class AdminSortPageCommand implements Command {
             request.setAttribute("currentPageAdmin", currentPage);
             result.setPage(Path.ADMIN_ALL_ACTIVITIES_FWD);
 
-        } catch (NoSuchActivityException | DataBaseConnectionException e) {
+        } catch (NoSuchActivityException e) {
             log.error(e);
             result.setPage(Path.ERROR_FWD);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.NO_SUCH_ACTIVITY));
+
+        } catch (DataBaseConnectionException e) {
+            log.error(e);
+            result.setPage(Path.ERROR_FWD);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.DATA_BASE_CONNECTION));
 
         }
         return result;

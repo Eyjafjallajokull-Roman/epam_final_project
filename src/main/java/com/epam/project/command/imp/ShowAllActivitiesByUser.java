@@ -1,11 +1,16 @@
 package com.epam.project.command.imp;
 
+import com.epam.project.CheckRole;
 import com.epam.project.command.Command;
+import com.epam.project.constants.ErrorConfig;
+import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.Activity;
+import com.epam.project.entity.Role;
 import com.epam.project.entity.User;
+import com.epam.project.exception.NoSuchActivityException;
 import com.epam.project.service.ServiceFactory;
 import org.apache.log4j.Logger;
 
@@ -24,7 +29,14 @@ public class ShowAllActivitiesByUser implements Command {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
         HttpSession session = request.getSession();
-        String errorMessage;
+        ErrorConfig error = ErrorConfig.getInstance();
+
+        if (!CheckRole.checkRole(session, Role.CLIENT)) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_ADMIN));
+            result.setPage(Path.ADMIN_ERROR_FWD);
+            return result;
+        }
+
         String showTable = request.getParameter("showTable");
         try {
             User user = (User) session.getAttribute("user");
@@ -46,11 +58,10 @@ public class ShowAllActivitiesByUser implements Command {
                 request.setAttribute("activityList", activityList);
             }
 
-        } catch (Exception e) {
+        } catch (NoSuchActivityException e) {
             log.error(e);
-            errorMessage = "something go wrong";
             result.setPage(Path.ERROR_FWD);
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.NO_SUCH_ACTIVITY));
         }
         return result;
     }
