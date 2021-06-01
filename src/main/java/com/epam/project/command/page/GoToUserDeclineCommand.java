@@ -1,7 +1,6 @@
 package com.epam.project.command.page;
 
 import com.epam.project.command.Command;
-import com.epam.project.command.imp.LoginCommand;
 import com.epam.project.constants.ErrorConfig;
 import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
@@ -12,8 +11,8 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GoToCreatePageCommand implements Command {
-    private static final Logger logger = Logger.getLogger(GoToCreatePageCommand.class);
+public class GoToUserDeclineCommand implements Command {
+    private static final Logger logger = Logger.getLogger(GoToUserDeclineCommand.class);
 
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
@@ -22,7 +21,7 @@ public class GoToCreatePageCommand implements Command {
         result.setDirection(Direction.FORWARD);
         try {
 
-            result.setPage(Path.ACTIVITY_PAGE_FWD);
+            result.setPage(Path.DECLINED_ACTIVITIES_FWD);
 
         } catch (Exception e) {
             logger.error(e);

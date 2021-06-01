@@ -30,6 +30,8 @@ public class CommandContainer {
         commandMap.put("goToRegister", new GoToRegisterPageCommand());
         commandMap.put("pageNext", new UserSortPageCommand());
         commandMap.put("goToMyActivities", new GoToMyActivityPage());
+        commandMap.put("showDeclinedActivities", new UserDeclinePageCommand());
+        commandMap.put("goToDeclinePage", new GoToUserDeclineCommand());
 
         commandMap.put("addUserToActivity", new AddUserToActivity());
         //admin

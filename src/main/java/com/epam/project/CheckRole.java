@@ -6,6 +6,9 @@ import com.epam.project.entity.User;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * Check if User allowed for this command
+ */
 public class CheckRole {
 
     public static boolean checkRole(HttpSession session, Role role) {

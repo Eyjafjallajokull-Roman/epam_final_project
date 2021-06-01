@@ -45,38 +45,6 @@ public class DBManager {
         return connection;
     }
 
-    public void beginTransaction() throws DataBaseConnectionException {
-        try {
-            connection = getConnection();
-            connection.setAutoCommit(false);
-        } catch (SQLException throwables) {
-            logger.error(throwables);
-            throw new DataBaseConnectionException();
-        }
-    }
-
-
-    public void commitAndClose(Connection con) throws DataBaseConnectionException {
-        if (con != null) {
-            try {
-                con.commit();
-                con.close();
-            } catch (SQLException ex) {
-                logger.error(ex);
-                throw new DataBaseConnectionException();
-            }
-        }
-    }
-
-    public void rollbackAndClose(Connection con) throws DataBaseConnectionException {
-        try {
-            con.rollback();
-            con.close();
-        } catch (SQLException ex) {
-            logger.error(ex);
-            throw new DataBaseConnectionException();
-        }
-    }
 
 
 }

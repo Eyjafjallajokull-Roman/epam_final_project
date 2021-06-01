@@ -31,6 +31,10 @@
                 <input type="hidden" name="showTable" value="${showTable}">
                 <button class="addActivity" type="submit">Show Activities</button>
             </form>
+            <form class="menuitem" name="DeclinedActivities" method="post" action="/project/controller">
+                <input type="hidden" name="command" value="showDeclinedActivities"/>
+                <button class="addActivity" type="submit">Decline Activities</button>
+            </form>
         </div>
         <div class="rightHeader">
             <div class="hamburger-menu">
@@ -55,10 +59,10 @@
                         <div class="checkLanguage">
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
-                                    <select id="language" name="language">
-                                        <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
-                                        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-                                    </select>
+                                <select id="language" name="language">
+                                    <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
+                                    <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+                                </select>
                             </div>
                         </div>
                     </li>
@@ -84,10 +88,10 @@
                     <td>${activity.name}</td>
                     <c:choose>
                         <c:when test="${language == 'ru_RU'}">
-                    <td>${activity.descriptionRus}</td>
+                            <td>${activity.descriptionRus}</td>
                         </c:when>
                         <c:otherwise>
-                    <td>${activity.descriptionEng}</td>
+                            <td>${activity.descriptionEng}</td>
                         </c:otherwise>
                     </c:choose>
                     <td>${activity.startTime}</td>
@@ -99,14 +103,16 @@
                             <form class="menuitem" name="deleteActivityUser" method="post" action="/project/controller">
                                 <input type="hidden" name="command" value="deleteActivityUser"/>
                                 <input type="hidden" name="idDelete" value="${activity.id}">
-                                <button class="btnDelete" type="submit"><img style="width: 30px" src="/project/icons/del.svg"
+                                <button class="btnDelete" type="submit"><img style="width: 30px"
+                                                                             src="/project/icons/del.svg"
                                                                              alt=""/>
                                 </button>
                             </form>
                             <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
                                 <input type="hidden" name="command" value="updateActivityPage"/>
                                 <input type="hidden" name="idUpdate" value="${activity.id}">
-                                <button class="btnEdit" type="submit"><img style="width: 30px" src="/project/icons/edit.svg"
+                                <button class="btnEdit" type="submit"><img style="width: 30px"
+                                                                           src="/project/icons/edit.svg"
                                                                            alt=""/></button>
                             </form>
                         </c:if>
@@ -114,7 +120,7 @@
                 </tr>
             </c:forEach>
         </table>
-    </c:if>
+        </c:if>
     </div>
     <f:colontitle/>
 </div>

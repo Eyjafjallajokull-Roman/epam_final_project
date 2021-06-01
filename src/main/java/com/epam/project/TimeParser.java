@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+/**
+ * Parse Time from JSP DateTime-local to TimeParser
+ */
 public class TimeParser {
 
 

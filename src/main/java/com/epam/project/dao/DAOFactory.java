@@ -13,6 +13,7 @@ public class DAOFactory {
     DBManager dbManager = new DBManager();
     Connection connection;
 
+
     public UserDao getUserDao() {
         return new UserDaoImp(connection);
     }
@@ -21,6 +22,11 @@ public class DAOFactory {
         return new ActivityDaoImp(connection);
     }
 
+
+
+    /**
+     * Transaction methods
+     */
     public void beginTransaction() throws DataBaseConnectionException {
         connection = dbManager.getConnection();
         try {
@@ -52,6 +58,10 @@ public class DAOFactory {
             throw new DataBaseConnectionException();
         }
     }
+
+    /**
+     * Connection open and closing methods
+     */
 
     public void open() throws DataBaseConnectionException {
         connection = dbManager.getConnection();

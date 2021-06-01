@@ -1,4 +1,5 @@
 package com.epam.project.controller;
+/** Object of ResultOfExecution Class is result of Command execution that contains page and Direction */
 public class ResultOfExecution {
 
     private String page;

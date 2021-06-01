@@ -51,7 +51,7 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
 
     private static final String FIND_ALL_ACTIVITIES_BY_CONNECTING_USER_AND_STATUS_AND_TYPE_ACTIVITY = "SELECT activity_id from activity JOIN activity_status on activity.activity_status_id=activity_status.id join user_activity on user_activity.activity_id = activity.id where user_id  = ?  and activity_status.name = ? and type_of_activity = ? order by ";
     private static final String FIND_ALL_ACTIVITIES_BY_CONNECTING_USER_AND_STATUS = "SELECT activity_id from activity JOIN activity_status on activity.activity_status_id=activity_status.id join user_activity on user_activity.activity_id = activity.id where user_id  = ? and activity_status.name = ?  order by ";
-    private static final String FIND_ALL_ACTIVITIES_CREATED_BY_ID = SQL_BASE + " where created_by_id = ? and activity_status.name = 'ACCEPT' order by ";
+    private static final String FIND_ALL_ACTIVITIES_CREATED_BY_ID = SQL_BASE + " where created_by_id = ? and activity_status.name = ? order by ";
     //crd
     private static final String CREATE_ACTIVITY = "INSERT INTO activity(start_time,end_time,name,description_en,description_ru,type_of_activity,created_by_id,activity_status_id) values (?,?,?,?,?,?,?,?)";
     private static final String DELETE_ACTIVITY = "DELETE FROM activity where id = ?";
@@ -79,7 +79,7 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
     private static final String Condition_TypeOfActivity_With_Param = " activity JOIN activity_status on activity.activity_status_id=activity_status.id where type_of_activity=?  and  activity_status.name ='ACCEPT' ;";
     private static final String CONDITION_STATUS_NAME = " activity JOIN activity_status on activity.activity_status_id=activity_status.id where activity_status.name = ? ";
     private static final String CALCULATE_ALL_CONNECTING_ACTIVITY_BY_USER = "user_activity join user on user.id = user_activity.user_id where user.email = ?";
-    private static final String CALCULATE_ACTIVITY_BY_CREATED_ID = " activity JOIN activity_status on activity.activity_status_id=activity_status.id where created_by_id = ? and activity_status.name = 'ACCEPT'";
+    private static final String CALCULATE_ACTIVITY_BY_CREATED_ID = " activity JOIN activity_status on activity.activity_status_id=activity_status.id where created_by_id = ? and activity_status.name = ?";
 
     private static final String CALCULATE_ALL_ACTIVITIES_BY_CONNECTING_USER_AND_STATUS_AND_TYPE_ACTIVITY = " activity JOIN activity_status on activity.activity_status_id=activity_status.id  " +
             "join user_activity on user_activity.activity_id = activity.id where user_id  = ?  and activity_status.name = ? and type_of_activity = ? ";
@@ -191,13 +191,13 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
     }
 
     @Override
-    public Integer calculateActivityByCreatedId(Integer userId) throws DataNotFoundException {
-        return calculateRowCountsWithCondition(connection, CALCULATE_ACTIVITY_BY_CREATED_ID, userId);
+    public Integer calculateActivityByCreatedId(Integer userId, String status) throws DataNotFoundException {
+        return calculateRowCountsWithConditionAndWhereParam(connection, CALCULATE_ACTIVITY_BY_CREATED_ID, userId, status);
     }
 
     @Override
-    public List<Activity> findAllActivitiesByCreatedId(Integer id, String order, Integer limit, Integer offset) throws DataNotFoundException {
-        return findAllFromToWithValue(connection, Activity.class, id, limit, offset, order, FIND_ALL_ACTIVITIES_CREATED_BY_ID);
+    public List<Activity> findAllActivitiesByCreatedId(Integer id, String order, Integer limit, Integer offset, String status) throws DataNotFoundException {
+        return findAllFromToWithWhereParam(connection, Activity.class, limit, offset, FIND_ALL_ACTIVITIES_CREATED_BY_ID,id,status,order);
     }
 
     @Override
