@@ -31,7 +31,6 @@ public class UserDeleteActivityCommand implements Command {
             Activity activity = activityService.findActivityById(Integer.valueOf(request.getParameter("idDelete")));
             activity.setStatus(Status.ON_DELETE);
             if (activityService.updateActivityWithoutValidation(activity)) {
-
                 result.setPage(url);
                 result.setDirection(Direction.REDIRECT);
             }

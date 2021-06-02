@@ -43,15 +43,18 @@ public class AcceptDeclineActivityToAddCommand implements Command {
             String option = request.getParameter("option");
             Integer id = Integer.valueOf(request.getParameter("id"));
             activity = activityService.findActivityById(id);
+
             if (typeOf.equals(Status.ON_CHECK.name())) {
                 activity.setStatus(option.equals("acceptActivity") ? Status.ACCEPT : Status.DECLINE);
             } else {
+
                 if (option.equals("acceptActivity")) {
                     activityService.deleteActivity(activity);
                 } else {
                     activity.setStatus(Status.ACCEPT);
                 }
             }
+
             activityService.updateActivityWithoutValidation(activity);
             request.setAttribute("typeOf", typeOf);
             result.setPage(url);

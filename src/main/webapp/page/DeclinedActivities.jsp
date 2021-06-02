@@ -38,6 +38,8 @@
     </table>
 </div>
 
+
+
 <div class="pagination">
     <c:forEach var="i" begin="1" end="${totalPages}">
         <c:if test="${i==currentPage}">

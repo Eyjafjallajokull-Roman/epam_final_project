@@ -56,6 +56,9 @@ public class UpdateActivityCommand implements Command {
                 ActivityService activityService = ServiceFactory.getActivityService();
 
 
+                //activityService.create(new activity) (status ON_UPDATE)
+                //get id
+
                 if (activityService.updateActivity(activity)) {
                     result.setDirection(Direction.REDIRECT);
                     result.setPage(Path.USER_CABINET);

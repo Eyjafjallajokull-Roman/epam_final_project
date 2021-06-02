@@ -15,6 +15,7 @@ public class Activity {
     private TypeOfActivity typeOfActivity;
     private Status status;
     private int createdByUserID;
+    private int oldActivityId;
     private Set<Integer> usersId;
 
     public Set<Integer> getUsersId() {

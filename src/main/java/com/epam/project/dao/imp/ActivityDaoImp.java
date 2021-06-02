@@ -57,6 +57,7 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
     private static final String DELETE_ACTIVITY = "DELETE FROM activity where id = ?";
     private static final String UPDATE_ACTIVITY = "UPDATE activity set start_time = ?, end_time = ?, name = ?, description_en =?, " +
             "description_ru = ?,type_of_activity =?, created_by_id =?, activity_status_id =? where (id = ?)";
+    private static final String CREATE_ACTIVITY_WITH_OLD_ACTIVITY = "INSERT INTO activity(start_time,end_time,name,description_en,description_ru,type_of_activity,created_by_id,activity_status_id) values (?,?,?,?,?,?,?,?)";
     //cond
 
     private static final String Condition_CREATED_BY_ID = " activity " +
