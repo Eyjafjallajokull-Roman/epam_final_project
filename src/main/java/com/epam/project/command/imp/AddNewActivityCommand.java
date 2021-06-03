@@ -19,10 +19,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AddNewActivityCommand implements Command {
     private static final Logger log = Logger.getLogger(AddNewActivityCommand.class);
+    private static final List<String> typesOfActivity;
+
+    static {
+        typesOfActivity = new ArrayList<>();
+        typesOfActivity.add("REMINDER");
+        typesOfActivity.add("EVENT");
+        typesOfActivity.add("all");
+        typesOfActivity.add("TASK");
+        typesOfActivity.add("TIME_TRACKER");
+    }
 
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
@@ -32,44 +45,43 @@ public class AddNewActivityCommand implements Command {
         ErrorConfig error = ErrorConfig.getInstance();
 
         try {
-
             User user = (User) session.getAttribute("user");
-            if (user != null) {
-                String name = request.getParameter("name");
-                String typeOfActivity = request.getParameter("typeOfActivity");
-                String descriptionEn = request.getParameter("description_en");
-                String descriptionRu = request.getParameter("description_ru");
+            String typeOfActivity = request.getParameter("typeOfActivity");
+            String name = request.getParameter("name");
+            String descriptionEn = request.getParameter("description_en");
+            String descriptionRu = request.getParameter("description_ru");
+            int created_by = user.getId();
+            Activity activity = new Activity();
+            ActivityService activityService = ServiceFactory.getActivityService();
+
+            if (typeOfActivity.equals("REMINDER")) {
+                String endTime = TimeParser.parseTimeFromJsp(request.getParameter("end_time"));
+                activity.setEndTime(Timestamp.valueOf(endTime));
+            }else if (typeOfActivity.equals("TIME_TRACKER")){
+//                activity.setStartTime(Timestamp.valueOf(LocalDateTime.now()));
+            }else {
                 String startTime = TimeParser.parseTimeFromJsp(request.getParameter("start_time"));
                 String endTime = TimeParser.parseTimeFromJsp(request.getParameter("end_time"));
-                int created_by = user.getId();
-
-                Activity activity = new Activity();
-                activity.setCreatedByUserID(created_by);
-                activity.setStartTime(Timestamp.valueOf(startTime));
                 activity.setEndTime(Timestamp.valueOf(endTime));
-                activity.setDescriptionEng(descriptionEn);
-                activity.setDescriptionRus(descriptionRu);
-                activity.setTypeOfActivity(TypeOfActivity.valueOf(typeOfActivity));
-                activity.setName(name);
-                activity.setStatus(Status.ON_CHECK);
-                ActivityService activityService = ServiceFactory.getActivityService();
-
-                System.out.println("activity get");
-
-                if (activityService.addActivity(activity)) {
-                    result.setDirection(Direction.REDIRECT);
-                    result.setPage(Path.USER_CABINET);
-                    System.out.println("Activity create");
-                }else {
-                    request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.WRONG_INPUT_TIME));
-                    result.setPage(Path.ERROR_FWD);
-                }
+                activity.setStartTime(Timestamp.valueOf(startTime));
             }
-            else {
-                request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.UNABLE_TO_FOUND_USER));
+
+            activity.setDescriptionEng(descriptionEn);
+            activity.setDescriptionRus(descriptionRu);
+            activity.setTypeOfActivity(TypeOfActivity.valueOf(typeOfActivity));
+            activity.setName(name);
+            activity.setStatus(Status.ON_CHECK);
+            activity.setCreatedByUserID(created_by);
+
+            if (activityService.addActivity(activity)) {
+                result.setDirection(Direction.REDIRECT);
+                result.setPage(Path.USER_CABINET);
+                System.out.println("Activity create");
+            } else {
+                request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.WRONG_INPUT_TIME));
                 result.setPage(Path.ERROR_FWD);
-                return result;
             }
+
         } catch (NullPointerException e) {
             log.error(e);
             request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.Data_WAS_NOT_FOUND));

@@ -1,7 +1,7 @@
-package com.epam.project.command.page;
+package com.epam.project.command.imp;
 
 import com.epam.project.command.Command;
-import com.epam.project.command.imp.LoginCommand;
+import com.epam.project.command.page.GoToCreatePageCommand;
 import com.epam.project.constants.ErrorConfig;
 import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
@@ -11,20 +11,26 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-public class GoToCreatePageCommand implements Command {
-    private static final Logger logger = Logger.getLogger(GoToCreatePageCommand.class);
-
+public class ChooseTypeOfActivity implements Command {
+    private static final Logger logger = Logger.getLogger(ChooseTypeOfActivity.class);
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
-        ErrorConfig error = ErrorConfig.getInstance();
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
+        HttpSession session = request.getSession();
+        ErrorConfig error = ErrorConfig.getInstance();
         try {
+            String typeOfActivity = request.getParameter("typeOfActivity");
+            String type = request.getParameter("type");
 
+
+            request.setAttribute("typeOfActivity", typeOfActivity);
+            request.setAttribute("type", type);
+            request.setAttribute("typeP", type);
             result.setPage(Path.ACTIVITY_PAGE_FWD);
-            request.setAttribute("typeP", "create");
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             logger.error(e);
             result.setPage(Path.ERROR);
             request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.PAGE_NOT_FOUND));

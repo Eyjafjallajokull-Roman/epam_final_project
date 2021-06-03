@@ -11,6 +11,7 @@ import com.epam.project.entity.Activity;
 import com.epam.project.entity.Status;
 import com.epam.project.entity.TypeOfActivity;
 import com.epam.project.entity.User;
+import com.epam.project.exception.NoSuchActivityException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import org.apache.log4j.Logger;
@@ -31,6 +32,7 @@ public class UpdateActivityCommand implements Command {
         ErrorConfig error = ErrorConfig.getInstance();
         try {
 
+            ActivityService activityService = ServiceFactory.getActivityService();
             User user = (User) session.getAttribute("user");
             if (user != null) {
                 String name = request.getParameter("name");
@@ -43,23 +45,26 @@ public class UpdateActivityCommand implements Command {
                 int created_by = user.getId();
 
 
-                Activity activity = new Activity();
-                activity.setCreatedByUserID(created_by);
-                activity.setStartTime(Timestamp.valueOf(startTime));
-                activity.setEndTime(Timestamp.valueOf(endTime));
-                activity.setDescriptionEng(descriptionEn);
-                activity.setDescriptionRus(descriptionRu);
-                activity.setTypeOfActivity(TypeOfActivity.valueOf(typeOfActivity));
-                activity.setName(name);
-                activity.setStatus(Status.ON_CHECK);
-                activity.setId(id);
-                ActivityService activityService = ServiceFactory.getActivityService();
+                //old Activity
+                Activity activityOld = activityService.findActivityById(id);
+                activityOld.setStatus(Status.WAIT);
 
 
-                //activityService.create(new activity) (status ON_UPDATE)
-                //get id
+                //newActivity
+                Activity activityNew = new Activity();
+                activityNew.setCreatedByUserID(created_by);
+                activityNew.setStartTime(Timestamp.valueOf(startTime));
+                activityNew.setEndTime(Timestamp.valueOf(endTime));
+                activityNew.setDescriptionEng(descriptionEn);
+                activityNew.setDescriptionRus(descriptionRu);
+                activityNew.setTypeOfActivity(TypeOfActivity.valueOf(typeOfActivity));
+                activityNew.setName(name);
+                activityNew.setStatus(Status.ON_UPDATE);
+                //reference what activity we update
+                activityNew.setOldActivityId(id);
 
-                if (activityService.updateActivity(activity)) {
+
+                if (activityService.addActivity(activityNew) && activityService.updateActivityWithoutValidation(activityOld)) {
                     result.setDirection(Direction.REDIRECT);
                     result.setPage(Path.USER_CABINET);
                 } else {
@@ -71,10 +76,10 @@ public class UpdateActivityCommand implements Command {
                 result.setPage(Path.ERROR_FWD);
                 return result;
             }
-        } catch (NullPointerException e) {
-            log.error(e);
-            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.Data_WAS_NOT_FOUND));
+        } catch (NoSuchActivityException e) {
+            request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.UNABLE_TO_FOUND_USER));
             result.setPage(Path.ERROR_FWD);
+            return result;
         }
         return result;
     }

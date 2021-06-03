@@ -88,13 +88,32 @@ h1 {
     justify-content: center;
     color: #3577fa;
     /* font-family: 'Josefin Sans', sans-serif; */
-
 }
 
 #mainForm {
     display: flex;
     flex-direction: column;
 
+}
+
+#error {
+    text-align: center;
+    margin: 10%;
+    border-width: 2px;
+    border-color: #7554ff;
+    border-radius: 10px;
+}
+
+.bigButton:hover {
+    color: black;
+    box-shadow: 0 0 10px rgba(220,120,0,0.6);
+}
+
+.bigButton {
+    height: 36px;
+    width: 240px;
+    margin: 10px;
+    border-radius: 5px;
 }
 
 .login_here{

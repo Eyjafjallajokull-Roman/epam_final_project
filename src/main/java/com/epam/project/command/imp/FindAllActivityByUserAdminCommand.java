@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,9 +41,11 @@ public class FindAllActivityByUserAdminCommand implements Command {
         typesOfActivity.add("EVENT");
         typesOfActivity.add("all");
         typesOfActivity.add("TASK");
+        typesOfActivity.add("TIME_TRACKER");
         types.add("activity.start_time");
         types.add("activity.end_time");
         types.add("activity.name");
+        types.add("activity.users");
     }
 
 
@@ -72,6 +75,7 @@ public class FindAllActivityByUserAdminCommand implements Command {
             currentPage = request.getParameter("currentPageFUA") == null ? 1
                     : Integer.parseInt(request.getParameter("currentPageFUA"));
 
+
             if (request.getParameter("typeFUA") == null || request.getParameter("typeActivityFUA") == null) {
                 param = "activity.name";
                 typeOfActivity = "all";
@@ -80,12 +84,25 @@ public class FindAllActivityByUserAdminCommand implements Command {
                 typeOfActivity = typesOfActivity.stream().filter(s -> s.equals(request.getParameter("typeActivityFUA"))).collect(Collectors.toList()).get(0);
             }
 
-            if (typeOfActivity.equals("all")) {
-                activities = activityService.findAllConnectingActivityByUserIdAndStatus(userId, Status.ACCEPT.name(), (currentPage - 1) * 5, 5, param);
-                totalPages = (activityService.calculateConnectingActivityByUserIdAndStatus(userId, Status.ACCEPT.name()) / 5) + 1;
+            if (param.equals("activity.users")) {
+                if (typeOfActivity.equals("all")) {
+                    activities = activityService.findAllActivityByStatsOrderWithoutLimit(Status.ACCEPT.name(), "activity.name");
+                    totalPages = (activityService.calculateActivityNumberByStatusName(Status.ACCEPT.name()) / 5) + 1;
+                } else {
+                    activities = activityService.findAllActivityByTypeOfActivityAndStatusOrderWithoutLimit(typeOfActivity, "activity.name");
+                    totalPages = (activityService.calculateActivityByTypeOfActivityAndStatusAccepted(typeOfActivity) / 5) + 1;
+                }
+                activities = sortByNumberOfUsers(currentPage, activities);
+
             } else {
-                activities = activityService.findAllConnectingActivityByUserIdAndStatusAndTypeActivity(userId, Status.ACCEPT.name(), typeOfActivity, (currentPage - 1) * 5, 5, param);
-                totalPages = (activityService.calculateConnectingActivityByUsersBIdAndStatusAndType(userId, Status.ACCEPT.name(), typeOfActivity) / 5) + 1;
+
+                if (typeOfActivity.equals("all")) {
+                    activities = activityService.findAllConnectingActivityByUserIdAndStatus(userId, Status.ACCEPT.name(), (currentPage - 1) * 5, 5, param);
+                    totalPages = (activityService.calculateConnectingActivityByUserIdAndStatus(userId, Status.ACCEPT.name()) / 5) + 1;
+                } else {
+                    activities = activityService.findAllConnectingActivityByUserIdAndStatusAndTypeActivity(userId, Status.ACCEPT.name(), typeOfActivity, (currentPage - 1) * 5, 5, param);
+                    totalPages = (activityService.calculateConnectingActivityByUsersBIdAndStatusAndType(userId, Status.ACCEPT.name(), typeOfActivity) / 5) + 1;
+                }
             }
 
             request.setAttribute("email", email);
@@ -113,5 +130,12 @@ public class FindAllActivityByUserAdminCommand implements Command {
             result.setPage(Path.ERROR_FWD);
         }
         return result;
+    }
+
+    private List<Activity> sortByNumberOfUsers(int currentPage, List<Activity> activities) {
+        activities = activities.stream().sorted((activity, t1) -> activity.compare(activity.getUsersId(), t1.getUsersId())).collect(Collectors.toList());
+        Collections.reverse(activities);
+        activities = activities.stream().skip((currentPage - 1) * 5).limit(5).collect(Collectors.toList());
+        return activities;
     }
 }

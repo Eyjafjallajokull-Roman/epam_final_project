@@ -35,8 +35,9 @@ public class UserSortPageCommand implements Command {
         typesOfActivity.add("EVENT");
         typesOfActivity.add("all");
         typesOfActivity.add("TASK");
-        types.add("start_time");
-        types.add("end_time");
+        typesOfActivity.add("TIME_TRACKER");
+        types.add("activity.start_time");
+        types.add("activity.end_time");
         types.add("activity.name");
     }
 
@@ -72,6 +73,7 @@ public class UserSortPageCommand implements Command {
                 totalPages = (activityService.calculateActivityNumberWithCreatedByIdConditionAndTypeActivity(user.getId(), typeOfActivity) / 5) + 1;
                 activities = activityService.findAllActivityByCreatedIdAndTypeActivity((currentPage - 1) * 5, 5, String.valueOf(user.getId()), typeOfActivity, parameter);
             }
+
 
             request.setAttribute("type", parameter);
             request.setAttribute("typeActivity", typeOfActivity);

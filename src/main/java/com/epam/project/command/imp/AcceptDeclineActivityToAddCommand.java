@@ -7,10 +7,7 @@ import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
-import com.epam.project.entity.Activity;
-import com.epam.project.entity.Role;
-import com.epam.project.entity.Status;
-import com.epam.project.entity.User;
+import com.epam.project.entity.*;
 import com.epam.project.exception.NoSuchActivityException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
@@ -19,6 +16,8 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class AcceptDeclineActivityToAddCommand implements Command {
     private static final Logger log = Logger.getLogger(AddNewActivityCommand.class);
@@ -30,7 +29,7 @@ public class AcceptDeclineActivityToAddCommand implements Command {
         result.setDirection(Direction.REDIRECT);
         HttpSession session = request.getSession();
         ErrorConfig error = ErrorConfig.getInstance();
-        if (!CheckRole.checkRole(session, Role.ADMIN))  {
+        if (!CheckRole.checkRole(session, Role.ADMIN)) {
             request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_ADMIN));
             result.setPage(Path.ADMIN_ERROR_FWD);
             return result;
@@ -46,15 +45,33 @@ public class AcceptDeclineActivityToAddCommand implements Command {
 
             if (typeOf.equals(Status.ON_CHECK.name())) {
                 activity.setStatus(option.equals("acceptActivity") ? Status.ACCEPT : Status.DECLINE);
-            } else {
-
+            } else if (typeOf.equals(Status.ON_DELETE.name())) {
                 if (option.equals("acceptActivity")) {
                     activityService.deleteActivity(activity);
                 } else {
                     activity.setStatus(Status.ACCEPT);
                 }
+            } else {
+                if (option.equals("acceptActivity")) {
+                    Activity activityNew = activityService.findActivityById(activity.getId());
+
+                    activity.setId(activity.getOldActivityId());
+                    activity.setStatus(Status.ACCEPT);
+                    activityService.deleteActivity(activityNew);
+                } else {
+                    //rollback old activity
+                    Activity oldActivity = activityService.findActivityById(activity.getOldActivityId());
+                    oldActivity.setStatus(Status.ACCEPT);
+                    activityService.updateActivityWithoutValidation(oldActivity);
+                    //delete new activity
+                    activityService.deleteActivity(activity);
+
+                }
             }
 
+            if (activity.getTypeOfActivity().equals(TypeOfActivity.TIME_TRACKER)) {
+                activity.setStartTime(Timestamp.valueOf(LocalDateTime.now()));
+            }
             activityService.updateActivityWithoutValidation(activity);
             request.setAttribute("typeOf", typeOf);
             result.setPage(url);

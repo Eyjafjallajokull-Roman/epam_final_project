@@ -17,6 +17,7 @@ public final class Fields {
     public static final String ACTIVITY_DESCRIPTION_RUS = "description_ru";
     public static final String ACTIVITY_TYPE_OF_ACTIVITY = "type_of_activity";
     public static final String ACTIVITY_CREATED_BY_USER = "created_by_id";
+    public static final String ACTIVITY_OLD_ID = "activity_old_id";
     public static final String ACTIVITY_STATUS = "activity_status_id";
 
     public static final String STATUS_NAME = "activity_status.name";

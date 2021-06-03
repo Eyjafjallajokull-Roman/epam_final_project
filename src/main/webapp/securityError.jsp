@@ -5,9 +5,21 @@
 <html>
 <head>
     <title>Security Error</title>
+    <style>
+        <%@include file="style/style.css"%>
+    </style>
 </head>
 <body>
-<h1> У вас нет прав на эту команду </h1>
+<div class=index_div>
+    <h1> Ошибка безопасности: у вас нет прав доступа на эту страницу! </h1>
+    <button class="bigButton" onclick="goBack()">Go Back</button>
+    </form>
+</div>
 <f:colontitle/>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 </body>
 </html>

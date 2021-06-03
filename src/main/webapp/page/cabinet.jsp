@@ -17,6 +17,11 @@
 <body>
 <div class="page">
     <div class="header">
+        <div class="leftHeader">
+            <div class="logo">
+                <a href="cabinet.jsp"><%@include file="../icons/load.svg" %></a>
+            </div>
+        </div>
         <div class="btnAct">
             <form class="menuitem" name="createActivityPage" method="post" action="/project/controller">
                 <input type="hidden" name="command" value="createActivityPage"/>
@@ -103,17 +108,24 @@
                             <form class="menuitem" name="deleteActivityUser" method="post" action="/project/controller">
                                 <input type="hidden" name="command" value="deleteActivityUser"/>
                                 <input type="hidden" name="idDelete" value="${activity.id}">
-                                <button class="btnDelete" type="submit"><img style="width: 30px"
-                                                                             src="/project/icons/del.svg"
-                                                                             alt=""/>
+                                <button class="btnDelete" type="submit">
+                                    <%@include file="../icons/del.svg" %>
                                 </button>
                             </form>
                             <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
                                 <input type="hidden" name="command" value="updateActivityPage"/>
                                 <input type="hidden" name="idUpdate" value="${activity.id}">
-                                <button class="btnEdit" type="submit"><img style="width: 30px"
-                                                                           src="/project/icons/edit.svg"
-                                                                           alt=""/></button>
+                                <button class="btnEdit" type="submit">
+                                    <%@include file="../icons/update.svg" %>
+                                </button>
+                            </form>
+                            <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">
+                                <input type="hidden" name="command" value="addUserToActivity"/>
+                                <input type="hidden" name="activityToInsert" value="${activity.id}">
+                                <input type="text" name="userEmail" placeholder="User Email">
+                                <button class="menubutton" type="submit">
+                                    <%@include file="../icons/add.svg" %>
+                                </button>
                             </form>
                         </c:if>
                     </td>
@@ -126,50 +138,6 @@
 </div>
 
 
-<%--            <form class="menuitem" name="createActivityPage" method="post" action="/project/controller">--%>
-<%--                <input type="hidden" name="command" value="createActivityPage"/>--%>
-<%--                <button class="menubutton" type="submit">Create Activity</button>--%>
-<%--            </form>--%>
-
-<%--            <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">--%>
-<%--                <input type="hidden" name="command" value="updateActivityPage"/>--%>
-<%--                <button class="menubutton" type="submit">Update Activity</button>--%>
-<%--            </form>--%>
-
-
-<%--            <form name="all-activities" method="get" action="/project/controller">--%>
-<%--                <input type="hidden" name="command" value="all-activities"/>--%>
-<%--                <button class="menubutton" type="submit">Show Activities</button>--%>
-<%--            </form>--%>
-
-
-<%--            <a href="/project/page/MyActivities.jsp">My Activities</a>--%>
-<%--            <form class="menuitem" name="updateActivityPage" method="post" action="/project/controller">--%>
-<%--                <input type="hidden" name="command" value="addUserToActivity"/>--%>
-<%--                <input type="hidden" name="activityToInsert" value="${activity.id}">--%>
-<%--                <input type="text" name="userEmail" placeholder="User Email">--%>
-<%--                <button class="menubutton" type="submit">Add User</button>--%>
-<%--            </form>--%>
-<%--            --%>
-<%--            <h3>All activities:</h3>--%>
-<%--            <div id="all-activities">--%>
-<%--                <c:forEach items="${activityList}" var="activity">--%>
-<%--                    <tr>--%>
-<%--                    <td class="tda">${activity.id}</td>--%>
-<%--                    <td class="tda">${activity.name}</td>--%>
-<%--                    <td class="tda">${activity.startTime}</td>--%>
-<%--                    <td class="tda">${activity.endTime}</td>--%>
-<%--                    <td class="tda">${activity.descriptionEng}</td>--%>
-<%--                    <td class="tda">${activity.descriptionRus}</td>--%>
-<%--                    <td class="tda">${activity.typeOfActivity}</td>--%>
-<%--                    <c:if test="${activity.createdByUserID.equals(user.id)}">--%>
-<%--                        --%>
-<%--                        </tr>--%>
-<%--                    </c:if>--%>
-
-<%--                </c:forEach>--%>
-<%--            </div>--%>
-
-<script src="/project/js/main.js"></script>
+<script src="../js/language.js"></script>
 </body>
 </html>

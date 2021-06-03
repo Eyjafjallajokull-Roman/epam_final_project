@@ -48,11 +48,16 @@ public interface ActivityService {
      */
     List<Activity> findFirstFiveActivitiesByUserId(Integer id) throws NoUserException;
 
+    List<Activity> findAllActivityByTypeOfActivityAndStatusOrderWithoutLimit(String typeOfActivity,String order) throws  NoSuchActivityException;
+
+    List<Activity> findAllActivityByStatsOrderWithoutLimit(String status, String order) throws NoSuchActivityException;
+
     /**
      * count all User activities
      * @return count of activities in DB
      * @throws DataBaseConnectionException if unable to close connection
      */
+
     Integer calculateActivityNumber() throws DataBaseConnectionException;
     /**
      * count all User activities

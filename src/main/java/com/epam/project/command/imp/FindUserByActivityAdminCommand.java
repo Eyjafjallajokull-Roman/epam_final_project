@@ -49,11 +49,9 @@ public class FindUserByActivityAdminCommand implements Command {
             if (param == null) {
                 param = "user.name";
             }
-            activityId = request.getParameter("activityIdFUA");
-            System.out.println(param);
-            users = userService.findAllConnectingUsersByActivity(Integer.valueOf(activityId), (currentPage - 1) * 5, 5,param);
 
-            System.out.println((currentPage - 1) * 5);
+            activityId = request.getParameter("activityIdFUA");
+            users = userService.findAllConnectingUsersByActivity(Integer.valueOf(activityId), (currentPage - 1) * 5, 5,param);
             totalPages = (userService.calculateUsersInActivity(activityId) / 5) + 1;
 
             request.setAttribute("activityIdFUA", activityId);

@@ -27,7 +27,6 @@ public class GoToUpdatePageCommand implements Command {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
         ErrorConfig error = ErrorConfig.getInstance();
-        String errorMessage;
         try {
             Integer id = Integer.valueOf(request.getParameter("idUpdate"));
 

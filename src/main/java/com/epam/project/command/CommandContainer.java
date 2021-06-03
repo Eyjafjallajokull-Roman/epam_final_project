@@ -33,7 +33,9 @@ public class CommandContainer {
         commandMap.put("showDeclinedActivities", new UserDeclinePageCommand());
         commandMap.put("goToDeclinePage", new GoToUserDeclineCommand());
 
+        commandMap.put("chooseTypeActivity", new ChooseTypeOfActivity());
         commandMap.put("addUserToActivity", new AddUserToActivity());
+        commandMap.put("deleteActivityAdmin", new DeleteActivityCommand());
         //admin
         commandMap.put("activitiesOnCheck", new AdminActivitiesOnCheckCommand());
         commandMap.put("AcDecActivity", new AcceptDeclineActivityToAddCommand());

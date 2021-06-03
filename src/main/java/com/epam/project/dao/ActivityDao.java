@@ -1,5 +1,6 @@
 package com.epam.project.dao;
 
+import com.epam.project.entity.Status;
 import com.epam.project.entity.TypeOfActivity;
 import com.epam.project.entity.Activity;
 import com.epam.project.entity.User;
@@ -35,6 +36,9 @@ public interface ActivityDao {
      */
     List<Activity> findActivityByTypeOfActivity(TypeOfActivity typeOfActivity) throws DataNotFoundException;
 
+    List<Activity> findAllActivityByTypeOfActivityAndStatusOrderWithoutLimit(String typeOfActivity,String order) throws DataNotFoundException;
+
+    List<Activity> findAllActivityByStatsOrderWithoutLimit(String status, String order) throws DataNotFoundException;
     /**
      * find all activities by createdByUserId
      * @param created_id Activity createdByUserId
@@ -176,6 +180,7 @@ public interface ActivityDao {
      * @return count of activities in DB
      * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
      */
+
     Integer calculateActivityByTypeOfActivityAndStatusAccepted(String typeOfActivity) throws DataNotFoundException;
 
     /**

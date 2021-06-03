@@ -18,13 +18,15 @@ public class GoToUserDeclineCommand implements Command {
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         ErrorConfig error = ErrorConfig.getInstance();
         ResultOfExecution result = new ResultOfExecution();
-        result.setDirection(Direction.FORWARD);
+        result.setDirection(Direction.REDIRECT);
         try {
 
-            result.setPage(Path.DECLINED_ACTIVITIES_FWD);
+            result.setPage(Path.DECLINED_ACTIVITIES);
 
         } catch (Exception e) {
+
             logger.error(e);
+            result.setDirection(Direction.FORWARD);
             result.setPage(Path.ERROR);
             request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.PAGE_NOT_FOUND));
         }

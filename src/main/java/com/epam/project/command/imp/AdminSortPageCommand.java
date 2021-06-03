@@ -13,6 +13,7 @@ import com.epam.project.entity.Status;
 import com.epam.project.entity.User;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.NoSuchActivityException;
+import com.epam.project.exception.NoUserException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,9 +41,11 @@ public class AdminSortPageCommand implements Command {
         typesOfActivity.add("EVENT");
         typesOfActivity.add("all");
         typesOfActivity.add("TASK");
+        typesOfActivity.add("TIME_TRACKER");
         types.add("activity.start_time");
         types.add("activity.end_time");
         types.add("activity.name");
+        types.add("activity.users");
     }
 
     @Override
@@ -66,15 +71,28 @@ public class AdminSortPageCommand implements Command {
             String parameter = types.stream().filter(s -> s.equals(request.getParameter("typeAdmin"))).collect(Collectors.toList()).get(0);
             String typeOfActivity = typesOfActivity.stream().filter(s -> s.equals(request.getParameter("typeActivityAdmin"))).collect(Collectors.toList()).get(0);
 
-            //do methods
-            if (typeOfActivity.equals("all")) {
-                activities = activityService.findActivitiesByStatusName(Status.ACCEPT.name(), (currentPage - 1) * 5, 5, parameter);
-                totalPages = (activityService.calculateActivityNumberByStatusName(Status.ACCEPT.name()) / 5) + 1;
+            if (parameter.equals("activity.users")) {
+                if (typeOfActivity.equals("all")) {
+                    activities = activityService.findAllActivityByStatsOrderWithoutLimit(Status.ACCEPT.name(), "activity.name");
+                    totalPages = (activityService.calculateActivityNumberByStatusName(Status.ACCEPT.name()) / 5) + 1;
+                } else {
+                    activities = activityService.findAllActivityByTypeOfActivityAndStatusOrderWithoutLimit(typeOfActivity, "activity.name");
+                    totalPages = (activityService.calculateActivityByTypeOfActivityAndStatusAccepted(typeOfActivity) / 5) + 1;
+                }
+                activities = sortByNumberOfUsers(currentPage, activities);
+
             } else {
-                totalPages = (activityService.calculateActivityByTypeOfActivityAndStatusAccepted(typeOfActivity) / 5) + 1;
-                activities = activityService.findActivitiesByTypeOfActivityAndStatusAccept(typeOfActivity, (currentPage - 1) * 5, 5, parameter);
+
+                if (typeOfActivity.equals("all")) {
+                    activities = activityService.findActivitiesByStatusName(Status.ACCEPT.name(), (currentPage - 1) * 5, 5, parameter);
+                    totalPages = (activityService.calculateActivityNumberByStatusName(Status.ACCEPT.name()) / 5) + 1;
+                } else {
+                    totalPages = (activityService.calculateActivityByTypeOfActivityAndStatusAccepted(typeOfActivity) / 5) + 1;
+                    activities = activityService.findActivitiesByTypeOfActivityAndStatusAccept(typeOfActivity, (currentPage - 1) * 5, 5, parameter);
+                }
+
             }
-            //do methods
+
 
             request.setAttribute("typeAdmin", parameter);
             request.setAttribute("typeActivityAdmin", typeOfActivity);
@@ -95,5 +113,12 @@ public class AdminSortPageCommand implements Command {
 
         }
         return result;
+    }
+
+    private List<Activity> sortByNumberOfUsers(int currentPage, List<Activity> activities) {
+        activities = activities.stream().sorted((activity, t1) -> activity.compare(activity.getUsersId(), t1.getUsersId())).collect(Collectors.toList());
+        Collections.reverse(activities);
+        activities = activities.stream().skip((currentPage - 1) * 5).limit(5).collect(Collectors.toList());
+        return activities;
     }
 }

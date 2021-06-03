@@ -118,14 +118,15 @@ function isLastName(last) {
     return /^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$/.test(last);
 }
 
-function validate() {
-    let x = document.getElementById("pass")[0].value,
-        y = document.getElementById("pass2")[0].value;
-    if (x === y) {
-        return true;
-    }
-    return false;
-}
+
+// function validate() {
+//     let x = document.getElementById("pass")[0].value,
+//         y = document.getElementById("pass2")[0].value;
+//     if (x === y) {
+//         return true;
+//     }
+//     return false;
+// }
 
 //
 // function openAlreadySignInPage() {
@@ -139,18 +140,18 @@ function validate() {
 //   }
 // }
 
-function openProfilePage() {
-    let display = document.getElementById("profileBlock").style.display;
-
-    if (display == "none") {
-        document.getElementById("profileBlock").style.display = "block";
-        document.getElementById("mainBlock").style.display = "none";
-        document.getElementById("alreadySignInPage").style.display = "none";
-    } else {
-        document.getElementById("mainBlock").style.display = "block";
-        document.getElementById("profileBlock").style.display = "none";
-        document.getElementById("alreadySignInPage").style.display = "none";
-    }
-}
+// function openProfilePage() {
+//     let display = document.getElementById("profileBlock").style.display;
+//
+//     if (display == "none") {
+//         document.getElementById("profileBlock").style.display = "block";
+//         document.getElementById("mainBlock").style.display = "none";
+//         document.getElementById("alreadySignInPage").style.display = "none";
+//     } else {
+//         document.getElementById("mainBlock").style.display = "block";
+//         document.getElementById("profileBlock").style.display = "none";
+//         document.getElementById("alreadySignInPage").style.display = "none";
+//     }
+// }
 
 

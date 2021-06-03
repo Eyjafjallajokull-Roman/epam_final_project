@@ -45,6 +45,24 @@ public abstract class GenericAbstractDao<T> {
         return items;
     }
 
+    protected <V> List<T> findAllWithOrder(Connection connection, Class<T> t, String SQL_getAll, V value, String order) throws DataNotFoundException {
+        List<T> items = new LinkedList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_getAll + order);
+            addParameterToPreparedStatement(preparedStatement, 1, value);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                T item = getItemInstance(t);
+                mapperFromDB.map(resultSet, item);
+                items.add(item);
+            }
+        } catch (SQLException sqle) {
+            log.error(sqle);
+            throw new DataNotFoundException();
+        }
+        return items;
+    }
+
     protected List<T> findAllFromToWithOrderParam(Connection connection, Class<T> t, Integer limit, Integer offset, String SQL_getAll_base, String orderParam)
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();

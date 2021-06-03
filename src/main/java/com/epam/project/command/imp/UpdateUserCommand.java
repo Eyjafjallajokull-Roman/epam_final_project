@@ -48,8 +48,8 @@ public class UpdateUserCommand implements Command {
                 String newPassword = (request.getParameter("newPassword").trim());
                 String confirmPassword = (request.getParameter("confirmPassword").trim());
 
-                if (password.equals(user.getPassword()) && confirmPassword.equals(newPassword)
-                        && !password.equals(PasswordEncoder.hashPassword(newPassword))) {
+                if (PasswordEncoder.hashPassword(password).equals(user.getPassword()) && confirmPassword.equals(newPassword)
+                        && !PasswordEncoder.hashPassword(password).equals(PasswordEncoder.hashPassword(newPassword))) {
                     user.setName(name);
                     user.setSurname(surName);
                     user.setPassword(newPassword);

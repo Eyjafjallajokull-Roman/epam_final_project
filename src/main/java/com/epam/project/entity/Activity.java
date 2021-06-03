@@ -1,11 +1,12 @@
 package com.epam.project.entity;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
 
 
-public class Activity {
+public class Activity implements Comparator<Set<Integer>> {
     private int id;
     private String name;
     private Timestamp startTime;
@@ -125,6 +126,11 @@ public class Activity {
     }
 
     @Override
+    public int compare(Set<Integer> integers, Set<Integer> t1) {
+        return Integer.compare(integers.size(), t1.size());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -135,5 +141,14 @@ public class Activity {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    public int getOldActivityId() {
+        return oldActivityId;
+    }
+
+    public Activity setOldActivityId(Integer oldActivityId) {
+        this.oldActivityId = oldActivityId;
+        return this;
     }
 }

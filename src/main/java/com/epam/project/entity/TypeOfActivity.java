@@ -1,7 +1,7 @@
 package com.epam.project.entity;
 
 public enum TypeOfActivity {
-EVENT,TASK,REMINDER
+EVENT,TASK,REMINDER, TIME_TRACKER
 
 
 }

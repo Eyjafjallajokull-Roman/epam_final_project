@@ -109,6 +109,42 @@ public class ActivityServiceImp implements ActivityService {
         return activities;
     }
 
+    @Override
+    public List<Activity> findAllActivityByTypeOfActivityAndStatusOrderWithoutLimit(String typeOfActivity, String order) throws NoSuchActivityException {
+        List<Activity> activities;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findAllActivityByTypeOfActivityAndStatusOrderWithoutLimit(typeOfActivity, order);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoSuchActivityException();
+        }
+        return activities;
+    }
+
+    @Override
+    public List<Activity> findAllActivityByStatsOrderWithoutLimit(String status, String order) throws NoSuchActivityException {
+        List<Activity> activities;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findAllActivityByStatsOrderWithoutLimit(status, order);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoSuchActivityException();
+        }
+        return activities;
+    }
+
 
     @Override
     public Integer calculateActivityNumber() throws DataBaseConnectionException {
@@ -156,12 +192,12 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public Integer calculateActivityByCreatedId(Integer userId,String status) throws DataBaseConnectionException {
+    public Integer calculateActivityByCreatedId(Integer userId, String status) throws DataBaseConnectionException {
         Integer result = 0;
         try {
             daoFactory.beginTransaction();
             activityDao = daoFactory.getActivityDao();
-            result = activityDao.calculateActivityByCreatedId(userId,status);
+            result = activityDao.calculateActivityByCreatedId(userId, status);
             daoFactory.commitTransaction();
         } catch (DataBaseConnectionException | DataNotFoundException ex) {
             log.error(ex);
@@ -171,12 +207,12 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public List<Activity> findAllActivitiesByCreatedId(Integer id, String order, Integer limit, Integer offset,String status) throws NoSuchActivityException {
+    public List<Activity> findAllActivitiesByCreatedId(Integer id, String order, Integer limit, Integer offset, String status) throws NoSuchActivityException {
         List<Activity> activities;
         try {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
-            activities = activityDao.findAllActivitiesByCreatedId(id, order, limit, offset,status);
+            activities = activityDao.findAllActivitiesByCreatedId(id, order, limit, offset, status);
             for (Activity activity : activities) {
                 activityDao.addUsersToActivities(activity);
             }
@@ -261,7 +297,7 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public List<Activity> findAllConnectingActivityByUserIdAndStatus(Integer userId, String status, Integer limit, Integer offset,String order) throws DataNotFoundException, NoSuchActivityException {
+    public List<Activity> findAllConnectingActivityByUserIdAndStatus(Integer userId, String status, Integer limit, Integer offset, String order) throws DataNotFoundException, NoSuchActivityException {
         List<Activity> activities;
         try {
             daoFactory.open();
@@ -279,12 +315,12 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public List<Activity> findAllConnectingActivityByUserIdAndStatusAndTypeActivity(Integer userId, String status, String typeActivity, Integer limit, Integer offset,String order) throws NoSuchActivityException {
+    public List<Activity> findAllConnectingActivityByUserIdAndStatusAndTypeActivity(Integer userId, String status, String typeActivity, Integer limit, Integer offset, String order) throws NoSuchActivityException {
         List<Activity> activities;
         try {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
-            activities = activityDao.findAllConnectingActivityByUserIdAndStatusAndTypeActivity(userId, status, typeActivity, limit, offset,order);
+            activities = activityDao.findAllConnectingActivityByUserIdAndStatusAndTypeActivity(userId, status, typeActivity, limit, offset, order);
             for (Activity activity : activities) {
                 activityDao.addUsersToActivities(activity);
             }
@@ -379,7 +415,13 @@ public class ActivityServiceImp implements ActivityService {
         try {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
-            result = validateActivity(activity) && activityDao.createActivity(activity);
+            if (activity.getTypeOfActivity().equals(TypeOfActivity.REMINDER)) {
+                result = validateReminder(activity) && activityDao.createActivity(activity);
+            } else if (activity.getTypeOfActivity().equals(TypeOfActivity.TIME_TRACKER)) {
+                result = activityDao.createActivity(activity);
+            } else {
+                result = validateActivity(activity) && activityDao.createActivity(activity);
+            }
             daoFactory.close();
         } catch (DataBaseConnectionException e) {
             log.error(e);
@@ -431,6 +473,13 @@ public class ActivityServiceImp implements ActivityService {
             return false;
         }
         return result;
+    }
+
+    private boolean validateReminder(Activity activity) {
+        Timestamp endTs = activity.getEndTime();
+        Timestamp nowTs = Timestamp.valueOf(LocalDateTime.now());
+        int t1 = endTs.compareTo(nowTs);
+        return t1 > 0;
     }
 
     private boolean validateActivity(Activity activity) {

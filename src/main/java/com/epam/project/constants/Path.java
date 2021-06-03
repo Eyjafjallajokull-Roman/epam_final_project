@@ -9,6 +9,7 @@ public final class Path {
     public static final String ERROR = "/project/error.jsp";
     public static final String SECURITY_ERROR = "/project/securityError.jsp";
     public static final String MY_ACTIVITIES_PAGE = "/project/page/MyActivities.jsp";
+    public static final String  DECLINED_ACTIVITIES = "/project/page/DeclinedActivities.jsp";
     public static final String ACTIVITY_PAGE = "/project/page/createActivity.jsp";
     //path for forward
     public static final String ACTIVITY_PAGE_FWD = "/page/createActivity.jsp";
@@ -18,6 +19,7 @@ public final class Path {
     public static final String USER_CABINET_FWD = "/page/cabinet.jsp";
     public static final String MY_ACTIVITIES_PAGE_FWD = "/page/MyActivities.jsp";
     public static final String DECLINED_ACTIVITIES_FWD = "/page/DeclinedActivities.jsp";
+
 
 
     public static final String ADMIN_SHOW_CREATED_ID_FWD = "/admin/ShowUserCreatedActivity.jsp";
