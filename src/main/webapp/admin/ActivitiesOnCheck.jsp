@@ -20,7 +20,7 @@
     <div class="header">
         <div class="leftHeader">
             <div class="logo">
-                <a href="adminCabinet.jsp">
+                <a href="/project/admin/adminCabinet.jsp">
                     <%@include file="../icons/load.svg" %>
                 </a>
             </div>
@@ -78,8 +78,8 @@
 
     <c:choose>
         <c:when test="${not empty activities}">
-            <div class="tableBlock">
-                <table>
+            <div>
+                <table class="tableBlock">
                     <tr>
                         <th>Name</th>
                         <th>Description</th>

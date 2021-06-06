@@ -63,6 +63,25 @@ public abstract class GenericAbstractDao<T> {
         return items;
     }
 
+    protected <V> List<T> findAllWithOrderAndParam(Connection connection, Class<T> t, String SQL_getAll, V value, String order) throws DataNotFoundException {
+        List<T> items = new LinkedList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_getAll + order);
+            addParameterToPreparedStatement(preparedStatement, 1, value);
+            addParameterToPreparedStatement(preparedStatement, 2, value);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                T item = getItemInstance(t);
+                mapperFromDB.map(resultSet, item);
+                items.add(item);
+            }
+        } catch (SQLException sqle) {
+            log.error(sqle);
+            throw new DataNotFoundException();
+        }
+        return items;
+    }
+
     protected List<T> findAllFromToWithOrderParam(Connection connection, Class<T> t, Integer limit, Integer offset, String SQL_getAll_base, String orderParam)
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();
@@ -140,28 +159,6 @@ public abstract class GenericAbstractDao<T> {
     }
 
 
-
-    protected <V> List<T> findAllFromToWithThreeParam(Connection connection, Class<T> t, Integer first, Integer offset, String SQL_getAll_base, V value1, V value2, V value3, String order)
-            throws DataNotFoundException {
-        List<T> items = new LinkedList<>();
-        try {
-            PreparedStatement ps = connection.prepareStatement(SQL_getAll_base + order + " limit " + first + ", " + offset + ";");
-            addParameterToPreparedStatement(ps, 1, value1);
-            addParameterToPreparedStatement(ps, 2, value2);
-            addParameterToPreparedStatement(ps, 3, value3);
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                T item = getItemInstance(t);
-                mapperFromDB.map(resultSet, item);
-                items.add(item);
-            }
-        } catch (SQLException sqle) {
-            log.error(sqle);
-            throw new DataNotFoundException();
-        }
-        return items;
-    }
-
     protected <V> List<T> findAllFromToActivitiesAllUsers(Connection connection, Class<T> t, Integer first, Integer offset, String SQL_getAll_base, V value1, V value2, V value3, V value4, String order)
             throws DataNotFoundException {
         List<T> items = new LinkedList<>();
@@ -183,7 +180,6 @@ public abstract class GenericAbstractDao<T> {
         }
         return items;
     }
-
 
 
 

@@ -208,6 +208,10 @@ public class ActivityDaoImp extends GenericAbstractDao<Activity> implements Acti
         return findAllFromToWithWhereParam(connection, Activity.class, limit, offset, FIND_ALL_ACTIVITIES_BY_CREATED_USERS_ID_AND_EXISTING, value, value, order);
     }
 
+    public List<Activity> findActivitiesWhereCreatedIdWithoutLimits(Integer id, String order) throws DataNotFoundException {
+        return findAllWithOrderAndParam(connection, Activity.class, FIND_ALL_ACTIVITIES_BY_CREATED_USERS_ID_AND_EXISTING, id, order);
+    }
+
     @Override
     public List<Activity> findAllActivityByCreatedIdAndTypeActivity(Integer limit, Integer offset, String userId, String typeActivity, String order) throws DataNotFoundException {
         return findAllFromToActivitiesAllUsers(connection, Activity.class, limit, offset, FIND_ALL_ACTIVITIES_BY_CREATED_USER_ID_AND_TYPE, userId, typeActivity, typeActivity, userId, order);

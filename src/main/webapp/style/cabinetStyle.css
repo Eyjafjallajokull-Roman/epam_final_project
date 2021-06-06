@@ -111,8 +111,9 @@ table, th, td {
     border-collapse: collapse;
 }
 
-.tableBlock{
-    min-height: calc(100vh - 140px);
+.tableBlock {
+    min-width: 180vh;
+    min-height: calc(85vh - 140px);
 }
 
 th, td {
@@ -132,15 +133,15 @@ tbody tr:nth-child(even) {
 .footer {
     text-align: center;
     font-style: italic;
-    font-weight :bold;
-    left: 0; bottom: 0;
+    font-weight: bold;
+    left: 0;
+    bottom: 0;
     padding: 20px;
     background-color: rgb(221, 221, 221);
     height: 60px;
     margin-top: auto;
     width: 100%;
     border-top: 3px solid #3577fa;
-
 
 
 }
@@ -275,7 +276,7 @@ select::after {
     content: " after";
 }
 
-#flexForm{
+#flexForm {
     display: flex;
     align-content: center;
 }

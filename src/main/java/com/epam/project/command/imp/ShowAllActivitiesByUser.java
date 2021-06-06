@@ -53,7 +53,7 @@ public class ShowAllActivitiesByUser implements Command {
                 } else {
                     showTable = "0";
                 }
-                System.out.println(session.getAttribute("language"));
+
                 request.setAttribute("showTable", showTable);
                 request.setAttribute("activityList", activityList);
             }

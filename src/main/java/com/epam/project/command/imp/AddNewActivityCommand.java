@@ -57,8 +57,10 @@ public class AddNewActivityCommand implements Command {
             if (typeOfActivity.equals("REMINDER")) {
                 String endTime = TimeParser.parseTimeFromJsp(request.getParameter("end_time"));
                 activity.setEndTime(Timestamp.valueOf(endTime));
-            }else if (typeOfActivity.equals("TIME_TRACKER")){
-            }else {
+            }
+            else if (typeOfActivity.equals("TIME_TRACKER")) {
+
+            } else {
                 String startTime = TimeParser.parseTimeFromJsp(request.getParameter("start_time"));
                 String endTime = TimeParser.parseTimeFromJsp(request.getParameter("end_time"));
                 activity.setEndTime(Timestamp.valueOf(endTime));

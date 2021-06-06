@@ -4,7 +4,6 @@ import com.epam.project.command.Command;
 import com.epam.project.constants.ErrorConfig;
 import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;
-import com.epam.project.entity.Activity;
 import com.epam.project.entity.Role;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
@@ -12,13 +11,11 @@ import com.epam.project.entity.User;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
-import com.epam.project.taghandler.PasswordEncoder;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 public class RegisterCommand implements Command {
     private static final Logger log = Logger.getLogger(RegisterCommand.class);

@@ -38,6 +38,8 @@ public interface ActivityDao {
 
     List<Activity> findAllActivityByTypeOfActivityAndStatusOrderWithoutLimit(String typeOfActivity,String order) throws DataNotFoundException;
 
+    List<Activity> findActivitiesWhereCreatedIdWithoutLimits (Integer id, String order) throws DataNotFoundException;
+
     List<Activity> findAllActivityByStatsOrderWithoutLimit(String status, String order) throws DataNotFoundException;
     /**
      * find all activities by createdByUserId

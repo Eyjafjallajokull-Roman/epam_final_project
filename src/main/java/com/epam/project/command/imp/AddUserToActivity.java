@@ -1,5 +1,6 @@
 package com.epam.project.command.imp;
 
+import com.epam.project.SendEmail;
 import com.epam.project.command.Command;
 import com.epam.project.constants.ErrorConfig;
 import com.epam.project.constants.ErrorConst;
@@ -13,10 +14,12 @@ import com.epam.project.exception.NoUserException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
+import com.mysql.cj.Session;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class AddUserToActivity implements Command {
     private static final Logger log = Logger.getLogger(AddUserToActivity.class);
@@ -27,6 +30,8 @@ public class AddUserToActivity implements Command {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
         ErrorConfig error = ErrorConfig.getInstance();
+        HttpSession session = request.getSession();
+        User userSession = (User) session.getAttribute("user");
 
         try {
             UserService userService = ServiceFactory.getUserService();
@@ -36,7 +41,9 @@ public class AddUserToActivity implements Command {
             User user = userService.findUserByLogin(email);
             Activity activity = activityService.findActivityById(activityId);
             if (userService.addUserToActivity(activity, user)) {
-
+                result.setSendEmail(new SendEmail("You have been added to activity: " + activity.getName() +
+                        " by user: " + userSession.getEmail(),
+                        "Add to new Activity", user.getEmail()));
                 result.setPage(url);
                 result.setDirection(Direction.REDIRECT);
             } else {

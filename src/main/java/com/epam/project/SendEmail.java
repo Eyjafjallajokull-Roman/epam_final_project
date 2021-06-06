@@ -12,6 +12,7 @@ public class SendEmail {
     private String subject;
     private String toAddress;
 
+
     public SendEmail(String message, String subject, String toAddress) {
         this.message = message;
         this.subject = subject;

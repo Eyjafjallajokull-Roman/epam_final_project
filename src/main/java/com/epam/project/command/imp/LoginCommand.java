@@ -2,7 +2,6 @@ package com.epam.project.command.imp;
 
 import com.epam.project.command.Command;
 import com.epam.project.constants.Path;
-import com.epam.project.entity.Activity;
 import com.epam.project.entity.Role;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
@@ -12,16 +11,12 @@ import com.epam.project.exception.WrongPasswordExeption;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
-import com.epam.project.taghandler.PasswordEncoder;
-import com.google.gson.Gson;
+import com.epam.project.PasswordEncoder;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
 public class LoginCommand implements Command {
     private static final Logger logger = Logger.getLogger(LoginCommand.class);

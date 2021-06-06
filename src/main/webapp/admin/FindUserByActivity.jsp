@@ -20,7 +20,7 @@
     <div class="header">
         <div class="leftHeader">
             <div class="logo">
-                <a href="adminCabinet.jsp"><%@include file="../icons/load.svg" %></a>
+                <a href="/project/admin/adminCabinet.jsp"><%@include file="../icons/load.svg" %></a>
             </div>
         </div>
         <div class="btnAct">
@@ -75,8 +75,8 @@
 
     <c:choose>
         <c:when test="${not empty users}">
-            <div class="tableBlock">
-                <table>
+            <div>
+                <table class="tableBlock">
                     <th>Name</th>
                     <th>SurName</th>
                     <th>Email</th>

@@ -18,7 +18,7 @@
     <div class="header">
         <div class="leftHeader">
             <div class="logo">
-                <a href="adminCabinet.jsp">
+                <a href="/project/admin/adminCabinet.jsp">
                     <%@include file="../icons/load.svg" %>
                 </a>
             </div>
@@ -37,7 +37,7 @@
                 <button class="addActivity" type="submit">FindUsersActivity</button>
             </form>
             <form action="FindActivityByUser.jsp">
-                <button class="addActivity" type="submit">All Activities</button>
+                <button class="addActivity" type="submit">Find Activities By User</button>
             </form>
         </div>
         <div class="rightHeader">

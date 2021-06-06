@@ -131,7 +131,11 @@ public interface ActivityService {
      * @throws NoSuchActivityException if Activity was not found throw exception
      */
 
+
+
     List<Activity> findAllActivityByCreatedIdAndTypeActivity(Integer limit, Integer offset, String userId, String typeOfActivity,String order) throws NoSuchActivityException;
+
+    List<Activity> findActivitiesWhereCreatedIdWithoutLimits (Integer id, String order) throws NoSuchActivityException;
     /**
      * find all Activities by typeOfActivity and status "ACCEPT"
      * @param limit  first row number

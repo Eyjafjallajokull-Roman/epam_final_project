@@ -1,4 +1,4 @@
-package com.epam.project.taghandler;
+package com.epam.project;
 
 import org.apache.log4j.Logger;
 

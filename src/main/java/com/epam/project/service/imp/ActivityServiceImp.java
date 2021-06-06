@@ -279,6 +279,24 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
+    public List<Activity> findActivitiesWhereCreatedIdWithoutLimits(Integer id, String order) throws NoSuchActivityException {
+        List<Activity> activities;
+        try {
+            daoFactory.open();
+            activityDao = daoFactory.getActivityDao();
+            activities = activityDao.findActivitiesWhereCreatedIdWithoutLimits(id, order);
+            for (Activity activity : activities) {
+                activityDao.addUsersToActivities(activity);
+            }
+            daoFactory.close();
+        } catch (DataNotFoundException | DataBaseConnectionException e) {
+            log.error(e);
+            throw new NoSuchActivityException();
+        }
+        return activities;
+    }
+
+    @Override
     public List<Activity> findActivitiesByTypeOfActivityAndStatusAccept(String value, Integer limit, Integer offset, String orderParam) throws NoSuchActivityException {
         List<Activity> activities;
         try {

@@ -18,7 +18,7 @@
     <div class="header">
         <div class="leftHeader">
             <div class="logo">
-                <a href="adminCabinet.jsp">
+                <a href="/project/admin/adminCabinet.jsp">
                     <%@include file="../icons/load.svg" %>
                 </a>
             </div>
@@ -59,7 +59,7 @@
     <c:choose>
         <c:when test="${not empty activities}">
             <div>
-                <table>
+                <table class="tableBlock">
                     <tr>
                         <th><fmt:message key="tableA.name" bundle="${local}"/></th>
                         <th><fmt:message key="tableA.Description" bundle="${local}"/></th>
