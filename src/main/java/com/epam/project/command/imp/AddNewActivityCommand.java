@@ -58,7 +58,6 @@ public class AddNewActivityCommand implements Command {
                 String endTime = TimeParser.parseTimeFromJsp(request.getParameter("end_time"));
                 activity.setEndTime(Timestamp.valueOf(endTime));
             }else if (typeOfActivity.equals("TIME_TRACKER")){
-//                activity.setStartTime(Timestamp.valueOf(LocalDateTime.now()));
             }else {
                 String startTime = TimeParser.parseTimeFromJsp(request.getParameter("start_time"));
                 String endTime = TimeParser.parseTimeFromJsp(request.getParameter("end_time"));

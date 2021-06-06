@@ -9,7 +9,7 @@
 <head>
     <title><fmt:message key="cabinet.title" bundle="${local}"/></title>
     <style>
-        <%@include file="/style/style.css"%>
+
         <%@include file="/style/cabinetStyle.css"%>
     </style>
 </head>
@@ -19,7 +19,9 @@
     <div class="header">
         <div class="leftHeader">
             <div class="logo">
-                <a href="cabinet.jsp"><%@include file="../icons/load.svg" %></a>
+                <a href="/project/page/cabinet.jsp">
+                    <%@include file="../icons/load.svg" %>
+                </a>
             </div>
         </div>
         <div class="btnAct">
@@ -64,10 +66,12 @@
                         <div class="checkLanguage">
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
-                                <select id="language" name="language">
+                                <form class="topcorner" method="post">
+                                <select id="language" name="language"  onchange="submit()" >
                                     <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
                                     <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
                                 </select>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -81,12 +85,12 @@
     <div class="tableBlock">
         <table>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Type of activity</th>
-                <th></th>
+                <th><fmt:message key="tableA.name" bundle="${local}"/></th>
+                <th><fmt:message key="tableA.Description" bundle="${local}"/></th>
+                <th><fmt:message key="tableA.StartTime" bundle="${local}"/></th>
+                <th><fmt:message key="tableA.EndTime" bundle="${local}"/></th>
+                <th><fmt:message key="tableA.TypeOfActivity" bundle="${local}"/></th>
+                <th><fmt:message key="tableA.command" bundle="${local}"/></th>
             </tr>
             <c:forEach items="${activityList}" var="activity">
                 <tr>
@@ -127,6 +131,14 @@
                                     <%@include file="../icons/add.svg" %>
                                 </button>
                             </form>
+                            <c:if test="${activity.getTypeOfActivity().name().equals('TIME_TRACKER') && empty activity.endTime}">
+                                <form class="menuitem" name="setDoneReminder" method="post"
+                                      action="/project/controller">
+                                    <input type="hidden" name="command" value="setDoneTracker"/>
+                                    <input type="hidden" name="activityIdToDone" value="${activity.id}">
+                                    <button class="menubutton" type="submit">Done</button>
+                                </form>
+                            </c:if>
                         </c:if>
                     </td>
                 </tr>
@@ -134,10 +146,8 @@
         </table>
         </c:if>
     </div>
-    <f:colontitle/>
 </div>
-
-
-<script src="../js/language.js"></script>
+<f:colontitle/>
+<script src="/project/js/language.js"></script>
 </body>
 </html>

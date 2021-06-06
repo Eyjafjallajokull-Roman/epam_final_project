@@ -1,10 +1,16 @@
 package com.epam.project.controller;
-/** Object of ResultOfExecution Class is result of Command execution that contains page and Direction */
+
+import com.epam.project.SendEmail;
+
+/**
+ * Object of ResultOfExecution Class is result of Command execution that contains page and Direction
+ */
 public class ResultOfExecution {
 
     private String page;
     private Direction direction;
     private boolean isInvalidate;
+    private SendEmail sendEmail;
 
     public String getPage() {
         return page;
@@ -37,6 +43,12 @@ public class ResultOfExecution {
         isInvalidate = true;
     }
 
+    public SendEmail getSendEmail() {
+        return sendEmail;
+    }
 
-
+    public ResultOfExecution setSendEmail(SendEmail sendEmail) {
+        this.sendEmail = sendEmail;
+        return this;
+    }
 }

@@ -1,6 +1,7 @@
 package com.epam.project.command.imp;
 
 import com.epam.project.CheckRole;
+import com.epam.project.SendEmail;
 import com.epam.project.command.Command;
 import com.epam.project.constants.ErrorConfig;
 import com.epam.project.constants.ErrorConst;
@@ -22,13 +23,16 @@ import java.time.LocalDateTime;
 public class AcceptDeclineActivityToAddCommand implements Command {
     private static final Logger log = Logger.getLogger(AddNewActivityCommand.class);
 
+
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
+
         String url = request.getHeader("referer").replaceFirst("http://localhost:8080", "");
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.REDIRECT);
         HttpSession session = request.getSession();
         ErrorConfig error = ErrorConfig.getInstance();
+
         if (!CheckRole.checkRole(session, Role.ADMIN)) {
             request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.ERROR_ADMIN));
             result.setPage(Path.ADMIN_ERROR_FWD);
@@ -45,8 +49,11 @@ public class AcceptDeclineActivityToAddCommand implements Command {
 
             if (typeOf.equals(Status.ON_CHECK.name())) {
                 activity.setStatus(option.equals("acceptActivity") ? Status.ACCEPT : Status.DECLINE);
+
+
             } else if (typeOf.equals(Status.ON_DELETE.name())) {
                 if (option.equals("acceptActivity")) {
+                    result.setSendEmail(new SendEmail("Test1", "Test2", "swany500@gmail.com"));
                     activityService.deleteActivity(activity);
                 } else {
                     activity.setStatus(Status.ACCEPT);

@@ -58,13 +58,13 @@
                     <div class="form-control">
                         <input name="password" type="password" id="pass"
                                placeholder="<fmt:message key="register.password" bundle="${local}"/>"/>
-<%--                        <div onclick=" openQuestionBlock()" class="question">--%>
-<%--                            <img id="questionPass" style="width: 20px" src="icons/question.svg" alt=""/>--%>
-<%--                        </div>--%>
-<%--                        <div style="display: none" id="passwordMustContain">--%>
-<%--                            Your password must contain: At least 8 letters 1 digit one lower--%>
-<%--                            alpha char and one upper alpha char Do not contain space--%>
-<%--                        </div>--%>
+                        <%--                        <div onclick=" openQuestionBlock()" class="question">--%>
+                        <%--                            <img id="questionPass" style="width: 20px" src="icons/question.svg" alt=""/>--%>
+                        <%--                        </div>--%>
+                        <%--                        <div style="display: none" id="passwordMustContain">--%>
+                        <%--                            Your password must contain: At least 8 letters 1 digit one lower--%>
+                        <%--                            alpha char and one upper alpha char Do not contain space--%>
+                        <%--                        </div>--%>
                         <i class="gg-check-o"></i>
                         <i class="gg-close"></i>
                         <p>Not a valid password</p>
@@ -77,22 +77,24 @@
                         <p>Not a valid password</p>
                     </div>
                     <div class="buttonsBlock">
-                        <button onclick="checkInputs()" id="btnForSinUp" type="submit"><fmt:message key="register.sign" bundle="${local}"/></button>
+                        <button id="btnForSinUp" type="submit"><fmt:message key="register.sign"
+                                                                            bundle="${local}"/></button>
                         <br/>
                     </div>
                 </form>
                 <p id="questionAboutAcc"><fmt:message key="register.have_account" bundle="${local}"/></p>
             </div>
             <div class="login_here">
-            <form name="goToLogin" action="/project/controller" method="post">
-                <input type="hidden" name="command" value="goToLogin">
-                <button id="registered" type="submit"><fmt:message key="register.login_here" bundle="${local}"/></button>
-            </form>
+                <form name="goToLogin" action="/project/controller" method="post">
+                    <input type="hidden" name="command" value="goToLogin">
+                    <button id="registered" type="submit"><fmt:message key="register.login_here"
+                                                                       bundle="${local}"/></button>
+                </form>
             </div>
         </div>
     </div>
     <f:colontitle/>
 </div>
-<script src="js/main.js"></script>
+<script src="/project/js/language.js"></script>
 </body>
 </html>

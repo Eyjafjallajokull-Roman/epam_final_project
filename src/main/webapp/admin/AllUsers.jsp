@@ -2,9 +2,14 @@
 <%@ include file="/WEB-INF/jspf/tagfile.jspf" %>
 <c:set value="${pageScope.get(\"currentPageU\")}" var="currentPageU" scope="page"/>
 <c:set value="${pageScope.get(\"typeU\")}" var="typeU" scope="page"/>
+<c:set var="language" value="${not empty param.language ? param.language :
+                                not empty language ? language :
+                                pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="local" var="local"/>
 <html>
 <head>
-    <title>AllUser</title>
+    <title>All User</title>
     <style>
         <%@include file="../style/style.css"%>
         <%@include file="/style/cabinetStyle.css"%>
@@ -15,11 +20,13 @@
     <div class="header">
         <div class="leftHeader">
             <div class="logo">
-                <a href="adminCabinet.jsp"><%@include file="../icons/load.svg" %></a>
+                <a href="adminCabinet.jsp">
+                    <%@include file="../icons/load.svg" %>
+                </a>
             </div>
         </div>
         <div class="btnAct">
-            <form action="/project/controller" method="get">
+            <form id="flexForm" action="/project/controller" method="get">
                 <input type="hidden" name="command" value="pageNextUser"/>
                 <select name="typeU">
                     <option value="user.name" ${typeU == "user.name" ? 'selected' : ''}>Name</option>
@@ -45,10 +52,12 @@
                         <div class="checkLanguage">
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
-                                <select id="language" name="language">
-                                    <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
-                                    <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-                                </select>
+                                <form class="topcorner" method="post">
+                                    <select id="language" name="language">
+                                        <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
+                                        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+                                    </select>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -56,14 +65,14 @@
             </div>
         </div>
     </div>
-<%--    <form action="/project/controller" method="get">--%>
-<%--        <input type="hidden" name="command" value="pageNextUser"/>--%>
-<%--        <select name="typeU">--%>
-<%--            <option value="user.name" ${typeU == "user.name" ? 'selected' : ''}>Name</option>--%>
-<%--            <option value="user.surname"${typeU == "user.surname" ? 'selected' : ''}>Surname</option>--%>
-<%--        </select>--%>
-<%--        <button type="submit" class="giantbutton">Users</button>--%>
-<%--    </form>--%>
+    <%--    <form action="/project/controller" method="get">--%>
+    <%--        <input type="hidden" name="command" value="pageNextUser"/>--%>
+    <%--        <select name="typeU">--%>
+    <%--            <option value="user.name" ${typeU == "user.name" ? 'selected' : ''}>Name</option>--%>
+    <%--            <option value="user.surname"${typeU == "user.surname" ? 'selected' : ''}>Surname</option>--%>
+    <%--        </select>--%>
+    <%--        <button type="submit" class="giantbutton">Users</button>--%>
+    <%--    </form>--%>
     <c:choose>
         <c:when test="${not empty users}">
             <div>
@@ -97,7 +106,12 @@
                     </c:forEach>
                 </table>
             </div>
-
+            <div>
+                <form action="/project/controller" method="post" name="saveExcel">
+                    <input type="hidden" name="command" value="saveToExcel">
+                    <button type="submit">Save Excel</button>
+                </form>
+            </div>
 
             <div class="pagination">
                 <c:forEach var="i" begin="1" end="${totalPages}">
@@ -119,6 +133,6 @@
 
 
 <f:colontitle/>
-<script src="../js/language.js"></script>
+<script src="/project/js/language.js"></script>
 </body>
 </html>

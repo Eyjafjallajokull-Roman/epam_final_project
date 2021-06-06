@@ -2,6 +2,11 @@
 <%@ include file="/WEB-INF/jspf/tagfile.jspf" %>
 <c:set value="${pageScope.get(\"currentPageFUA\")}" var="currentPageFUA" scope="page"/>
 <c:set value="${pageScope.get(\"typeFUA\")}" var="typeFUA" scope="page"/>
+<c:set var="language" value="${not empty param.language ? param.language :
+                                not empty language ? language :
+                                pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="local" var="local"/>
 <html>
 <head>
     <title>Title</title>
@@ -20,7 +25,7 @@
         </div>
         <div class="btnAct">
             <c:if test="${not empty activityIdFUA}">
-                <form action="/project/controller" method="get">
+                <form id="flexForm" action="/project/controller" method="get">
                     <input type="hidden" name="command" value="pageNextFUA">
                     <input type="hidden" name="activityIdFUA" value="${activityIdFUA}">
                     <select name="typeFUA">
@@ -53,10 +58,12 @@
                         <div class="checkLanguage">
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
+                                <form class="topcorner" method="post">
                                 <select id="language" name="language">
                                     <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
                                     <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
                                 </select>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -126,6 +133,6 @@
     </c:choose>
 </div>
 <f:colontitle/>
-<script src="../js/language.js"></script>
+<script src="/project/js/language.js"></script>
 </body>
 </html>

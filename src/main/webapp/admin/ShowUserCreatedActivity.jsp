@@ -1,5 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jspf/tagfile.jspf" %>
+<c:set var="language" value="${not empty param.language ? param.language :
+                                not empty language ? language :
+                                pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="local" var="local"/>
 <html>
 <head>
     <title>Title</title>
@@ -36,10 +41,12 @@
                         <div class="checkLanguage">
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
+                                <form class="topcorner" method="post">
                                 <select id="language" name="language">
                                     <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
                                     <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
                                 </select>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -52,7 +59,7 @@
     <table>
         <tr>
             <th>Name</th>
-            <th>SurName</th>
+            <th>Surname</th>
             <th>Email</th>
             <th>Commands</th>
         <tr>
@@ -71,6 +78,6 @@
 </div>
 
 <f:colontitle/>
-<script src="../js/language.js"></script>
+<script src="/project/js/language.js"></script>
 </body>
 </html>

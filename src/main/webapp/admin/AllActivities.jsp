@@ -3,6 +3,11 @@
 <c:set value="${pageScope.get(\"currentPageAdmin\")}" var="currentPageAdmin" scope="page"/>
 <c:set value="${pageScope.get(\"typeAdmin\")}" var="typeAdmin" scope="page"/>
 <c:set value="${pageScope.get(\"typeActivityAdmin\")}" var="typeActivityAdmin" scope="page"/>
+<c:set var="language" value="${not empty param.language ? param.language :
+                                not empty language ? language :
+                                pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="local" var="local"/>
 <html>
 <head>
     <title>Title</title>
@@ -16,16 +21,20 @@
     <div class="header">
         <div class="leftHeader">
             <div class="logo">
-                <a href="adminCabinet.jsp"><%@include file="../icons/load.svg" %></a>
+                <a href="adminCabinet.jsp">
+                    <%@include file="../icons/load.svg" %>
+                </a>
             </div>
         </div>
         <div class="btnAct">
-            <form action="/project/controller" method="get">
+            <form id="flexForm" action="/project/controller" method="get">
                 <input type="hidden" name="command" value="pageNextAdmin"/>
                 <select name="typeAdmin">
-                    <option value="activity.start_time" ${typeAdmin == "activity.start_time" ? 'selected' : ''}>Start Time
+                    <option value="activity.start_time" ${typeAdmin == "activity.start_time" ? 'selected' : ''}>Start
+                        Time
                     </option>
-                    <option value="activity.end_time" ${typeAdmin == "activity.end_time" ? 'selected' : ''}>End Time</option>
+                    <option value="activity.end_time" ${typeAdmin == "activity.end_time" ? 'selected' : ''}>End Time
+                    </option>
                     <option value="activity.name" ${typeAdmin == "activity.name" ? 'selected' : ''}>Name</option>
                     <option value="activity.users" ${typeAdmin == "activity.users" ? 'selected' : ''}>By Users</option>
                 </select>
@@ -34,7 +43,8 @@
                     <option value="EVENT" ${typeActivityAdmin == "EVENT" ? 'selected' : ''}>Event</option>
                     <option value="TASK" ${typeActivityAdmin == "TASK" ? 'selected' : ''}>Task</option>
                     <option value="REMINDER" ${typeActivityAdmin == "REMINDER" ? 'selected' : ''}>Reminder</option>
-                    <option value="TIME_TRACKER" ${typeActivityAdmin == "TIME_TRACKER" ? 'selected' : ''}>Time Tracker</option>
+                    <option value="TIME_TRACKER" ${typeActivityAdmin == "TIME_TRACKER" ? 'selected' : ''}>Time Tracker
+                    </option>
                 </select>
                 <button class="addActivity" type="submit" class="giantbutton">My Activities</button>
             </form>
@@ -56,10 +66,12 @@
                         <div class="checkLanguage">
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
-                                <select id="language" name="language">
-                                    <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
-                                    <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-                                </select>
+                                <form class="topcorner" method="post">
+                                    <select id="language" name="language">
+                                        <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
+                                        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+                                    </select>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -67,37 +79,18 @@
             </div>
         </div>
     </div>
-<%--    <form action="/project/controller" method="get">--%>
-<%--        <input type="hidden" name="command" value="pageNextAdmin"/>--%>
-<%--        <select name="typeAdmin">--%>
-<%--            <option value="activity.start_time" ${typeAdmin == "activity.start_time" ? 'selected' : ''}>Start Time--%>
-<%--            </option>--%>
-<%--            <option value="activity.end_time" ${typeAdmin == "activity.end_time" ? 'selected' : ''}>End Time</option>--%>
-<%--            <option value="activity.name" ${typeAdmin == "activity.name" ? 'selected' : ''}>Name</option>--%>
-<%--            <option value="activity.users" ${typeAdmin == "activity.users" ? 'selected' : ''}>By Users</option>--%>
-<%--        </select>--%>
-<%--        <select name="typeActivityAdmin">--%>
-<%--            <option value="all" ${typeActivityAdmin == "all" ? 'selected' : ''}>All</option>--%>
-<%--            <option value="EVENT" ${typeActivityAdmin == "EVENT" ? 'selected' : ''}>Event</option>--%>
-<%--            <option value="TASK" ${typeActivityAdmin == "TASK" ? 'selected' : ''}>Task</option>--%>
-<%--            <option value="REMINDER" ${typeActivityAdmin == "REMINDER" ? 'selected' : ''}>Reminder</option>--%>
-<%--            <option value="TIME_TRACKER" ${typeActivityAdmin == "TIME_TRACKER" ? 'selected' : ''}>Time Tracker</option>--%>
-<%--        </select>--%>
-<%--        <button type="submit" class="giantbutton">My Activities</button>--%>
-<%--    </form>--%>
-    <%--show users by this activity--%>
+
     <c:choose>
         <c:when test="${not empty AllActivities}">
             <div class="tableBlock">
                 <table>
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Type of activity</th>
-                            <%--                <th>UserEmail</th>--%>
-                        <th>Commands</th>
+                        <th><fmt:message key="tableA.name" bundle="${local}"/></th>
+                        <th><fmt:message key="tableA.Description" bundle="${local}"/></th>
+                        <th><fmt:message key="tableA.StartTime" bundle="${local}"/></th>
+                        <th><fmt:message key="tableA.EndTime" bundle="${local}"/></th>
+                        <th><fmt:message key="tableA.TypeOfActivity" bundle="${local}"/></th>
+                        <th><fmt:message key="tableA.command" bundle="${local}"/></th>
                     </tr>
                     <c:forEach items="${AllActivities}" var="activity">
 
@@ -160,11 +153,11 @@
             </div>
         </c:when>
         <c:otherwise>
-
+            <h1>No Activities found by this criteria </h1>
         </c:otherwise>
     </c:choose>
 </div>
 <f:colontitle/>
-<script src="../js/language.js"></script>
+<script src="/project/js/language.js"></script>
 </body>
 </html>

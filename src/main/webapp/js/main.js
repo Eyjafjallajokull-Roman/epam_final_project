@@ -9,90 +9,78 @@ const password2 = document.getElementById("pass2");
 // const emailIn = document.getElementById("emailForSecondPage");
 
 form.addEventListener("submit", (item) => {
-    item.preventDefault();
 
-    checkInputs();
+console.log("Submit")
+    checkInputs(item);
 });
 
-function checkInputs() {
+function checkInputs(item) {
     const usernameValue = username.value.trim();
     const emailValue = email.value.trim();
     const passwordValue = password.value.trim();
     const password2Value = password2.value.trim();
     const lastValue = last.value.trim();
 
-    // const passwordSignInValue = passwordIn.value.trim();
-    // const emailSignInValue = emailIn.value.trim();
 
     if (usernameValue === "") {
-        setErrorFor(username, "Username cannot be blank");
+        setErrorFor(username, "Username cannot be blank",item);
     } else if (!isUsername(usernameValue)) {
-        setErrorFor(username, "Not a valid username");
+        setErrorFor(username, "Not a valid username",item);
     } else {
         setSuccessFor(username);
     }
 
 
     if (lastValue === "") {
-        setErrorFor(last, "Last name cannot be blank");
+        setErrorFor(last, "Last name cannot be blank",item);
     } else if (!isLastName(lastValue)) {
-        setErrorFor(last, "Not a valid last name");
+        setErrorFor(last, "Not a valid last name",item);
     } else {
         setSuccessFor(last);
     }
 
     if (emailValue === "") {
-        setErrorFor(email, "Email cannot be blank");
+        setErrorFor(email, "Email cannot be blank",item);
     } else if (!isEmail(emailValue)) {
-        setErrorFor(email, "Not a valid email");
+        setErrorFor(email, "Not a valid email",item);
     } else {
         setSuccessFor(email);
     }
 
-    // if (emailSignInValue === "") {
-    //   setErrorFor(emailIn, "Email cannot be blank");
-    // } else if (!isEmail(emailSignInValue)) {
-    //   setErrorFor(emailIn, "Not a valid email");
-    // } else {
-    //   setSuccessFor(emailIn);
-    // }
+
 
     if (passwordValue === "") {
-        setErrorFor(password, "Password cannot be blank");
+        setErrorFor(password, "Password cannot be blank",item);
     } else if (!isPassword(passwordValue)) {
-        setErrorFor(password, "Not a valid password");
+        setErrorFor(password, "Not a valid password",item);
     } else {
         setSuccessFor(password);
     }
 
-    // if (passwordSignInValue === "") {
-    //   setErrorFor(passwordIn, "Password cannot be blank");
-    // } else if (!isPassword(passwordSignInValue)) {
-    //   setErrorFor(passwordIn, "Not a valid password");
-    // } else {
-    //   setSuccessFor(passwordIn);
-    // }
 
     if (password2Value === "") {
-        setErrorFor(password2, "This cell cannot be blank");
+        setErrorFor(password2, "This cell cannot be blank",item);
     } else if (!isPass2(password2Value)) {
-        setErrorFor(password2, "Check your password again");
+        setErrorFor(password2, "Check your password again",item);
     } else {
         setSuccessFor(password2);
     }
 }
 
 //
-function setErrorFor(input, message) {
+function setErrorFor(input, message, item) {
     const formControl = input.parentElement;
     const p = document.getElementsByTagName("p");
     formControl.className = "form-control error";
     p.innerText = message;
+    console.log("AAA")
+    item.preventDefault();
 }
 
 function setSuccessFor(input) {
     const formControl = input.parentElement;
     formControl.className = "form-control success";
+    console.log("SUCCESS")
 }
 
 function isEmail(email) {
@@ -119,39 +107,6 @@ function isLastName(last) {
 }
 
 
-// function validate() {
-//     let x = document.getElementById("pass")[0].value,
-//         y = document.getElementById("pass2")[0].value;
-//     if (x === y) {
-//         return true;
-//     }
-//     return false;
-// }
 
-//
-// function openAlreadySignInPage() {
-//   display = document.getElementById("alreadySignInPage").style.display;
-//   if (display == "none") {
-//     document.getElementById("alreadySignInPage").style.display = "block";
-//     document.getElementById("mainBlock").style.display = "none";
-//   } else {
-//     document.getElementById("mainBlock").style.display = "block";
-//     document.getElementById("alreadySignInPage").style.display = "none";
-//   }
-// }
-
-// function openProfilePage() {
-//     let display = document.getElementById("profileBlock").style.display;
-//
-//     if (display == "none") {
-//         document.getElementById("profileBlock").style.display = "block";
-//         document.getElementById("mainBlock").style.display = "none";
-//         document.getElementById("alreadySignInPage").style.display = "none";
-//     } else {
-//         document.getElementById("mainBlock").style.display = "block";
-//         document.getElementById("profileBlock").style.display = "none";
-//         document.getElementById("alreadySignInPage").style.display = "none";
-//     }
-// }
 
 

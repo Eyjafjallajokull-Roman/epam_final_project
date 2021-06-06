@@ -2,6 +2,11 @@
 <%@ include file="/WEB-INF/jspf/tagfile.jspf" %>
 <c:set value="${pageScope.get(\"currentPageFUA\")}" var="currentPageFUA" scope="page"/>
 <c:set value="${pageScope.get(\"typeFUA\")}" var="typeFUA" scope="page"/>
+<c:set var="language" value="${not empty param.language ? param.language :
+                                not empty language ? language :
+                                pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="local" var="local"/>
 
 <html>
 <head>
@@ -16,18 +21,22 @@
     <div class="header">
         <div class="leftHeader">
             <div class="logo">
-                <a href="adminCabinet.jsp"><%@include file="../icons/load.svg" %></a>
+                <a href="adminCabinet.jsp">
+                    <%@include file="../icons/load.svg" %>
+                </a>
             </div>
         </div>
         <div class="btnAct">
             <c:if test="${not empty email}">
-                <form action="/project/controller" method="get">
+                <form id="flexForm" action="/project/controller" method="get">
                     <input type="hidden" name="command" value="pageNextFUActivity"/>
                     <input type="hidden" name="email" value="${email}">
                     <select name="typeFUA">
-                        <option value="activity.start_time" ${typeFUA== "activity.start_time" ? 'selected' : ''}>Start Time
+                        <option value="activity.start_time" ${typeFUA== "activity.start_time" ? 'selected' : ''}>Start
+                            Time
                         </option>
-                        <option value="activity.end_time" ${typeFUA == "activity.end_time" ? 'selected' : ''}>End Time</option>
+                        <option value="activity.end_time" ${typeFUA == "activity.end_time" ? 'selected' : ''}>End Time
+                        </option>
                         <option value="activity.name"  ${typeFUA == "activity.name" ? 'selected' : ''}>Name</option>
                     </select>
                     <select name="typeActivityFUA">
@@ -38,7 +47,7 @@
                         <option value="TIME_TRACKER" ${typeActivityFUA == "TIME_TRACKER" ? 'selected' : ''}>Time Tracker
                         </option>
                     </select>
-                    <button type="addActivity" class="giantbutton">My Activities</button>
+                    <button class="addActivity" type="addActivity" class="giantbutton">My Activities</button>
                 </form>
             </c:if>
             <form action="/project/controller" method="get">
@@ -64,10 +73,12 @@
                         <div class="checkLanguage">
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
-                                <select id="language" name="language">
-                                    <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
-                                    <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-                                </select>
+                                <form class="topcorner" method="post">
+                                    <select id="language" name="language">
+                                        <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
+                                        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+                                    </select>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -77,27 +88,27 @@
     </div>
 
 
-<%--    <c:if test="${not empty email}">--%>
-<%--        <form action="/project/controller" method="get">--%>
-<%--            <input type="hidden" name="command" value="pageNextFUActivity"/>--%>
-<%--            <input type="hidden" name="email" value="${email}">--%>
-<%--            <select name="typeFUA">--%>
-<%--                <option value="activity.start_time" ${typeFUA== "activity.start_time" ? 'selected' : ''}>Start Time--%>
-<%--                </option>--%>
-<%--                <option value="activity.end_time" ${typeFUA == "activity.end_time" ? 'selected' : ''}>End Time</option>--%>
-<%--                <option value="activity.name"  ${typeFUA == "activity.name" ? 'selected' : ''}>Name</option>--%>
-<%--            </select>--%>
-<%--            <select name="typeActivityFUA">--%>
-<%--                <option value="all" ${typeActivityFUA == "all" ? 'selected' : ''}>All</option>--%>
-<%--                <option value="EVENT" ${typeActivityFUA == "EVENT" ? 'selected' : ''}>Event</option>--%>
-<%--                <option value="TASK" ${typeActivityFUA == "TASK" ? 'selected' : ''}>Task</option>--%>
-<%--                <option value="REMINDER" ${typeActivityFUA == "REMINDER" ? 'selected' : ''}>Reminder</option>--%>
-<%--                <option value="TIME_TRACKER" ${typeActivityFUA == "TIME_TRACKER" ? 'selected' : ''}>Time Tracker--%>
-<%--                </option>--%>
-<%--            </select>--%>
-<%--            <button type="submit" class="giantbutton">My Activities</button>--%>
-<%--        </form>--%>
-<%--    </c:if>--%>
+    <%--    <c:if test="${not empty email}">--%>
+    <%--        <form action="/project/controller" method="get">--%>
+    <%--            <input type="hidden" name="command" value="pageNextFUActivity"/>--%>
+    <%--            <input type="hidden" name="email" value="${email}">--%>
+    <%--            <select name="typeFUA">--%>
+    <%--                <option value="activity.start_time" ${typeFUA== "activity.start_time" ? 'selected' : ''}>Start Time--%>
+    <%--                </option>--%>
+    <%--                <option value="activity.end_time" ${typeFUA == "activity.end_time" ? 'selected' : ''}>End Time</option>--%>
+    <%--                <option value="activity.name"  ${typeFUA == "activity.name" ? 'selected' : ''}>Name</option>--%>
+    <%--            </select>--%>
+    <%--            <select name="typeActivityFUA">--%>
+    <%--                <option value="all" ${typeActivityFUA == "all" ? 'selected' : ''}>All</option>--%>
+    <%--                <option value="EVENT" ${typeActivityFUA == "EVENT" ? 'selected' : ''}>Event</option>--%>
+    <%--                <option value="TASK" ${typeActivityFUA == "TASK" ? 'selected' : ''}>Task</option>--%>
+    <%--                <option value="REMINDER" ${typeActivityFUA == "REMINDER" ? 'selected' : ''}>Reminder</option>--%>
+    <%--                <option value="TIME_TRACKER" ${typeActivityFUA == "TIME_TRACKER" ? 'selected' : ''}>Time Tracker--%>
+    <%--                </option>--%>
+    <%--            </select>--%>
+    <%--            <button type="submit" class="giantbutton">My Activities</button>--%>
+    <%--        </form>--%>
+    <%--    </c:if>--%>
     <c:choose>
         <c:when test="${not empty activities}">
             <div class="tableBlock">
@@ -168,6 +179,6 @@
     </c:choose>
 </div>
 <f:colontitle/>
-<script src="../js/language.js"></script>
+<script src="/project/js/language.js"></script>
 </body>
 </html>

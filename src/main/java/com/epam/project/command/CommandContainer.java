@@ -36,6 +36,8 @@ public class CommandContainer {
         commandMap.put("chooseTypeActivity", new ChooseTypeOfActivity());
         commandMap.put("addUserToActivity", new AddUserToActivity());
         commandMap.put("deleteActivityAdmin", new DeleteActivityCommand());
+        commandMap.put("setDoneTracker", new SetTimeTrackerDone());
+        commandMap.put("saveToExcel", new SaveToExcelCommand());
         //admin
         commandMap.put("activitiesOnCheck", new AdminActivitiesOnCheckCommand());
         commandMap.put("AcDecActivity", new AcceptDeclineActivityToAddCommand());

@@ -1,8 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jspf/tagfile.jspf" %>
+<c:set var="language" value="${not empty param.language ? param.language :
+                                not empty language ? language :
+                                pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="local" var="local"/>
 <html>
 <head>
-    <title>Declined Activities</title>
+    <title><fmt:message key="decAct.title" bundle="${local}"/></title>
     <style>
         <%@include file="../style/style.css"%>
         <%@include file="/style/cabinetStyle.css"%>
@@ -13,7 +18,9 @@
     <div class="header">
         <div class="leftHeader">
             <div class="logo">
-                <a href="cabinet.jsp"><%@include file="../icons/load.svg" %></a>
+                <a href="/project/page/cabinet.jsp">
+                    <%@include file="../icons/load.svg" %>
+                </a>
             </div>
         </div>
         <div class="btnAct">
@@ -41,10 +48,12 @@
                         <div class="checkLanguage">
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
-                                <select id="language" name="language">
-                                    <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
-                                    <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-                                </select>
+                                <form class="topcorner" method="post">
+                                    <select id="language" name="language" onchange="submit()">
+                                        <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
+                                        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+                                    </select>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -56,12 +65,12 @@
         <div class="tableBlock">
             <table>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Type of activity</th>
-                    <th></th>
+                    <th><fmt:message key="tableA.name" bundle="${local}"/></th>
+                    <th><fmt:message key="tableA.Description" bundle="${local}"/></th>
+                    <th><fmt:message key="tableA.StartTime" bundle="${local}"/></th>
+                    <th><fmt:message key="tableA.EndTime" bundle="${local}"/></th>
+                    <th><fmt:message key="tableA.TypeOfActivity" bundle="${local}"/></th>
+                    <th><fmt:message key="tableA.command" bundle="${local}"/></th>
                 </tr>
                 <c:forEach items="${activities}" var="activity">
 
@@ -118,6 +127,6 @@
     </c:if>
 </div>
 <f:colontitle/>
-<script src="../js/language.js"></script>
+<script src="/project/js/language.js"></script>
 </body>
 </html>

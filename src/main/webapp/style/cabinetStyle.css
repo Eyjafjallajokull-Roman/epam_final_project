@@ -111,8 +111,12 @@ table, th, td {
     border-collapse: collapse;
 }
 
+.tableBlock{
+    min-height: calc(100vh - 140px);
+}
+
 th, td {
-    padding: 15px;
+    padding: 10px;
 }
 
 td {
@@ -125,17 +129,18 @@ tbody tr:nth-child(even) {
     background: rgba(207, 218, 240, 0.788);
 }
 
-#footer {
-    position: fixed;
+.footer {
     text-align: center;
     font-style: italic;
-    font-weight: bold;
+    font-weight :bold;
+    left: 0; bottom: 0;
     padding: 20px;
     background-color: rgb(221, 221, 221);
     height: 60px;
     margin-top: auto;
     width: 100%;
     border-top: 3px solid #3577fa;
+
 
 
 }
@@ -240,6 +245,7 @@ tbody tr:nth-child(even) {
 
 }
 
+
 .pagination a {
     padding: 2px 16px;
     text-decoration: none;
@@ -260,13 +266,28 @@ tbody tr:nth-child(even) {
     background-color: #ddd;
 }
 
- select {
-  font-size: 120%;
-  width: 50%;
+select {
+    font-size: 120%;
+    width: 50%;
 }
 
 select::after {
-  content: " after";
+    content: " after";
+}
+
+#flexForm{
+    display: flex;
+    align-content: center;
+}
+
+td form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: space-evenly;
+    align-items: center;
+
 }
 
 

@@ -4,9 +4,14 @@
 <c:set value="${pageScope.get(\"type\")}" var="type" scope="page"/>
 <c:set value="${pageScope.get(\"typeActivity\")}" var="typeActivity" scope="page"/>
 <c:set value="${sessionScope.get(\"user\")}" var="user" scope="session"/>
+<c:set var="language" value="${not empty param.language ? param.language :
+                                not empty language ? language :
+                                pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="local" var="local"/>
 <html>
 <head>
-    <title>MyActivities</title>
+    <title><fmt:message key="cabinet.MyActivities" bundle="${local}"/></title>
     <style>
         <%@include file="../style/style.css"%>
         <%@include file="../style/cabinetStyle.css"%>
@@ -17,11 +22,13 @@
     <div class="header">
         <div class="leftHeader">
             <div class="logo">
-                <a href="cabinet.jsp"><%@include file="../icons/load.svg" %></a>
+                <a href="/project/page/cabinet.jsp">
+                    <%@include file="../icons/load.svg" %>
+                </a>
             </div>
         </div>
         <div class="btnAct">
-            <form action="/project/controller" method="get">
+            <form id="flexForm" action="/project/controller" method="get">
                 <input type="hidden" name="command" value="pageNext"/>
                 <select id="type" name="type">
                     <option value="activity.start_time" ${type == "activity.start_time" ? 'selected' : ''} >Start Time
@@ -63,10 +70,12 @@
                         <div class="checkLanguage">
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
-                                <select id="language" name="language">
+                                <form class="topcorner" method="post">
+                                <select id="language" name="language" onchange="submit()">
                                     <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
                                     <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
                                 </select>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -74,34 +83,18 @@
             </div>
         </div>
     </div>
-    <%--        <form action="/project/controller" method="get">--%>
-    <%--            <input type="hidden" name="command" value="pageNext"/>--%>
-    <%--            <select id="type" name="type">--%>
-    <%--                <option value="activity.start_time" ${type == "activity.start_time" ? 'selected' : ''} >Start Time--%>
-    <%--                </option>--%>
-    <%--                <option value="activity.end_time" ${type == "activity.end_time" ? 'selected' : ''}>End Time</option>--%>
-    <%--                <option value="activity.name" ${type == "activity.name" ? 'selected' : ''}>Name</option>--%>
-    <%--            </select>--%>
-    <%--            <select id="typeOfActivity" name="typeActivity">--%>
-    <%--                <option value="all"  ${typeActivity == "all" ? 'selected' : ''}>All</option>--%>
-    <%--                <option value="EVENT"  ${typeActivity == "EVENT" ? 'selected' : ''}>Event</option>--%>
-    <%--                <option value="TASK"  ${typeActivity == "TASK" ? 'selected' : ''}>Task</option>--%>
-    <%--                <option value="REMINDER"  ${typeActivity == "REMINDER" ? 'selected' : ''}>Reminder</option>--%>
-    <%--                <option value="TIME_TRACKER"  ${typeActivity == "TIME_TRACKER" ? 'selected' : ''}>Time Tracker</option>--%>
-    <%--            </select>--%>
-    <%--            <button type="submit" class="giantbutton">Sort</button>--%>
-    <%--        </form>--%>
+
 
     <c:if test="${not empty activities}">
         <div class="tableBlock">
             <table>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Type of activity</th>
-                    <th>Commands</th>
+                    <th><fmt:message key="tableA.name" bundle="${local}"/></th>
+                    <th><fmt:message key="tableA.Description" bundle="${local}"/></th>
+                    <th><fmt:message key="tableA.StartTime" bundle="${local}"/></th>
+                    <th><fmt:message key="tableA.EndTime" bundle="${local}"/></th>
+                    <th><fmt:message key="tableA.TypeOfActivity" bundle="${local}"/></th>
+                    <th><fmt:message key="tableA.command" bundle="${local}"/></th>
                 </tr>
                 <c:forEach items="${activities}" var="activity">
                     <form name="activity">
@@ -139,6 +132,15 @@
                                     <input type="text" name="userEmail" placeholder="User Email">
                                     <button class="menubutton" type="submit">Add User</button>
                                 </form>
+                                <c:if test="${ activity.getTypeOfActivity().name().equals('TIME_TRACKER') && empty activity.endTime}">
+                                    <form class="menuitem" name="setDoneTracker" method="post"
+                                          action="/project/controller">
+                                        <input type="hidden" name="command" value="setDoneTracker"/>
+                                        <input type="hidden" name="activityIdToDone" value="${activity.id}">
+                                        <button class="menubutton" type="submit">Finish</button>
+                                    </form>
+                                </c:if>
+
                             </td>
                         </tr>
                         </c:if>
@@ -160,6 +162,6 @@
     </c:if>
 </div>
 <f:colontitle/>
-<script src="../js/language.js"></script>
+<script src="/project/js/language.js"></script>
 </body>
 </html>

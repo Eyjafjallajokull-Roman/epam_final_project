@@ -1,6 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jspf/tagfile.jspf" %>
 <c:set value="${sessionScope.get(\"user\")}" var="user" scope="session"/>
+<c:set var="language" value="${not empty param.language ? param.language :
+                                not empty language ? language :
+                                pageContext.request.locale}" scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="local" var="local"/>
 <html>
 <head>
     <style>
@@ -16,7 +21,9 @@
         <div class="btnAct">
             <div class="leftHeader">
                 <div class="logo">
-                    <a href="cabinet.jsp"><%@include file="../icons/load.svg" %></a>
+                    <a href="/project/page/cabinet.jsp">
+                        <%@include file="../icons/load.svg" %>
+                    </a>
                 </div>
             </div>
         </div>
@@ -43,10 +50,12 @@
                         <div class="checkLanguage">
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
-                                <select id="language" name="language">
-                                    <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
-                                    <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-                                </select>
+                                <form class="topcorner" method="post">
+                                    <select id="language" name="language" onchange="submit()">
+                                        <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
+                                        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+                                    </select>
+                                </form>
                             </div>
                         </div>
                     </li>
@@ -57,7 +66,7 @@
 
     <div class="signForm">
         <div class="entering">
-            <h1> Update </h1>
+            <h1>Update</h1>
             <form name="updateUser" action="/project/controller" method="post">
                 <input type="hidden" name="command" value="updateUser">
                 <div class="form-control">
@@ -86,6 +95,6 @@
 </div>
 
 <f:colontitle/>
-<script src="../js/language.js"></script>
+<script src="/project/js/language.js"></script>
 </body>
 </html>

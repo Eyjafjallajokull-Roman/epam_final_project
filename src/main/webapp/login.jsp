@@ -51,6 +51,7 @@
             <button id="register" type="submit"><fmt:message key="login.register_here" bundle="${local}"/></button>
         </form>
     </div>
+
     <f:colontitle/>
 </div>
 </body>

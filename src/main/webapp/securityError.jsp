@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class=index_div>
-    <h1> Ошибка безопасности: у вас нет прав доступа на эту страницу! </h1>
+    <h1><fmt:message key="securityError.Not_Allowed" bundle="${local}"/></h1>
     <button class="bigButton" onclick="goBack()">Go Back</button>
     </form>
 </div>
