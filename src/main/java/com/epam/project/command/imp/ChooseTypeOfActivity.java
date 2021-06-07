@@ -1,7 +1,6 @@
 package com.epam.project.command.imp;
 
 import com.epam.project.command.Command;
-import com.epam.project.command.page.GoToCreatePageCommand;
 import com.epam.project.constants.ErrorConfig;
 import com.epam.project.constants.ErrorConst;
 import com.epam.project.constants.Path;

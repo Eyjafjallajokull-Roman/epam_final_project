@@ -15,7 +15,7 @@ public interface UserService {
      * find all users
      *
      * @return list of users
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
+     * @throws NoUserException if unable to retrieve information for certain reasons
      */
     List<User> findAllUsers() throws NoUserException;
 
@@ -24,7 +24,7 @@ public interface UserService {
      *
      * @param role user role
      * @return finds users by role
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
+     * @throws NoUserException if unable to retrieve information for certain reasons
      */
     List<User> findUsersByRole(Role role) throws NoUserException;
 
@@ -33,7 +33,7 @@ public interface UserService {
      *
      * @param id user id
      * @return user form db
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
+     * @throws NoUserException if unable to retrieve information for certain reasons
      */
     User findUserById(Integer id) throws NoUserException;
 
@@ -44,7 +44,7 @@ public interface UserService {
      *
      * @param login user login
      * @return user by login
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
+     * @throws NoUserException if unable to retrieve information for certain reasons
      */
     User findUserByLogin(String login) throws NoUserException;
     /**
@@ -55,6 +55,7 @@ public interface UserService {
      * @param order      order
      * @return find user who connected to activity (participants)
      * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
+     * @throws NoUserException if unable to retrieve information for certain reasons
      */
     List<User> findAllConnectingUsersByActivity(Integer activityId, Integer limit, Integer offset, String order) throws DataNotFoundException, NoUserException;
 
@@ -64,19 +65,19 @@ public interface UserService {
      * @param offset offset
      * @param value param to insert in db
      * @return list of users
-     * @throws DataNotFoundException  if connection is down, broken or unable to retrieve information for certain reasons
+     * @throws NoUserException if unable to retrieve information for certain reasons
      */
     List<User> findAllUsersWithLimit(Integer limit, Integer offset, String value) throws NoUserException;
     /**
      *calculate total user numbers in activity
      * @param  value Activity id
      * @return count of users in DB
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
+     * @throws DataBaseConnectionException  if connection is down, broken or unable to retrieve information for certain reasons
      */
     Integer calculateUsersInActivity(String value) throws DataBaseConnectionException;
     /**
      * @return count of users in DB
-     * @throws DataNotFoundException  if connection is down, broken or unable to retrieve information for certain reasons
+     * @throws DataBaseConnectionException  if connection is down, broken or unable to retrieve information for certain reasons
      */
     Integer calculateAllUsers() throws DataBaseConnectionException;
 
@@ -84,7 +85,7 @@ public interface UserService {
      * add activities to user
      * @param user User to which activity is added
      * @return true if user was added, false if not
-     * @throws DataNotFoundException if connection is down, broken or unable to retrieve information for certain reasons
+     * @throws NoUserException if unable to retrieve information for certain reasons
      */
     boolean addUserToActivity(Activity activity, User user) throws NoUserException;
     /**

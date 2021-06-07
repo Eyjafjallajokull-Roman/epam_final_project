@@ -13,9 +13,6 @@ public class CheckRole {
 
     public static boolean checkRole(HttpSession session, Role role) {
         User user = (User) session.getAttribute("user");
-        if (user == null || !user.getRole().equals(role)) {
-            return false;
-        }
-        return true;
+        return user != null && user.getRole().equals(role);
     }
 }

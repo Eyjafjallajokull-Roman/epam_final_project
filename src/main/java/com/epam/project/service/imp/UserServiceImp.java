@@ -61,7 +61,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User findUserById(Integer id) throws NoUserException {
-        User user = new User();
+        User user;
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
@@ -78,7 +78,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User findUser(String login, String password) throws NoUserException, WrongPasswordExeption {
-        User user = new User();
+        User user;
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();

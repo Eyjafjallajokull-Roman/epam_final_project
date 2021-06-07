@@ -53,7 +53,7 @@
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
                                 <form class="topcorner" method="post">
-                                    <select id="language" name="language">
+                                    <select id="language" name="language" onchange="submit()">
                                         <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
                                         <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
                                     </select>

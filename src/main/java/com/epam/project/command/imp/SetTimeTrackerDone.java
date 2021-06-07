@@ -6,7 +6,6 @@ import com.epam.project.constants.Path;
 import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.Activity;
-import com.epam.project.entity.TypeOfActivity;
 import com.epam.project.exception.NoSuchActivityException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;

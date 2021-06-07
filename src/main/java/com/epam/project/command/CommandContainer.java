@@ -32,6 +32,7 @@ public class CommandContainer {
         commandMap.put("goToMyActivities", new GoToMyActivityPage());
         commandMap.put("showDeclinedActivities", new UserDeclinePageCommand());
         commandMap.put("goToDeclinePage", new GoToUserDeclineCommand());
+        commandMap.put("leaveActivity", new UserLeaveFromActivityCommand());
 
         commandMap.put("chooseTypeActivity", new ChooseTypeOfActivity());
         commandMap.put("addUserToActivity", new AddUserToActivity());

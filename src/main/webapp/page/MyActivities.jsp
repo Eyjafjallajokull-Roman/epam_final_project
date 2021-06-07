@@ -71,10 +71,10 @@
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
                                 <form class="topcorner" method="post">
-                                <select id="language" name="language" onchange="submit()">
-                                    <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
-                                    <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-                                </select>
+                                    <select id="language" name="language" onchange="submit()">
+                                        <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
+                                        <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+                                    </select>
                                 </form>
                             </div>
                         </div>
@@ -86,7 +86,7 @@
 
 
     <c:if test="${not empty activities}">
-        <div >
+        <div>
             <table class="tableBlock">
                 <tr>
                     <th><fmt:message key="tableA.name" bundle="${local}"/></th>
@@ -102,7 +102,7 @@
                         <tr>
                             <td class="tda">${activity.name}</td>
                             <c:choose>
-                                <c:when test="${language == 'ru_RU'}">
+                                <c:when test="${language == 'ru_RU' || language== 'ru'}">
                                     <td>${activity.descriptionRus}</td>
                                 </c:when>
                                 <c:otherwise>
@@ -113,37 +113,48 @@
                             <td class="tda">${activity.endTime}</td>
                             <td class="tda">${activity.typeOfActivity}</td>
                             <td>
-                                <c:if test="${activity.createdByUserID.equals(user.id)}">
-                                <form class="menuitem" name="deleteActivityUser" method="post"
-                                      action="/project/controller">
-                                    <input type="hidden" name="command" value="deleteActivityUser"/>
-                                    <input type="hidden" name="idDelete" value="${activity.id}">
-                                    <button class="menubutton" type="submit">Delete Activity</button>
-                                </form>
-                                <form class="menuitem" name="updateActivityPage" method="post"
-                                      action="/project/controller">
-                                    <input type="hidden" name="command" value="updateActivityPage"/>
-                                    <input type="hidden" name="idUpdate" value="${activity.id}">
-                                    <button class="menubutton" type="submit">Update Activity</button>
-                                </form>
-                                <form class="menuitem" name="AddUser" method="post" action="/project/controller">
-                                    <input type="hidden" name="command" value="addUserToActivity"/>
-                                    <input type="hidden" name="activityToInsert" value="${activity.id}">
-                                    <input type="text" name="userEmail" placeholder="User Email">
-                                    <button class="menubutton" type="submit">Add User</button>
-                                </form>
-                                <c:if test="${ activity.getTypeOfActivity().name().equals('TIME_TRACKER') && empty activity.endTime}">
-                                    <form class="menuitem" name="setDoneTracker" method="post"
-                                          action="/project/controller">
-                                        <input type="hidden" name="command" value="setDoneTracker"/>
-                                        <input type="hidden" name="activityIdToDone" value="${activity.id}">
-                                        <button class="menubutton" type="submit">Finish</button>
-                                    </form>
-                                </c:if>
-
+                                <c:choose>
+                                    <c:when test="${activity.createdByUserID.equals(user.id)}">
+                                        <form class="menuitem" name="deleteActivityUser" method="post"
+                                              action="/project/controller">
+                                            <input type="hidden" name="command" value="deleteActivityUser"/>
+                                            <input type="hidden" name="idDelete" value="${activity.id}">
+                                            <button class="menubutton" type="submit">Delete Activity</button>
+                                        </form>
+                                        <form class="menuitem" name="updateActivityPage" method="post"
+                                              action="/project/controller">
+                                            <input type="hidden" name="command" value="updateActivityPage"/>
+                                            <input type="hidden" name="idUpdate" value="${activity.id}">
+                                            <button class="menubutton" type="submit">Update Activity</button>
+                                        </form>
+                                        <form class="menuitem" name="AddUser" method="post"
+                                              action="/project/controller">
+                                            <input type="hidden" name="command" value="addUserToActivity"/>
+                                            <input type="hidden" name="activityToInsert" value="${activity.id}">
+                                            <input type="text" name="userEmail" placeholder="User Email">
+                                            <button class="menubutton" type="submit">Add User</button>
+                                        </form>
+                                        <c:if test="${ activity.getTypeOfActivity().name().equals('TIME_TRACKER') && empty activity.endTime}">
+                                            <form class="menuitem" name="setDoneTracker" method="post"
+                                                  action="/project/controller">
+                                                <input type="hidden" name="command" value="setDoneTracker"/>
+                                                <input type="hidden" name="activityIdToDone" value="${activity.id}">
+                                                <button class="menubutton" type="submit">Finish</button>
+                                            </form>
+                                        </c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <form class="menuitem" name="LeaveActivity" method="post"
+                                              action="/project/controller">
+                                            <input type="hidden" name="command" value="leaveActivity"/>
+                                            <input type="hidden" name="activityLeave" value="${activity.id}">
+                                            <button class="menubutton" type="submit">Leave Activity</button>
+                                        </form>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
-                        </c:if>
+
                     </form>
                 </c:forEach>
             </table>

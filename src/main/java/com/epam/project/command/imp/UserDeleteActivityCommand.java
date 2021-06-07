@@ -15,7 +15,6 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class UserDeleteActivityCommand implements Command {
     private static final Logger log = Logger.getLogger(UserDeleteActivityCommand.class);

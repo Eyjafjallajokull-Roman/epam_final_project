@@ -78,7 +78,7 @@
                         <tr>
                             <td class="tda">${activity.name}</td>
                             <c:choose>
-                                <c:when test="${language == 'ru_RU'}">
+                                <c:when test="${language == 'ru_RU' || language== 'ru'}">
                                     <td>${activity.descriptionRus}</td>
                                 </c:when>
                                 <c:otherwise>

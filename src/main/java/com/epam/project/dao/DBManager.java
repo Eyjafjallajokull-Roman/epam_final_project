@@ -18,10 +18,10 @@ public class DBManager {
         String url = resourceBundle.getString("datasource.url");
         String user = resourceBundle.getString("datasource.username");
         String password = resourceBundle.getString("datasource.password");
-        Integer minIdle = Integer.valueOf(resourceBundle.getString("datasource.minIdle"));
-        Integer maxIdle = Integer.valueOf(resourceBundle.getString("datasource.maxIdle"));
-        Integer maxActive = Integer.valueOf(resourceBundle.getString("datasource.maxActive"));
-        Integer maxOpenPStatements = Integer.valueOf(resourceBundle.getString("datasource.maxOpenPreparedStatements"));
+        int minIdle = Integer.parseInt(resourceBundle.getString("datasource.minIdle"));
+        int maxIdle = Integer.parseInt(resourceBundle.getString("datasource.maxIdle"));
+        int maxActive = Integer.parseInt(resourceBundle.getString("datasource.maxActive"));
+        int maxOpenPStatements = Integer.parseInt(resourceBundle.getString("datasource.maxOpenPreparedStatements"));
         basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         basicDataSource.setUsername(user);

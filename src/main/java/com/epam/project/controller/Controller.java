@@ -6,7 +6,6 @@ import com.epam.project.command.CommandContainer;
 import org.apache.log4j.Logger;
 
 import javax.mail.MessagingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

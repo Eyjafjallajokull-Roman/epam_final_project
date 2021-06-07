@@ -9,12 +9,10 @@ import com.epam.project.controller.Direction;
 import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.Activity;
 import com.epam.project.entity.Role;
-import com.epam.project.entity.User;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.NoSuchActivityException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
-import com.epam.project.service.UserService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;

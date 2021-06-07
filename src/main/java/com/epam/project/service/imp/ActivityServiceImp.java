@@ -41,7 +41,7 @@ public class ActivityServiceImp implements ActivityService {
 
     @Override
     public Activity findActivityById(Integer id) throws NoSuchActivityException {
-        Activity activity = new Activity();
+        Activity activity;
         try {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();
@@ -57,7 +57,7 @@ public class ActivityServiceImp implements ActivityService {
 
     @Override
     public List<Activity> findActivityByTypeOfActivity(TypeOfActivity typeOfActivity) throws NoSuchActivityException {
-        List<Activity> activities = new ArrayList<>();
+        List<Activity> activities;
         try {
             daoFactory.open();
             activityDao = daoFactory.getActivityDao();

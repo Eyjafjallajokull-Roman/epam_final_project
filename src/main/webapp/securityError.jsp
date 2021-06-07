@@ -13,7 +13,6 @@
 <div class=index_div>
     <h1><fmt:message key="securityError.Not_Allowed" bundle="${local}"/></h1>
     <button class="bigButton" onclick="goBack()">Go Back</button>
-    </form>
 </div>
 <f:colontitle/>
 <script>

@@ -1,9 +1,7 @@
 package com.epam.project.dao;
 
-import com.epam.project.entity.Status;
 import com.epam.project.entity.TypeOfActivity;
 import com.epam.project.entity.Activity;
-import com.epam.project.entity.User;
 import com.epam.project.exception.DataNotFoundException;
 
 import java.util.List;

@@ -63,7 +63,7 @@
                             <button onclick="myFunction()" class="langBtn">Language</button>
                             <div id="ChangeLanguage" class="languages-list">
                                 <form class="topcorner" method="post">
-                                    <select id="language" name="language">
+                                    <select id="language" name="language" onchange="submit()">
                                         <option value="ru" ${language == 'ru' ? 'selected' : ''}>Русский</option>
                                         <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
                                     </select>
@@ -94,7 +94,7 @@
                         <tr>
                             <td class="tda">${activity.name}</td>
                             <c:choose>
-                                <c:when test="${language == 'ru_RU'}">
+                                <c:when test="${language == 'ru_RU' || language== 'ru'}">
                                     <td>${activity.descriptionRus}</td>
                                 </c:when>
                                 <c:otherwise>

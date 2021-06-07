@@ -14,7 +14,6 @@ import com.epam.project.exception.NoUserException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
-import com.mysql.cj.Session;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;

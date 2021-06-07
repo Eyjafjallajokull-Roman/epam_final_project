@@ -10,10 +10,8 @@ import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.Activity;
 import com.epam.project.entity.Role;
 import com.epam.project.entity.Status;
-import com.epam.project.entity.User;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.NoSuchActivityException;
-import com.epam.project.exception.NoUserException;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
@@ -25,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
