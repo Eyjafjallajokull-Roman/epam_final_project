@@ -35,22 +35,20 @@ public interface Query {
 
     String SQL_BASE = "SELECT * from activity JOIN activity_status on activity.activity_status_id=activity_status.id ";
     //Select
-    String FIND_ALL_ACTIVITIES_BY_CREATED_USERS_ID_AND_EXISTING = sb.append(" select * from activity").append("  join activity_status on activity_status.id = activity.activity_status_id ")
+    String FIND_ALL_ACTIVITIES_BY_CREATED_USERS_ID_AND_EXISTING = new StringBuilder().append(" select * from activity").append(" join activity_status on activity_status.id = activity.activity_status_id ")
             .append(" where activity.id in (select ac2.id from activity ac2 ")
-            .append(" join user_activity ua on ac2.id = ua.activity_id ")
             .append(" join user_activity ua on ac2.id = ua.activity_id ")
             .append(" join activity_status on activity_status.id = ac2.activity_status_id ")
             .append(" where ua.user_id = ? and activity_status.name = 'ACCEPT') or activity.id in ")
             .append(" (select ac3.id from activity ac3 join user u on u.id = ac3.created_by_id ")
-            .append(" join activity_status  on activity_status.id = ac3.activity_status_id and activity_status.name = 'ACCEPT' where u.id = ?); ").toString();
-    String FIND_ALL_ACTIVITIES_BY_CREATED_USER_ID_AND_TYPE = sb.append(" select * from activity").append("  join activity_status on activity_status.id = activity.activity_status_id ")
+            .append(" join activity_status activity_status  on activity_status.id = ac3.activity_status_id and activity_status.name = 'ACCEPT' where u.id = ?) order by ").toString();
+    String FIND_ALL_ACTIVITIES_BY_CREATED_USER_ID_AND_TYPE =  new StringBuilder().append(" select * from activity").append("  join activity_status on activity_status.id = activity.activity_status_id ")
             .append(" where activity.id in (select ac2.id from activity ac2 ")
-            .append(" join user_activity ua on ac2.id = ua.activity_id ")
             .append(" join user_activity ua on ac2.id = ua.activity_id ")
             .append(" join activity_status on activity_status.id = ac2.activity_status_id ")
             .append(" where ua.user_id = ? and activity_status.name = 'ACCEPT' and ac2.type_of_activity = ?) or activity.id in ")
             .append(" (select ac3.id from activity ac3 join user u on u.id = ac3.created_by_id ")
-            .append(" join activity_status  on activity_status.id = ac3.activity_status_id and activity_status.name = 'ACCEPT' and ac3.type_of_activity=? where u.id = ?); ").toString();
+            .append(" join activity_status  on activity_status.id = ac3.activity_status_id and activity_status.name = 'ACCEPT' and ac3.type_of_activity=? where u.id = ?) order by ").toString();
 
     String FIND_ALL_ACTIVITIES_BY_STATUS_NAME = SQL_BASE + " where activity_status.name=? order by ";
     String FIND_ALL_ACTIVITIES_BY_TYPE = SQL_BASE + " where type_of_activity =? and activity_status.name ='ACCEPT'";
@@ -72,18 +70,16 @@ public interface Query {
     String CREATE_ACTIVITY_WITH_OLD_ACTIVITY = "INSERT INTO activity(start_time,end_time,name,description_en,description_ru,type_of_activity,created_by_id,activity_status_id) values (?,?,?,?,?,?,?,?)";
     //cond
 
-    String Condition_CREATED_BY_ID = sb.append(" activity").append("  join activity_status on activity_status.id = activity.activity_status_id ")
+    String Condition_CREATED_BY_ID =  new StringBuilder().append(" activity").append("  join activity_status on activity_status.id = activity.activity_status_id ")
             .append(" where activity.id in (select ac2.id from activity ac2 ")
-            .append(" join user_activity ua on ac2.id = ua.activity_id ")
             .append(" join user_activity ua on ac2.id = ua.activity_id ")
             .append(" join activity_status on activity_status.id = ac2.activity_status_id ")
             .append(" where ua.user_id = ? and activity_status.name = 'ACCEPT') or activity.id in ")
             .append(" (select ac3.id from activity ac3 join user u on u.id = ac3.created_by_id ")
-            .append(" join activity_status  on activity_status.id = ac3.activity_status_id and activity_status.name = 'ACCEPT' where u.id = ?); ").toString();
+            .append(" join activity_status on activity_status.id = ac3.activity_status_id and activity_status.name = 'ACCEPT' where u.id = ?); ").toString();
 
-    String Condition_CreatedBy_And_TypeOfActivity_With_Param = sb.append(" activity").append("  join activity_status on activity_status.id = activity.activity_status_id ")
+    String Condition_CreatedBy_And_TypeOfActivity_With_Param =  new StringBuilder().append(" activity").append("  join activity_status on activity_status.id = activity.activity_status_id ")
             .append(" where activity.id in (select ac2.id from activity ac2 ")
-            .append(" join user_activity ua on ac2.id = ua.activity_id ")
             .append(" join user_activity ua on ac2.id = ua.activity_id ")
             .append(" join activity_status on activity_status.id = ac2.activity_status_id ")
             .append(" where ua.user_id = ? and activity_status.name = 'ACCEPT' and ac2.type_of_activity = ?) or activity.id in ")

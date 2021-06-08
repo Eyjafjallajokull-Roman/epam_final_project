@@ -1,6 +1,6 @@
 package com.epam.project.controller;
 
-import com.epam.project.SendEmail;
+import com.epam.project.util.SendEmail;
 import com.epam.project.command.Command;
 import com.epam.project.command.CommandContainer;
 import org.apache.log4j.Logger;

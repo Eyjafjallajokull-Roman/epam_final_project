@@ -1,4 +1,4 @@
-package com.epam.project;
+package com.epam.project.util;
 
 import com.epam.project.constants.ErrorConfig;
 import com.epam.project.entity.Role;

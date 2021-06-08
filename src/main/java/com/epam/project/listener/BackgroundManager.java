@@ -1,6 +1,6 @@
 package com.epam.project.listener;
 
-import com.epam.project.Scheduler;
+import com.epam.project.util.Scheduler;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContextEvent;

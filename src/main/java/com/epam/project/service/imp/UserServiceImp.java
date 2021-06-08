@@ -10,7 +10,7 @@ import com.epam.project.exception.WrongPasswordExeption;
 import com.epam.project.service.UserService;
 import com.epam.project.exception.DataBaseConnectionException;
 import com.epam.project.exception.DataNotFoundException;
-import com.epam.project.PasswordEncoder;
+import com.epam.project.util.PasswordEncoder;
 import org.apache.log4j.Logger;
 
 

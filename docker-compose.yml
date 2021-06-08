@@ -1,0 +1,24 @@
+services:
+  web:
+    image: roman/epam-final-project:latest
+    container_name: tomcat-container
+    ports:
+      - "8080:8080"
+    hostname: docker-tomcat
+    links:
+      - db:vova
+    networks:
+      - my-network
+  db:
+    image: mysql/mysql-server:8.0.20
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: epam
+#    volumes:
+#      - mysql-volume
+    networks:
+      - my-network
+networks:
+  my-network:
+    driver: bridge

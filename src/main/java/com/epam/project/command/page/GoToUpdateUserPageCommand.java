@@ -1,6 +1,6 @@
 package com.epam.project.command.page;
 
-import com.epam.project.CheckRole;
+import com.epam.project.util.CheckRole;
 import com.epam.project.command.Command;
 import com.epam.project.command.imp.LoginCommand;
 import com.epam.project.constants.ErrorConfig;

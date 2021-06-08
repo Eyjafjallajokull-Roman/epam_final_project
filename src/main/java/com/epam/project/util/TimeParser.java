@@ -1,4 +1,4 @@
-package com.epam.project;
+package com.epam.project.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

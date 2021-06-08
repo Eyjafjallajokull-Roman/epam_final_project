@@ -9,7 +9,7 @@ import com.epam.project.controller.ResultOfExecution;
 import com.epam.project.entity.User;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
-import com.epam.project.PasswordEncoder;
+import com.epam.project.util.PasswordEncoder;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;

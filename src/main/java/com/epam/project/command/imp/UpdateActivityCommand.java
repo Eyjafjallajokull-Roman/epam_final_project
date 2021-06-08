@@ -1,6 +1,6 @@
 package com.epam.project.command.imp;
 
-import com.epam.project.TimeParser;
+import com.epam.project.util.TimeParser;
 import com.epam.project.command.Command;
 import com.epam.project.constants.ErrorConfig;
 import com.epam.project.constants.ErrorConst;

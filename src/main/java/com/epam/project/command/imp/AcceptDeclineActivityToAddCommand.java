@@ -1,7 +1,7 @@
 package com.epam.project.command.imp;
 
-import com.epam.project.CheckRole;
-import com.epam.project.SendEmail;
+import com.epam.project.util.CheckRole;
+import com.epam.project.util.SendEmail;
 import com.epam.project.command.Command;
 import com.epam.project.constants.ErrorConfig;
 import com.epam.project.constants.ErrorConst;

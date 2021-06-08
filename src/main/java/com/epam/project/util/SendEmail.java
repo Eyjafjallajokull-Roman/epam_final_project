@@ -1,7 +1,6 @@
-package com.epam.project;
+package com.epam.project.util;
 
 import javax.mail.*;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;

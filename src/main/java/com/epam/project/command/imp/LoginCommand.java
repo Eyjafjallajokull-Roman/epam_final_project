@@ -11,7 +11,7 @@ import com.epam.project.exception.WrongPasswordExeption;
 import com.epam.project.service.ActivityService;
 import com.epam.project.service.ServiceFactory;
 import com.epam.project.service.UserService;
-import com.epam.project.PasswordEncoder;
+import com.epam.project.util.PasswordEncoder;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;

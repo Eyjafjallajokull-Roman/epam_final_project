@@ -1,6 +1,6 @@
 package com.epam.project.controller;
 
-import com.epam.project.SendEmail;
+import com.epam.project.util.SendEmail;
 
 /**
  * Object of ResultOfExecution Class is result of Command execution that contains page and Direction
