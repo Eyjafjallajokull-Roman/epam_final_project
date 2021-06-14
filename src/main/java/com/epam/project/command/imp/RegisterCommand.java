@@ -29,6 +29,7 @@ public class RegisterCommand implements Command {
 
 
         try {
+            log.info("Register command");
             ActivityService activityService = ServiceFactory.getActivityService();
             UserService userService = ServiceFactory.getUserService();
             session.setAttribute("userService", userService);

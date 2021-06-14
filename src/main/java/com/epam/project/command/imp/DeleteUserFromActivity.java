@@ -42,9 +42,11 @@ public class DeleteUserFromActivity implements Command {
 
 
             if (userService.deleteUserFromActivity(activityId, userId)) {
+                log.info("User was deleted from activity");
                 result.setDirection(Direction.REDIRECT);
                 result.setPage(url);
             } else {
+                log.error("Dont found this activity");
                 request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.NO_SUCH_ACTIVITY));
             }
 

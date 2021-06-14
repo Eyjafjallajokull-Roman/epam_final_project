@@ -20,7 +20,7 @@ public class GoToCreatePageCommand implements Command {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
         try {
-
+            logger.info("GoToCreatePageCommand");
             result.setPage(Path.ACTIVITY_PAGE_FWD);
             request.setAttribute("typeP", "create");
         } catch (Exception e) {

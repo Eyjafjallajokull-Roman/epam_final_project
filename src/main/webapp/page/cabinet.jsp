@@ -104,7 +104,19 @@
                         </c:otherwise>
                     </c:choose>
                     <td>${activity.startTime}</td>
-                    <td>${activity.endTime}</td>
+                    <td> <c:choose>
+                        <c:when test="${ activity.getTypeOfActivity().name().equals('TIME_TRACKER') && empty activity.endTime}">
+                            <form class="menuitem" name="setDoneTracker" method="post"
+                                  action="/project/controller">
+                                <input type="hidden" name="command" value="setDoneTracker"/>
+                                <input type="hidden" name="activityIdToDone" value="${activity.id}">
+                                <button class="menubutton" type="submit">Finish</button>
+                            </form>
+                        </c:when>
+                        <c:otherwise>
+                            ${activity.endTime}
+                        </c:otherwise>
+                    </c:choose></td>
                     <td>${activity.typeOfActivity}</td>
 
                     <td>
@@ -131,14 +143,7 @@
                                     <%@include file="../icons/add.svg" %>
                                 </button>
                             </form>
-                            <c:if test="${activity.getTypeOfActivity().name().equals('TIME_TRACKER') && empty activity.endTime}">
-                                <form class="menuitem" name="setDoneReminder" method="post"
-                                      action="/project/controller">
-                                    <input type="hidden" name="command" value="setDoneTracker"/>
-                                    <input type="hidden" name="activityIdToDone" value="${activity.id}">
-                                    <button class="menubutton" type="submit">Done</button>
-                                </form>
-                            </c:if>
+
                         </c:if>
                     </td>
                 </tr>

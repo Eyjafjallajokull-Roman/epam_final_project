@@ -24,6 +24,7 @@ public class DeleteActivityCommand implements Command {
         ActivityService activityService = ServiceFactory.getActivityService();
         result.setDirection(Direction.REDIRECT);
         try {
+            log.info("DeleteActivityCommand command");
             Activity activity = activityService.findActivityById(Integer.valueOf(request.getParameter("idDelete")));
             activityService.deleteActivity(activity);
             result.setPage(Path.DECLINED_ACTIVITIES);

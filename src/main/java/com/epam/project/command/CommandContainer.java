@@ -29,7 +29,7 @@ public class CommandContainer {
         commandMap.put("goToLogin", new GotoLoginPageCommand());
         commandMap.put("goToRegister", new GoToRegisterPageCommand());
         commandMap.put("pageNext", new UserSortPageCommand());
-        commandMap.put("goToMyActivities", new GoToMyActivityPage());
+        commandMap.put("goToMyActivities", new GoToMyActivityPageCommand());
         commandMap.put("showDeclinedActivities", new UserDeclinePageCommand());
         commandMap.put("goToDeclinePage", new GoToUserDeclineCommand());
         commandMap.put("leaveActivity", new UserLeaveFromActivityCommand());

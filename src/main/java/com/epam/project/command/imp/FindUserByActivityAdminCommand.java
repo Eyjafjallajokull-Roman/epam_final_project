@@ -37,6 +37,7 @@ public class FindUserByActivityAdminCommand implements Command {
         }
 
         try {
+            log.info("FindUserByActivityAdminCommand command");
             int currentPage;
             int totalPages;
             String param;

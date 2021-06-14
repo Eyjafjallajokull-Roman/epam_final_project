@@ -33,6 +33,7 @@ public class SaveToExcelCommand implements Command {
         ErrorConfig error = ErrorConfig.getInstance();
         List<Activity> activities;
         try {
+            log.info("SaveToExcel command");
             User sessionUser = (User) session.getAttribute("user");
             UserService userService = ServiceFactory.getUserService();
             ActivityService activityService = ServiceFactory.getActivityService();

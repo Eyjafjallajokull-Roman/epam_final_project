@@ -48,6 +48,11 @@
                 </select>
                 <button class="addActivity" type="submit" class="giantbutton">My Activities</button>
             </form>
+                <form action="/project/controller" method="post" name="saveExcel">
+                    <input type="hidden" name="command" value="saveToExcel">
+                    <button class="addActivity" type="submit">Save Excel</button>
+                </form>
+
         </div>
         <div class="rightHeader">
             <div class="hamburger-menu">
@@ -138,12 +143,7 @@
                     </c:forEach>
                 </table>
             </div>
-            <div>
-                <form action="/project/controller" method="post" name="saveExcel">
-                    <input type="hidden" name="command" value="saveToExcel">
-                    <button type="submit">Save Excel</button>
-                </form>
-            </div>
+
 
 
             <div class="pagination">
@@ -158,9 +158,6 @@
                 </c:forEach>
             </div>
         </c:when>
-        <c:otherwise>
-            <h1>No Activities found by this criteria </h1>
-        </c:otherwise>
     </c:choose>
 </div>
 <f:colontitle/>

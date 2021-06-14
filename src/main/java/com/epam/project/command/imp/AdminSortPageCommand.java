@@ -58,6 +58,7 @@ public class AdminSortPageCommand implements Command {
         }
 
         try {
+            log.info("AdminSortPage param");
             ActivityService activityService = ServiceFactory.getActivityService();
             int currentPage;
             int totalPages;
@@ -70,9 +71,11 @@ public class AdminSortPageCommand implements Command {
 
             if (parameter.equals("activity.users")) {
                 if (typeOfActivity.equals("all")) {
+                    log.info("AdminFindWhatUserCreated param = activity.users and typeOfActivity = ALL");
                     activities = activityService.findAllActivityByStatsOrderWithoutLimit(Status.ACCEPT.name(), "activity.name");
                     totalPages = (activityService.calculateActivityNumberByStatusName(Status.ACCEPT.name()) / 5) + 1;
                 } else {
+                    log.info("AdminFindWhatUserCreated param = activity.users and typeOfActivity = " + typeOfActivity);
                     activities = activityService.findAllActivityByTypeOfActivityAndStatusOrderWithoutLimit(typeOfActivity, "activity.name");
                     totalPages = (activityService.calculateActivityByTypeOfActivityAndStatusAccepted(typeOfActivity) / 5) + 1;
                 }
@@ -81,9 +84,11 @@ public class AdminSortPageCommand implements Command {
             } else {
 
                 if (typeOfActivity.equals("all")) {
+                    log.info("AdminFindWhatUserCreated param =" + parameter + " and typeOfActivity = all");
                     activities = activityService.findActivitiesByStatusName(Status.ACCEPT.name(), (currentPage - 1) * 5, 5, parameter);
                     totalPages = (activityService.calculateActivityNumberByStatusName(Status.ACCEPT.name()) / 5) + 1;
                 } else {
+                    log.info("AdminFindWhatUserCreated param =" + parameter + " and typeOfActivity = " + typeOfActivity);
                     totalPages = (activityService.calculateActivityByTypeOfActivityAndStatusAccepted(typeOfActivity) / 5) + 1;
                     activities = activityService.findActivitiesByTypeOfActivityAndStatusAccept(typeOfActivity, (currentPage - 1) * 5, 5, parameter);
                 }

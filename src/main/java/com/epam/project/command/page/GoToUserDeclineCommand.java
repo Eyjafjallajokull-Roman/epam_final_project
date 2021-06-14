@@ -20,7 +20,7 @@ public class GoToUserDeclineCommand implements Command {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.REDIRECT);
         try {
-
+            logger.info("GoToUserDeclineCommand command");
             result.setPage(Path.DECLINED_ACTIVITIES);
 
         } catch (Exception e) {

@@ -34,8 +34,7 @@ public class GoToUpdateUserPageCommand implements Command {
             return result;
         }
         try {
-
-
+            logger.info("GoToUpdateUserPageCommand command");
             result.setPage(Path.UPDATE_USER_PAGE_FWD);
         } catch (Exception e) {
             logger.error(e);

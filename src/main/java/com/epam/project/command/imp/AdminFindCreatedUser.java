@@ -37,13 +37,15 @@ public class AdminFindCreatedUser implements Command {
 
         try {
             String email = request.getParameter("createdId");
-            System.out.println(email);
             User userByLogin = userService.findUserByLogin(email);
 
 
             request.setAttribute("name", userByLogin.getName());
             request.setAttribute("surname", userByLogin.getSurname());
             request.setAttribute("email", userByLogin.getEmail());
+
+            log.info("In AdminFindCreatedUser");
+
             result.setPage(Path.ADMIN_SHOW_CREATED_ID_FWD);
 
         } catch (NoUserException e) {

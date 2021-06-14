@@ -27,6 +27,7 @@ public class GoToUpdatePageCommand implements Command {
         result.setDirection(Direction.FORWARD);
         ErrorConfig error = ErrorConfig.getInstance();
         try {
+            logger.info("GoToUpdatePageCommand");
             Integer id = Integer.valueOf(request.getParameter("idUpdate"));
 
             Activity activity = activityService.findActivityById(id);

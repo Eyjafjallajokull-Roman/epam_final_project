@@ -27,6 +27,7 @@ public class UserDeleteActivityCommand implements Command {
         ActivityService activityService = ServiceFactory.getActivityService();
         result.setDirection(Direction.FORWARD);
         try {
+            log.info("UserDeclineActivityCommand command");
             Activity activity = activityService.findActivityById(Integer.valueOf(request.getParameter("idDelete")));
             activity.setStatus(Status.ON_DELETE);
             if (activityService.updateActivityWithoutValidation(activity)) {

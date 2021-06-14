@@ -18,12 +18,12 @@ public class ChooseTypeOfActivity implements Command {
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
-        HttpSession session = request.getSession();
         ErrorConfig error = ErrorConfig.getInstance();
         try {
             String typeOfActivity = request.getParameter("typeOfActivity");
             String type = request.getParameter("type");
 
+            logger.info("ChooseTypeOfActivity command");
 
             request.setAttribute("typeOfActivity", typeOfActivity);
             request.setAttribute("type", type);

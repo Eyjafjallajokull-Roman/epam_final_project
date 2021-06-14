@@ -218,16 +218,16 @@ public class UserServiceImp implements UserService {
 
     private boolean validateRegex(User user) {
 
-        return (user.getName().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$") &&
-                user.getSurname().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$") &&
+        return (user.getName().matches("^[a-zA-Zа-яіїєА-ЯІЇЄ0-9]([._-](?![._-])|[a-zA-Zа-яіїєА-ЯІЇЄ0-9]){2,18}[a-zA-Zа-яіїєА-ЯІЇЄ0-9]$") &&
+                user.getSurname().matches("^[a-zA-Zа-яіїєА-ЯІЇЄ0-9]([._-](?![._-])|[a-zA-Zа-яіїєА-ЯІЇЄ0-9]){2,18}[a-zA-Zа-яіїєА-ЯІЇЄ0-9]$") &&
                 user.getEmail().matches("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$") &&
                 user.getPassword().matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$"));
     }
 
     private boolean validateRegexWithoutPassword(User user){
 
-        return (user.getName().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$") &&
-                user.getSurname().matches("^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){2,18}[a-zA-Z0-9]$") &&
+        return (user.getName().matches("^[a-zA-Zа-яіїєА-ЯІЇЄ0-9]([._-](?![._-])|[a-zA-Zа-яіїєА-ЯІЇЄ0-9]){2,18}[a-zA-Zа-яіїєА-ЯІЇЄ0-9]$") &&
+                user.getSurname().matches("^[a-zA-Zа-яіїєА-ЯІЇЄ0-9]([._-](?![._-])|[a-zA-Zа-яіїєА-ЯІЇЄ0-9]){2,18}[a-zA-Zа-яіїєА-ЯІЇЄ0-9]$") &&
                 user.getEmail().matches("^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$"));
     }
 
@@ -300,7 +300,7 @@ public class UserServiceImp implements UserService {
         try {
             daoFactory.open();
             userDao = daoFactory.getUserDao();
-            result = validateUserData(user) && validateRegex(user) && userDao.deleteUser(user);
+            result =  userDao.deleteUser(user);
             daoFactory.close();
         } catch (DataBaseConnectionException ex) {
             log.error(ex);

@@ -77,10 +77,10 @@
         <c:when test="${not empty users}">
             <div>
                 <table class="tableBlock">
-                    <th>Name</th>
-                    <th>SurName</th>
+                    <th><fmt:message key="tableA.name" bundle="${local}"/></th>
+                    <th><fmt:message key="register.surname" bundle="${local}"/></th>
                     <th>Email</th>
-                    <th>Commands</th>
+                    <th><fmt:message key="tableA.command" bundle="${local}"/></th>
                     <c:forEach items="${users}" var="user">
 
                         <tr>

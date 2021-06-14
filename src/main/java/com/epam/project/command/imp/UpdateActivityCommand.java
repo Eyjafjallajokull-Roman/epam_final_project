@@ -31,7 +31,7 @@ public class UpdateActivityCommand implements Command {
         HttpSession session = request.getSession();
         ErrorConfig error = ErrorConfig.getInstance();
         try {
-
+            log.info("ShowAllActivitiesByUser command");
             ActivityService activityService = ServiceFactory.getActivityService();
             User user = (User) session.getAttribute("user");
             if (user != null) {
@@ -65,18 +65,22 @@ public class UpdateActivityCommand implements Command {
 
 
                 if (activityService.addActivity(activityNew) && activityService.updateActivityWithoutValidation(activityOld)) {
+                    log.info("Activity was sent to update");
                     result.setDirection(Direction.REDIRECT);
                     result.setPage(Path.USER_CABINET);
                 } else {
+                    log.error("Wrong data inputs");
                     request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.WRONG_INPUT_TIME));
                     result.setPage(Path.ERROR_FWD);
                 }
             } else {
+                log.error("Can`t Find User");
                 request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.UNABLE_TO_FOUND_USER));
                 result.setPage(Path.ERROR_FWD);
                 return result;
             }
         } catch (NoSuchActivityException e) {
+            log.error(e);
             request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.UNABLE_TO_FOUND_USER));
             result.setPage(Path.ERROR_FWD);
             return result;

@@ -57,6 +57,7 @@ public class UserSortPageCommand implements Command {
         }
 
         try {
+            log.info("UserSortPageCommand command");
             ActivityService activityService = ServiceFactory.getActivityService();
             int currentPage;
             int totalPages;

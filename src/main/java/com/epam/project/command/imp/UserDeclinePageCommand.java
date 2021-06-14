@@ -37,6 +37,7 @@ public class UserDeclinePageCommand implements Command {
             return result;
         }
         try {
+            log.info("UserDeclinePageCommand command");
             User user = (User) session.getAttribute("user");
             ActivityService activityService = ServiceFactory.getActivityService();
             int currentPage;

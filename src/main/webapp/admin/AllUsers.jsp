@@ -78,10 +78,10 @@
             <div>
                 <table class="tableBlock">
                     <tr>
-                        <th>Name</th>
-                        <th>Surname</th>
+                        <th><fmt:message key="tableA.name" bundle="${local}"/></th>
+                        <th><fmt:message key="register.surname" bundle="${local}"/></th>
                         <th>Email</th>
-                        <th>Commands</th>
+                        <th><fmt:message key="tableA.command" bundle="${local}"/></th>
                     </tr>
                     <c:forEach items="${users}" var="user">
                         <tr>

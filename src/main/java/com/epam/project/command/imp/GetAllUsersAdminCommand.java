@@ -37,6 +37,7 @@ public class GetAllUsersAdminCommand implements Command {
         }
 
         try {
+            log.info("GetAllUsersAdminCommand command");
             int currentPage;
             int totalPages;
             String param;

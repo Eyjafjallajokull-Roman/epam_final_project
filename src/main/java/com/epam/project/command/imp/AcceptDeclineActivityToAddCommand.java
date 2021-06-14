@@ -23,7 +23,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class AcceptDeclineActivityToAddCommand implements Command {
-    private static final Logger log = Logger.getLogger(AddNewActivityCommand.class);
+    private static final Logger log = Logger.getLogger(AcceptDeclineActivityToAddCommand.class);
 
 
     @Override
@@ -50,6 +50,7 @@ public class AcceptDeclineActivityToAddCommand implements Command {
             Integer id = Integer.valueOf(request.getParameter("id"));
             activity = activityService.findActivityById(id);
             User user = userService.findUserById(activity.getCreatedByUserID());
+            log.info("GetAllParams in AcceptDeclineActivityToAddCommand");
 //разбить на методы
 //todo methods
             if (typeOf.equals(Status.ON_CHECK.name())) {

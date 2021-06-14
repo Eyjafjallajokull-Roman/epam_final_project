@@ -37,6 +37,7 @@ public class UpdateUserCommand implements Command {
                 user.setName(name);
                 user.setSurname(surName);
                 if (userService.updateUserWithoutEmail(user)) {
+                    log.error("User was updated");
                     result.setDirection(Direction.REDIRECT);
                     result.setPage(Path.USER_CABINET);
                 } else {

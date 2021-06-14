@@ -43,10 +43,12 @@ public class AddUserToActivity implements Command {
                 result.setSendEmail(new SendEmail("You have been added to activity: " + activity.getName() +
                         " by user: " + userSession.getEmail(),
                         "Add to new Activity", user.getEmail()));
+                log.info("User with name" + user.getName() + " was added to Activity +" + activity.getName());
                 result.setPage(url);
                 result.setDirection(Direction.REDIRECT);
             } else {
                 request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.USER_ALREADY_IN_ACTIVITY));
+                log.error("User was already in Activity");
                 result.setPage(Path.ERROR_FWD);
             }
 
@@ -56,7 +58,6 @@ public class AddUserToActivity implements Command {
             result.setPage(Path.ERROR_FWD);
 
         } catch (NoSuchActivityException e) {
-
             System.out.println("error");
             log.error(e);
             request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.NO_SUCH_ACTIVITY));

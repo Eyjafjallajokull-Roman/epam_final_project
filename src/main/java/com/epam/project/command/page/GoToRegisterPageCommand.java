@@ -17,11 +17,11 @@ public class GoToRegisterPageCommand implements Command {
 
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
-        String errorMessage = "Exeption error";
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.REDIRECT);
         ErrorConfig error = ErrorConfig.getInstance();
         try {
+            logger.info("GoToRegisterPageCommand");
             result.setPage(Path.USER_REGISTER);
         } catch (Exception e) {
             logger.error(e);

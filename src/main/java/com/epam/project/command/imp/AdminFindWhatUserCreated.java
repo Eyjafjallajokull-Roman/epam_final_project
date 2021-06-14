@@ -40,6 +40,8 @@ public class AdminFindWhatUserCreated implements Command {
         }
 
         try {
+            log.info("AdminFindWhatUserCreated command");
+
             UserService userService = ServiceFactory.getUserService();
             ActivityService activityService = ServiceFactory.getActivityService();
             int currentPage;

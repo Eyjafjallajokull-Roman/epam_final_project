@@ -46,6 +46,10 @@
                 </select>
                 <button class="addActivity" type="submit" class="giantbutton">Sort</button>
             </form>
+                <form action="/project/controller" method="post" name="saveExcel">
+                    <input type="hidden" name="command" value="saveToExcel">
+                    <button type="submit">Save Excel</button>
+                </form>
         </div>
         <div class="rightHeader">
             <div class="hamburger-menu">
@@ -110,7 +114,22 @@
                                 </c:otherwise>
                             </c:choose>
                             <td class="tda">${activity.startTime}</td>
-                            <td class="tda">${activity.endTime}</td>
+                            <td class="tda">
+                                <c:choose>
+                                <c:when test="${ activity.getTypeOfActivity().name().equals('TIME_TRACKER') && empty activity.endTime}">
+                                    <form class="menuitem" name="setDoneTracker" method="post"
+                                          action="/project/controller">
+                                        <input type="hidden" name="command" value="setDoneTracker"/>
+                                        <input type="hidden" name="activityIdToDone" value="${activity.id}">
+                                        <button class="menubutton" type="submit">Finish</button>
+                                    </form>
+                                </c:when>
+                                    <c:otherwise>
+                                        ${activity.endTime}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+
                             <td class="tda">${activity.typeOfActivity}</td>
                             <td>
                                 <c:choose>
@@ -134,14 +153,6 @@
                                             <input type="text" name="userEmail" placeholder="User Email">
                                             <button class="menubutton" type="submit">Add User</button>
                                         </form>
-                                        <c:if test="${ activity.getTypeOfActivity().name().equals('TIME_TRACKER') && empty activity.endTime}">
-                                            <form class="menuitem" name="setDoneTracker" method="post"
-                                                  action="/project/controller">
-                                                <input type="hidden" name="command" value="setDoneTracker"/>
-                                                <input type="hidden" name="activityIdToDone" value="${activity.id}">
-                                                <button class="menubutton" type="submit">Finish</button>
-                                            </form>
-                                        </c:if>
                                     </c:when>
                                     <c:otherwise>
                                         <form class="menuitem" name="LeaveActivity" method="post"
@@ -160,12 +171,6 @@
             </table>
         </div>
 
-        <div>
-            <form action="/project/controller" method="post" name="saveExcel">
-                <input type="hidden" name="command" value="saveToExcel">
-                <button type="submit">Save Excel</button>
-            </form>
-        </div>
         <div class="pagination">
             <c:forEach var="i" begin="1" end="${totalPages}">
                 <c:if test="${i==currentPage}">

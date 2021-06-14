@@ -44,6 +44,7 @@ public class UserLeaveFromActivityCommand implements Command {
                 result.setDirection(Direction.REDIRECT);
                 result.setPage(url);
             } else {
+                log.error("No Such Activity");
                 request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.NO_SUCH_ACTIVITY));
             }
 

@@ -52,18 +52,21 @@ public class AddNewActivityCommand implements Command {
             int created_by = user.getId();
             Activity activity = new Activity();
             ActivityService activityService = ServiceFactory.getActivityService();
+            log.info("GetAllParams in AddNewActivityCommand");
 
             if (typeOfActivity.equals("REMINDER")) {
                 String endTime = TimeParser.parseTimeFromJsp(request.getParameter("end_time"));
+                log.info("Type of activity :" + typeOfActivity);
                 activity.setEndTime(Timestamp.valueOf(endTime));
             }
             else if (typeOfActivity.equals("TIME_TRACKER")) {
-
+                log.info("Type of activity :" + typeOfActivity);
             } else {
                 String startTime = TimeParser.parseTimeFromJsp(request.getParameter("start_time"));
                 String endTime = TimeParser.parseTimeFromJsp(request.getParameter("end_time"));
                 activity.setEndTime(Timestamp.valueOf(endTime));
                 activity.setStartTime(Timestamp.valueOf(startTime));
+                log.info("Type of activity :" + typeOfActivity);
             }
 
             activity.setDescriptionEng(descriptionEn);
@@ -76,8 +79,9 @@ public class AddNewActivityCommand implements Command {
             if (activityService.addActivity(activity)) {
                 result.setDirection(Direction.REDIRECT);
                 result.setPage(Path.USER_CABINET);
-                System.out.println("Activity create");
+                log.info("Activity has been created witn name:" + activity.getName());
             } else {
+                log.error("Wrong Input Data");
                 request.setAttribute("errorMessage", error.getErrorMessage(ErrorConst.WRONG_INPUT_TIME));
                 result.setPage(Path.ERROR_FWD);
             }

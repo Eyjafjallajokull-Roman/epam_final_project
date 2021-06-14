@@ -21,16 +21,6 @@ public class Demo {
         //all activities with status
         List<Activity> activities = activityService.findAllActivityByStatsOrderWithoutLimit("ACCEPT", "activity.name");
 
-        for (Activity a : activities) {
-            if (a.getEndTime() != null) {
-                int change = a.getEndTime().compareTo(Timestamp.valueOf(LocalDateTime.now()));
-                if (change <= 0) {
-                    //якщо пройшов кінцевий час цієї активності вона стає не активна
-                    a.setStatus(Status.FINISHED);
-                    activityService.updateActivityWithoutValidation(a);
-                }
-            }
-        }
     }
 
 

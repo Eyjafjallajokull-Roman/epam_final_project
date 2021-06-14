@@ -12,15 +12,15 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GoToMyActivityPage implements Command {
+public class GoToMyActivityPageCommand implements Command {
     private static final Logger logger = Logger.getLogger(LoginCommand.class);
 
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
-        String errorMessage = "Exception error";
         ResultOfExecution result = new ResultOfExecution();
         ErrorConfig error = ErrorConfig.getInstance();
         try {
+            logger.info("GoToMyActivityPageCommand");
             result.setDirection(Direction.REDIRECT);
             result.setPage(Path.MY_ACTIVITIES_PAGE);
         } catch (Exception e) {

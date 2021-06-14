@@ -25,9 +25,8 @@ public class SetTimeTrackerDone implements Command {
         String url = request.getHeader("referer").replaceFirst("http://localhost:8080", "");
         ResultOfExecution result = new ResultOfExecution();
         result.setDirection(Direction.FORWARD);
-        HttpSession session = request.getSession();
-        ErrorConfig error = ErrorConfig.getInstance();
         try {
+            logger.info("SetTimeTracker command");
             ActivityService activityService = ServiceFactory.getActivityService();
             Activity activity = activityService.findActivityById(Integer.valueOf(request.getParameter("activityIdToDone")));
             activity.setEndTime(Timestamp.valueOf(LocalDateTime.now()));
@@ -35,7 +34,7 @@ public class SetTimeTrackerDone implements Command {
             if (activityService.updateActivityWithoutValidation(activity)) {
                 result.setDirection(Direction.REDIRECT);
                 result.setPage(url);
-            }else {
+            } else {
                 result.setPage(Path.ERROR_FWD);
             }
 

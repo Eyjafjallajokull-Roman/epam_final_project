@@ -26,17 +26,21 @@
             </div>
         </div>
         <div class="btnAct">
-            <form id="flexForm" name="chooseType" action="/project/controller" method="post">
-                <select name="typeOfActivity">
-                    <option value="EVENT" ${typeActivityFUA == "EVENT" ? 'selected' : ''}>Event</option>
-                    <option value="TASK" ${typeActivityFUA == "TASK" ? 'selected' : ''}>Task</option>
-                    <option value="REMINDER" ${typeActivityFUA == "REMINDER" ? 'selected' : ''}>Reminder</option>
-                    <option value="TIME_TRACKER" ${typeActivityFUA == "TIME_TRACKER" ? 'selected' : ''}>Time Tracker</option>
-                </select>
-                <input type="hidden" name="command" value="chooseTypeActivity">
-                <input type="hidden" name="type" value="${typeP}">
-                <button class="addActivity" type="submit">Confirm Type</button>
-            </form>
+            <c:if test="${type=='update'}">
+                <form id="flexForm" name="chooseType" action="/project/controller" method="post">
+                    <select name="typeOfActivity">
+                        <option value="EVENT" ${typeActivityFUA == "EVENT" ? 'selected' : ''}>Event</option>
+                        <option value="TASK" ${typeActivityFUA == "TASK" ? 'selected' : ''}>Task</option>
+                        <option value="REMINDER" ${typeActivityFUA == "REMINDER" ? 'selected' : ''}>Reminder</option>
+                        <option value="TIME_TRACKER" ${typeActivityFUA == "TIME_TRACKER" ? 'selected' : ''}>Time
+                            Tracker
+                        </option>
+                    </select>
+                    <input type="hidden" name="command" value="chooseTypeActivity">
+                    <input type="hidden" name="type" value="${typeP}">
+                    <button class="addActivity" type="submit">Confirm Type</button>
+                </form>
+            </c:if>
         </div>
         <div class="rightHeader">
             <div class="hamburger-menu">
@@ -162,33 +166,68 @@
     <c:if test="${type=='update'}">
         <form name="updateActivity" method="post" action="/project/controller">
             <input type="hidden" name="command" value="updateActivity">
-            <div class="form-control">
-                <input type="text" name="name" value="${name}"
-                       placeholder="<fmt:message key="tableA.name" bundle="${local}"/>">
-            </div>
-            <div class="form-control">
-                <select name="typeOfActivity">
-                    <option value="EVENT">Event</option>
-                    <option value="TASK">Task</option>
-                    <option value="REMINDER">Reminder</option>
-                </select>
-            </div>
-            <div class="form-control">
-                <input type="text" name="description_en" value="${description_en}"
-                       placeholder="<fmt:message key="tableA.DescriptionEn" bundle="${local}"/>">
-            </div>
-            <div class="form-control">
-                <input type="text" name="description_ru" value="${description_ru}"
-                       placeholder="<fmt:message key="tableA.DescriptionRu" bundle="${local}"/>">
-            </div>
-            <div class="form-control">
-                <input type="datetime-local" name="start_time" value="${start_time}"
-                       placeholder="<fmt:message key="tableA.StartTime" bundle="${local}"/>">
-            </div>
-            <div class="form-control">
-                <input type="datetime-local" name="end_time" value="${end_time}"
-                       placeholder="<fmt:message key="tableA.EndTime" bundle="${local}"/>">
-            </div>
+            <c:choose>
+                <c:when test="${typeOfActivity=='EVENT' || typeOfActivity == 'TASK' }">
+                    <input type="hidden" name="command" value="createActivity">
+                    <div class="form-control">
+                        <input type="text" name="name"
+                               placeholder="<fmt:message key="tableA.name" bundle="${local}"/>">
+                    </div>
+                    <div class="form-control">
+                        <input type="text" name="description_en"
+                               placeholder="<fmt:message key="tableA.DescriptionEn" bundle="${local}"/>">
+                    </div>
+                    <div class="form-control">
+                        <input type="text" name="description_ru"
+                               placeholder="<fmt:message key="tableA.DescriptionRu" bundle="${local}"/>">
+                    </div>
+                    <input type="hidden" name="typeOfActivity" value="${typeOfActivity}">
+                    <div class="form-control">
+                        <input type="datetime-local" name="start_time"
+                               placeholder="<fmt:message key="tableA.StartTime" bundle="${local}"/>">
+                    </div>
+                    <div class="form-control">
+                        <input type="datetime-local" name="end_time"
+                               placeholder="<fmt:message key="tableA.EndTime" bundle="${local}"/>">
+                    </div>
+                </c:when>
+                <c:when test="${typeOfActivity=='REMINDER'}">
+                    <input type="hidden" name="command" value="createActivity">
+                    <div class="form-control">
+                        <input type="text" name="name"
+                               placeholder="<fmt:message key="tableA.name" bundle="${local}"/>">
+                    </div>
+                    <div class="form-control">
+                        <input type="text" name="description_en"
+                               placeholder="<fmt:message key="tableA.DescriptionEn" bundle="${local}"/>">
+                    </div>
+                    <div class="form-control">
+                        <input type="text" name="description_ru"
+                               placeholder="<fmt:message key="tableA.DescriptionRu" bundle="${local}"/>">
+                    </div>
+                    <input type="hidden" name="typeOfActivity" value="${typeOfActivity}">
+                    <div class="form-control">
+                        <input type="datetime-local" name="end_time"
+                               placeholder="<fmt:message key="tableA.EndTime" bundle="${local}"/>">
+                    </div>
+                </c:when>
+                <c:when test="${typeOfActivity == 'TIME_TRACKER'}">
+                    <input type="hidden" name="command" value="createActivity">
+                    <div class="form-control">
+                        <input type="text" name="name"
+                               placeholder="<fmt:message key="tableA.name" bundle="${local}"/>">
+                    </div>
+                    <div class="form-control">
+                        <input type="text" name="description_en"
+                               placeholder="<fmt:message key="tableA.DescriptionRu" bundle="${local}"/>">
+                    </div>
+                    <div class="form-control">
+                        <input type="text" name="description_ru"
+                               placeholder="<fmt:message key="tableA.DescriptionEn" bundle="${local}"/>">
+                    </div>
+                    <input type="hidden" name="typeOfActivity" value="${typeOfActivity}">
+                </c:when>
+            </c:choose>
             <input type="hidden" name="id" value="${id}">
             <button id="btnForSinUp" type="submit">Update Activity</button>
         </form>

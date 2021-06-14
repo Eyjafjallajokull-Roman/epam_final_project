@@ -17,11 +17,11 @@ public class GotoLoginPageCommand implements Command {
 
     @Override
     public ResultOfExecution execute(HttpServletRequest request, HttpServletResponse response) {
-        String errorMessage = "Exeption error";
         ResultOfExecution result = new ResultOfExecution();
         ErrorConfig error = ErrorConfig.getInstance();
         result.setDirection(Direction.REDIRECT);
         try {
+            logger.info("GoToLoginPageCommand");
             result.setPage(Path.USER_LOGIN);
         } catch (Exception e) {
             logger.error(e);

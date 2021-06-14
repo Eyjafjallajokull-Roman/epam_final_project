@@ -87,7 +87,8 @@
                         <th>End Time</th>
                         <th>Type of activity</th>
                         <th>Email</th>
-                        <th></th>
+                        <th>OldActivity</th>
+                        <th>Command</th>
                     </tr>
                     <c:forEach items="${activities}" var="activity">
                         <input type="hidden" name="activity.id" value="${activity.id}">
@@ -105,6 +106,16 @@
                             <td class="tda">${activity.endTime}</td>
                             <td class="tda">${activity.typeOfActivity}</td>
                             <td class="tda">${userService.findUserById(activity.getCreatedByUserID()).getEmail()}</td>
+                            <td class="tda">
+                                <c:if test="${not empty activity.oldActivityId && activity.oldActivityId != 0}">
+                                <span>Id: ${activityService.findActivityById(activity.oldActivityId).getId()};
+                                Name: ${activityService.findActivityById(activity.oldActivityId).getName()};
+                                Start Time: ${activityService.findActivityById(activity.oldActivityId).getStartTime()};
+                                End Time: ${activityService.findActivityById(activity.oldActivityId).getEndTime()};
+                                Type Of Activity: ${activityService.findActivityById(activity.oldActivityId).getTypeOfActivity().name()};
+                                </span>
+
+                                </c:if>
                             <td>
                                 <form action="/project/controller" name="accept" , method="get">
                                     <input type="hidden" name="command" value="AcDecActivity">
@@ -121,15 +132,6 @@
                                     <button type="submit">Decline</button>
                                 </form>
                             </td>
-                            <c:if test="${not empty activity.oldActivityId && activity.oldActivityId != 0}">
-                                <br>
-                                <td class="tda"${activityService.findActivityById(activity.oldActivityId).getId()}></td>
-                                <td class="tda">${activityService.findActivityById(activity.oldActivityId).getName()}</td>
-                                <td class="tda">${activityService.findActivityById(activity.oldActivityId).getStartTime()}</td>
-                                <td class="tda">${activityService.findActivityById(activity.oldActivityId).getEndTime()}</td>
-                                <td class="tda">${activityService.findActivityById(activity.oldActivityId).getDescriptionEng()}</td>
-                                <td class="tda">${activityService.findActivityById(activity.oldActivityId).getTypeOfActivity()}</td>
-                            </c:if>
                         </tr>
 
                     </c:forEach>

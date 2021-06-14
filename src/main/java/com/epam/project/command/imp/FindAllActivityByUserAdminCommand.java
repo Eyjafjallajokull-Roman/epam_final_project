@@ -61,6 +61,7 @@ public class FindAllActivityByUserAdminCommand implements Command {
         }
 
         try {
+            log.info("FindAllActivityByUserCommand command");
             int currentPage;
             int totalPages;
             String param;
@@ -78,9 +79,12 @@ public class FindAllActivityByUserAdminCommand implements Command {
             if (request.getParameter("typeFUA") == null || request.getParameter("typeActivityFUA") == null) {
                 param = "activity.name";
                 typeOfActivity = "all";
+                log.info("param:activity.name,  typeOfActivity:all ");
+
             } else {
                 param = types.stream().filter(s -> s.equals(request.getParameter("typeFUA"))).collect(Collectors.toList()).get(0);
                 typeOfActivity = typesOfActivity.stream().filter(s -> s.equals(request.getParameter("typeActivityFUA"))).collect(Collectors.toList()).get(0);
+                log.info("param:" +param + " ,typeOfActivity: " + typeOfActivity);
             }
 
             if (param.equals("activity.users")) {
@@ -91,6 +95,7 @@ public class FindAllActivityByUserAdminCommand implements Command {
                     activities = activityService.findAllActivityByTypeOfActivityAndStatusOrderWithoutLimit(typeOfActivity, "activity.name");
                     totalPages = (activityService.calculateActivityByTypeOfActivityAndStatusAccepted(typeOfActivity) / 5) + 1;
                 }
+                log.info("param:" +param + " ,typeOfActivity: " + typeOfActivity);
                 activities = sortByNumberOfUsers(currentPage, activities);
 
             } else {
@@ -102,6 +107,7 @@ public class FindAllActivityByUserAdminCommand implements Command {
                     activities = activityService.findAllConnectingActivityByUserIdAndStatusAndTypeActivity(userId, Status.ACCEPT.name(), typeOfActivity, (currentPage - 1) * 5, 5, param);
                     totalPages = (activityService.calculateConnectingActivityByUsersBIdAndStatusAndType(userId, Status.ACCEPT.name(), typeOfActivity) / 5) + 1;
                 }
+                log.info("param:" +param + " ,typeOfActivity: " + typeOfActivity);
             }
 
             request.setAttribute("email", email);

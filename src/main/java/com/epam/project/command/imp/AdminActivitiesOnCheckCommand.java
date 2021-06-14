@@ -48,11 +48,13 @@ public class AdminActivitiesOnCheckCommand implements Command {
             totalPages = (activityService.calculateActivityNumberByStatusName(param) / 5) + 1;
 
             request.setAttribute("userService", ServiceFactory.getUserService());
-//            request.setAttribute("users", users);
             request.setAttribute("activities", activities);
             request.setAttribute("totalPages", totalPages);
             request.setAttribute("currentPage", currentPage);
             request.setAttribute("type", param);
+
+            logger.info("AdminActivitiesOnCheck param");
+
             result.setPage(Path.ADMIN_ACTIVITIES_ON_CHECK_FWD);
         } catch (NoSuchActivityException e) {
             logger.error(e);

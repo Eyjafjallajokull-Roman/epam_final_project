@@ -39,6 +39,7 @@ public class ShowAllActivitiesByUser implements Command {
 
         String showTable = request.getParameter("showTable");
         try {
+            log.info("ShowAllActivitiesByUser command");
             User user = (User) session.getAttribute("user");
             if (user != null) {
                 List<Activity> activityList = ServiceFactory.getActivityService().findAllActivitiesByCreatedId(user.getId());
